@@ -1,7 +1,6 @@
 
 package ffcm.ecs;
 
-
 public class Entity
 {
 	private int id;
