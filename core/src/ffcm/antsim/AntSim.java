@@ -16,7 +16,6 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 import ffcm.antsim.resource.ResourceManager;
-import ffcm.ecs.EntityFactory;
 
 public class AntSim extends ApplicationAdapter 
 {
@@ -54,7 +53,7 @@ public class AntSim extends ApplicationAdapter
 		numFPSAccum = 0;
 		
 		ResourceManager._instance.InitTextures();
-		EntityFactory._instance.InitEntities();
+		//EntityFactory._instance.InitEntities();
 		
 		Gdx.gl.glClearColor(0.3f, 0.3f, 0.3f, 1.0f);
 		
@@ -96,7 +95,7 @@ public class AntSim extends ApplicationAdapter
 		
 		for(int i = 0; i < antList.size(); ++i)
 		{
-			antList.get(i).Update();
+			//antList.get(i).Update();
 		}
 	}
 	

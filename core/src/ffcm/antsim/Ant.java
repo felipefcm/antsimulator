@@ -18,7 +18,7 @@ public class Ant extends Entity
 	{
 		Ant ant = new Ant();
 		
-		
+		return ant;
 	}
 	
 	public Ant()
