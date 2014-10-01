@@ -1,16 +1,9 @@
 
 package ffcm.ecs;
 
-import java.util.HashMap;
-
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.utils.JsonReader;
-import com.badlogic.gdx.utils.JsonValue;
-
-import ffcm.antsim.Log;
-
 public class EntityFactory
 {
+	/*
 	public static EntityFactory _instance = new EntityFactory();
 	
 	private HashMap<String, Entity> entityMap;
@@ -70,4 +63,5 @@ public class EntityFactory
 	{
 		Entity entity = entityMap.get(name);
 	}
+	*/
 }

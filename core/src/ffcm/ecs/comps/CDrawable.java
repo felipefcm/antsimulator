@@ -1,34 +1,26 @@
 
 package ffcm.ecs.comps;
 
-import com.badlogic.gdx.utils.JsonValue;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
-import ffcm.ecs.Component;
-import ffcm.ecs.compInterfaces.DrawableComponentInterface;
-
-public class CDrawable extends DrawableComponentInterface
+public class CDrawable
 {
+	public Sprite sprite;
+	
 	public CDrawable()
 	{
+		sprite = null;
 	}
 	
-	@Override
-	public boolean InitComponent(JsonValue initData)
+	public void CreateFromTexture(Texture texture)
 	{
-		return true;
+		sprite = new Sprite(texture);
 	}
 	
-	@Override
-	public int GetComponentKey()
+	public void CreateFromTextureRegion(TextureRegion region)
 	{
-		return DRAWABLE_KEY;
-	}
-
-	@Override
-	public Component Clone()
-	{
-		CDrawable cp = new CDrawable();
-		
-		return cp;
+		sprite = new Sprite(region);
 	}
 }
