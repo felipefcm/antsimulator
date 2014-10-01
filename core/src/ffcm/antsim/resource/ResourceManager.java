@@ -1,4 +1,4 @@
-package ffcm.antsim;
+package ffcm.antsim.resource;
 
 import java.util.HashMap;
 

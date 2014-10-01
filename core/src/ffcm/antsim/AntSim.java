@@ -15,6 +15,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
+import ffcm.antsim.resource.ResourceManager;
 import ffcm.ecs.EntityFactory;
 
 public class AntSim extends ApplicationAdapter 

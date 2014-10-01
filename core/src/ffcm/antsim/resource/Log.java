@@ -1,5 +1,5 @@
 
-package ffcm.antsim;
+package ffcm.antsim.resource;
 
 import com.badlogic.gdx.Gdx;
 
