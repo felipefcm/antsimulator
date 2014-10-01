@@ -1,0 +1,29 @@
+{
+	"ant":
+	{
+		"components":
+		{
+			"position": [0, 0],
+			"mobile": {},
+			"drawable": {}
+		}
+	},
+	
+	"nest":
+	{
+		"components":
+		{
+			"position": [0, 0],
+			"drawable": {}
+		}
+	},
+	
+	"food":
+	{
+		"components":
+		{
+			"position": [0, 0],
+			"drawable": {}
+		}
+	}
+}

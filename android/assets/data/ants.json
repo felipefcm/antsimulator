@@ -1,0 +1,19 @@
+{
+	"ant":
+	{
+		"origin": [0, 0],
+		"size": [21, 27]
+	},
+	
+	"ant_carrying":
+	{
+		"origin": [0, 0],
+		"size": [21, 27]
+	},
+	
+	"ant_child":
+	{
+		"origin": [0, 0],
+		"size": [21, 27]
+	}
+}
