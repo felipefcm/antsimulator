@@ -16,6 +16,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 import ffcm.antsim.resource.ResourceManager;
+import ffcm.ecs.systems.ECSManager;
 
 public class AntSim extends ApplicationAdapter 
 {
@@ -91,12 +92,15 @@ public class AntSim extends ApplicationAdapter
 			numFPSAccum = 0;
 		}
 		
-		viewport.update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);
+		ECSManager._instance.Update();
+	}
+	
+	@Override
+	public void resize(int width, int height)
+	{
+		super.resize(width, height);
 		
-		for(int i = 0; i < antList.size(); ++i)
-		{
-			//antList.get(i).Update();
-		}
+		viewport.update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);
 	}
 	
 	@Override
