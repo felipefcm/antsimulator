@@ -10,7 +10,7 @@ public class Entity
 	private static int nextId = 1;
 	
 	private int id;
-	private HashMap<Class, Object> components;
+	public HashMap<Class, Object> components;
 	
 	public Entity()
 	{
