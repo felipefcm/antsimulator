@@ -5,7 +5,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 
 import ffcm.ecs.ISystem;
-import ffcm.ecs.comps.CPosition;
+import ffcm.ecs.comps.CTransform;
 import ffcm.ecs.comps.CVelocity;
 import ffcm.ecs.node.MovableNode;
 
@@ -33,10 +33,10 @@ public class MoveSystem implements ISystem
 		{
 			MovableNode node = it.next();
 			
-			CPosition position = node.position;
+			CTransform transform = node.transform;
 			CVelocity velocity = node.velocity;
 			
-			position.position.add(velocity.vector);
+			transform.position.add(velocity.vector);
 		}
 	}
 	

@@ -3,9 +3,16 @@
 	{
 		"components":
 		{
-			"position": [0, 0],
-			"mobile": {},
-			"drawable": {}
+			"CTransform":
+			{
+				"position": [0, 0],
+				"rotation": 0
+			}
+			
+			"drawable":
+			{
+				"sprite": "ant"
+			}
 		}
 	},
 	
@@ -13,8 +20,11 @@
 	{
 		"components":
 		{
-			"position": [0, 0],
-			"drawable": {}
+			"CTransform":
+			{
+				"position": [0, 0],
+				"rotation": 0
+			}
 		}
 	},
 	
@@ -22,8 +32,11 @@
 	{
 		"components":
 		{
-			"position": [0, 0],
-			"drawable": {}
+			"CTransform":
+			{
+				"position": [0, 0],
+				"rotation": 0
+			}
 		}
 	}
 }

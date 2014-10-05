@@ -3,9 +3,11 @@ package ffcm.ecs;
 
 import java.util.HashMap;
 
+import com.badlogic.gdx.utils.JsonValue;
+
 import ffcm.antsim.resource.Log;
 
-public class Entity
+public abstract class Entity
 {
 	private static int nextId = 1;
 	
@@ -33,4 +35,6 @@ public class Entity
 		
 		components.put(component.getClass(), component);
 	}
+	
+	public abstract void LoadFromDisk(final JsonValue jsonObj);
 }

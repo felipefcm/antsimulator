@@ -1,6 +1,8 @@
 
 package ffcm.antsim;
 
+import java.util.LinkedList;
+
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
@@ -29,6 +31,8 @@ public class AntSim extends ApplicationAdapter
 	private SpriteBatch spriteBatch;
 	private BitmapFont font;
 	
+	private LinkedList<Ant> antList;
+	
 	@Override
 	public void create() 
 	{	
@@ -39,6 +43,8 @@ public class AntSim extends ApplicationAdapter
 		viewport = ResourceManager._instance.viewport;
 		spriteBatch = ResourceManager._instance.spriteBatch;
 		font = ResourceManager._instance.font;
+		
+		antList = new LinkedList<Ant>();
 		
 		Gdx.gl.glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
 		
@@ -52,10 +58,12 @@ public class AntSim extends ApplicationAdapter
 					Log.Debug("Clicked on (" + worldPos.x + "," + worldPos.y + ")");
 					
 					Ant ant = Ant.CreateAnt();
-					ant.position.position.set(worldPos);
+					ant.transform.position.set(worldPos);
 					ant.velocity.vector.set(5.0f, 5.0f);
 					
 					ECSManager._instance.AddEntity(ant);
+					
+					antList.add(ant);
 					
 					return true;
 				};

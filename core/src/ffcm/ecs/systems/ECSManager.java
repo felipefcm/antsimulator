@@ -7,7 +7,7 @@ import ffcm.antsim.resource.Log;
 import ffcm.ecs.Entity;
 import ffcm.ecs.ISystem;
 import ffcm.ecs.comps.CDrawable;
-import ffcm.ecs.comps.CPosition;
+import ffcm.ecs.comps.CTransform;
 import ffcm.ecs.comps.CVelocity;
 import ffcm.ecs.node.DrawableNode;
 import ffcm.ecs.node.MovableNode;
@@ -54,16 +54,16 @@ public class ECSManager
 	
 	public void AddEntity(Entity entity)
 	{
-		Object positionComponent = entity.components.get(CPosition.class);
+		Object transformComponent = entity.components.get(CTransform.class);
 		Object velocityComponent = entity.components.get(CVelocity.class);
 		Object drawableComponent = entity.components.get(CDrawable.class);
 		
 		MovableNode movableNode = new MovableNode();
 		DrawableNode drawableNode = new DrawableNode();
 		
-		if(positionComponent != null)
+		if(transformComponent != null)
 		{
-			movableNode.position = (CPosition) positionComponent;
+			movableNode.transform = (CTransform) transformComponent;
 		}
 		
 		if(velocityComponent != null)
@@ -74,7 +74,7 @@ public class ECSManager
 		if(drawableComponent != null)
 		{
 			drawableNode.drawable = (CDrawable) drawableComponent;
-			drawableNode.position = (CPosition) positionComponent;
+			drawableNode.transform = (CTransform) transformComponent;
 		}
 		
 		moveSystem.AddNode(movableNode);

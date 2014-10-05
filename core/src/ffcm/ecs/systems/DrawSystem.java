@@ -9,7 +9,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import ffcm.antsim.resource.ResourceManager;
 import ffcm.ecs.ISystem;
 import ffcm.ecs.comps.CDrawable;
-import ffcm.ecs.comps.CPosition;
+import ffcm.ecs.comps.CTransform;
 import ffcm.ecs.node.DrawableNode;
 
 public class DrawSystem implements ISystem
@@ -32,24 +32,25 @@ public class DrawSystem implements ISystem
 	{
 		Iterator<DrawableNode> it = drawableNodes.iterator();
 		
+		SpriteBatch spriteBatch = ResourceManager._instance.spriteBatch;
+		
+		spriteBatch.setProjectionMatrix(ResourceManager._instance.viewport.getCamera().combined);
+		spriteBatch.begin();
+		
 		while(it.hasNext())
 		{
 			DrawableNode node = it.next();
 			
-			CPosition position = node.position;
+			CTransform transform = node.transform;
 			CDrawable drawable = node.drawable;
 			
-			SpriteBatch spriteBatch = ResourceManager._instance.spriteBatch; 
+			drawable.sprite.setPosition(transform.position.x, transform.position.y);
+			drawable.sprite.setRotation(transform.rotation);
 			
-			drawable.sprite.setPosition(position.position.x, position.position.y);
-			
-			//TODO optimize spritebatch use
-			spriteBatch.begin();
-			{
-				drawable.sprite.draw(spriteBatch);
-			}
-			spriteBatch.end();
+			drawable.sprite.draw(spriteBatch);
 		}
+		
+		spriteBatch.end();
 	}
 	
 	public void AddNode(DrawableNode node)

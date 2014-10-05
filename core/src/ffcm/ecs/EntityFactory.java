@@ -1,16 +1,21 @@
 
 package ffcm.ecs;
 
+import java.util.HashMap;
+
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.utils.JsonReader;
+import com.badlogic.gdx.utils.JsonValue;
+
 public class EntityFactory
 {
-	/*
 	public static EntityFactory _instance = new EntityFactory();
 	
 	private HashMap<String, Entity> entityMap;
 	
 	public EntityFactory()
 	{
-		entityMap = new HashMap<String, Entity>();		
+		entityMap = new HashMap<String, Entity>();
 	}
 	
 	public void InitEntities()
@@ -36,25 +41,7 @@ public class EntityFactory
 	
 	private Entity BuildEntity(final JsonValue entityDescription)
 	{
-		JsonValue comps = entityDescription.get("components");
 		
-		if(comps == null)
-		{
-			Log.Debug("No components in '" + entityDescription.name + "' entity description");
-			return entity;
-		}
-		
-		JsonValue comp = comps.child;
-		
-		while(comp != null)
-		{
-			Component cp = ComponentFactory._instance.CreateComponent(comp.name);
-			cp.InitComponent(comp);
-			
-			entity.InsertComponent(cp);
-			
-			comp = comp.next;
-		}
 		
 		return entity;
 	}
@@ -63,5 +50,4 @@ public class EntityFactory
 	{
 		Entity entity = entityMap.get(name);
 	}
-	*/
 }
