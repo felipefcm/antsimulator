@@ -3,11 +3,11 @@
 	{
 		"components":
 		{
-			"CTransform":
+			"transform":
 			{
 				"position": [0, 0],
 				"rotation": 0
-			}
+			},
 			
 			"drawable":
 			{
@@ -20,7 +20,7 @@
 	{
 		"components":
 		{
-			"CTransform":
+			"transform":
 			{
 				"position": [0, 0],
 				"rotation": 0
@@ -32,7 +32,7 @@
 	{
 		"components":
 		{
-			"CTransform":
+			"transform":
 			{
 				"position": [0, 0],
 				"rotation": 0

@@ -39,22 +39,28 @@ public class Ant extends Entity
 	@Override
 	public void LoadFromDisk(JsonValue jsonObj)
 	{
-		JsonValue comps = entityDescription.get("components");
+		JsonValue comps = jsonObj.get("components");
 		
 		if(comps == null)
 		{
-			Log.Debug("No components in '" + entityDescription.name + "' entity description");
-			return entity;
+			Log.Error("No components in '" + jsonObj.name + "' entity description");
+			return;
 		}
 		
 		JsonValue comp = comps.child;
 		
 		while(comp != null)
 		{
-			Component cp = ComponentFactory._instance.CreateComponent(comp.name);
-			cp.InitComponent(comp);
+			if(comp.name.equalsIgnoreCase("transform"))
+			{
+				JsonValue position = comp.getChild("position");
+				JsonValue rotation = comp.getChild("position");
+			}
 			
-			entity.InsertComponent(cp);
+			if(comp.name.equalsIgnoreCase("drawable"))
+			{
+				
+			}
 			
 			comp = comp.next;
 		}
