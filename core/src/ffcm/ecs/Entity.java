@@ -89,8 +89,8 @@ public abstract class Entity
 	
 	public void Clone(final Entity src)
 	{
-		//its enough to copy only the 'components' map
-		//to create a deep copy we must iterate over every key/value pair
+		//It is enough to copy only the 'components' map.
+		//To create a deep copy we must iterate over every key/value pair
 		
 		Set<String> keys = src.components.keySet();
 		Iterator<String> it = keys.iterator();

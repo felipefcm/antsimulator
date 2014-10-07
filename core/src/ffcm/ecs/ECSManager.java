@@ -54,27 +54,27 @@ public class ECSManager
 	
 	public void AddEntity(Entity entity)
 	{
-		Object transformComponent = entity.GetComponent(CTransform.class);
-		Object velocityComponent = entity.GetComponent(CVelocity.class);
-		Object drawableComponent = entity.GetComponent(CDrawable.class);
+		CTransform transformComponent = entity.GetComponent(CTransform.class);
+		CVelocity velocityComponent = entity.GetComponent(CVelocity.class);
+		CDrawable drawableComponent = entity.GetComponent(CDrawable.class);
 		
 		MovableNode movableNode = new MovableNode();
 		DrawableNode drawableNode = new DrawableNode();
 		
 		if(transformComponent != null)
 		{
-			movableNode.transform = (CTransform) transformComponent;
+			movableNode.transform = transformComponent;
 		}
 		
 		if(velocityComponent != null)
 		{
-			movableNode.velocity = (CVelocity) velocityComponent;
+			movableNode.velocity = velocityComponent;
 		}
 		
 		if(drawableComponent != null)
 		{
-			drawableNode.drawable = (CDrawable) drawableComponent;
-			drawableNode.transform = (CTransform) transformComponent;
+			drawableNode.drawable = drawableComponent;
+			drawableNode.transform = transformComponent;
 		}
 		
 		moveSystem.AddNode(movableNode);

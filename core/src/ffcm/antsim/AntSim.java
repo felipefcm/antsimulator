@@ -8,6 +8,7 @@ import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
@@ -34,6 +35,8 @@ public class AntSim extends ApplicationAdapter
 	private SpriteBatch spriteBatch;
 	private BitmapFont font;
 	
+	private float cameraZoom = 1.0f;
+	
 	private LinkedList<Ant> antList;
 	
 	@Override
@@ -58,12 +61,16 @@ public class AntSim extends ApplicationAdapter
 			{
 				public boolean touchUp(int screenX, int screenY, int pointer, int button) 
 				{
+					if(button != 0)
+						return false;
+					
 					Vector2 worldPos = viewport.unproject(new Vector2(screenX, screenY));
 					Log.Debug("Clicked on (" + worldPos.x + "," + worldPos.y + ")");
 					
 					Ant ant = EntityFactory._instance.CreateEntity(Ant.class);
+					
 					ant.GetComponent(CTransform.class).position.set(worldPos);
-					ant.GetComponent(CVelocity.class).vector.set(5.0f, 5.0f);
+					ant.GetComponent(CVelocity.class).vector.set(0.1f, 0.1f);
 					
 					ECSManager._instance.AddEntity(ant);
 					
@@ -71,6 +78,20 @@ public class AntSim extends ApplicationAdapter
 					
 					return true;
 				};
+				
+				
+				
+				@Override
+				public boolean scrolled(int amount)
+				{
+					
+					((OrthographicCamera) viewport.getCamera()).zoom += (float) amount * 0.1f;
+					Log.Info("current zoom value = " + ((OrthographicCamera) viewport.getCamera()).zoom);
+					
+					viewport.update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);
+					
+					return true;
+				}
 			}
 		);
 	}
