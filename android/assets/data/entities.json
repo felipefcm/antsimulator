@@ -1,5 +1,5 @@
 {
-	"Ant":
+	"ffcm.antsim.Ant":
 	{
 		"components":
 		{
@@ -17,28 +17,4 @@
 			}
 		}
 	},
-	
-	"nest":
-	{
-		"components":
-		{
-			"transform":
-			{
-				"position": [0, 0],
-				"rotation": 0
-			}
-		}
-	},
-	
-	"food":
-	{
-		"components":
-		{
-			"transform":
-			{
-				"position": [0, 0],
-				"rotation": 0
-			}
-		}
-	}
 }

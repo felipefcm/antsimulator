@@ -61,7 +61,7 @@ public class AntSim extends ApplicationAdapter
 					Vector2 worldPos = viewport.unproject(new Vector2(screenX, screenY));
 					Log.Debug("Clicked on (" + worldPos.x + "," + worldPos.y + ")");
 					
-					Ant ant = EntityFactory._instance.CreateAnt();
+					Ant ant = EntityFactory._instance.CreateEntity(Ant.class);
 					ant.GetComponent(CTransform.class).position.set(worldPos);
 					ant.GetComponent(CVelocity.class).vector.set(5.0f, 5.0f);
 					

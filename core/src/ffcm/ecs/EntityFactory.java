@@ -7,7 +7,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
 
-import ffcm.antsim.Ant;
+import ffcm.antsim.resource.Log;
 
 public class EntityFactory
 {
@@ -25,14 +25,15 @@ public class EntityFactory
 		ParseEntitiesDescriptionFile("data/entities.json");
 	}
 	
-	public Ant CreateAnt()
+	public <T extends Entity> T CreateEntity(Class<T> type)
 	{		
-		Entity src = entityMap.get("Ant");
-		Ant ant = new Ant();
+		Entity src = entityMap.get(type.getName());
 		
-		ant.Clone(src);
+		T newEntity = CreateEntityInstance(type);
 		
-		return ant;
+		newEntity.Clone(src);
+		
+		return newEntity;
 	}
 	
 	private void ParseEntitiesDescriptionFile(String filePath)
@@ -42,9 +43,19 @@ public class EntityFactory
 		
 		for(JsonValue child = root.child; child != null; child = child.next)
 		{
+			//fully qualified name of the entity
 			String entityName = child.name;
+			Entity entity = null;
 			
-			Entity entity = CreateEntityClass(entityName);
+			try
+			{
+				//TODO guarantee that the entityName is an Entity object
+				entity = CreateEntityInstance((Class<? extends Entity>) Class.forName(entityName));
+			}
+			catch(Exception e)
+			{
+				Log.Error("Failed to create entity for name " + entityName + ": " + e.getMessage());
+			}
 			
 			if(entity == null)
 				continue;
@@ -55,16 +66,20 @@ public class EntityFactory
 		}
 	}
 	
-	private Entity CreateEntityClass(String name)
+	private <T extends Entity> T CreateEntityInstance(Class<T> type)
 	{
-		//TODO search for some reflection black magic to do the trick
-		
-		if(name.equalsIgnoreCase("ant"))
+		T entity = null;
+
+		try
 		{
-			return new Ant();
+			entity = type.cast(Class.forName(type.getName()).newInstance());
+		}
+		catch(Exception e)
+		{
+			Log.Error("Could not create entity: " + type.getName() + ": " + e.getMessage());
 		}
 		
-		return null;
+		return entity;
 	}
 }
 
