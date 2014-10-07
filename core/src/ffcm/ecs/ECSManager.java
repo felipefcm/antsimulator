@@ -1,16 +1,16 @@
 
-package ffcm.ecs.systems;
+package ffcm.ecs;
 
 import java.util.ArrayList;
 
 import ffcm.antsim.resource.Log;
-import ffcm.ecs.Entity;
-import ffcm.ecs.ISystem;
 import ffcm.ecs.comps.CDrawable;
 import ffcm.ecs.comps.CTransform;
 import ffcm.ecs.comps.CVelocity;
 import ffcm.ecs.node.DrawableNode;
 import ffcm.ecs.node.MovableNode;
+import ffcm.ecs.systems.DrawSystem;
+import ffcm.ecs.systems.MoveSystem;
 
 public class ECSManager
 {
@@ -54,9 +54,9 @@ public class ECSManager
 	
 	public void AddEntity(Entity entity)
 	{
-		Object transformComponent = entity.components.get(CTransform.class);
-		Object velocityComponent = entity.components.get(CVelocity.class);
-		Object drawableComponent = entity.components.get(CDrawable.class);
+		Object transformComponent = entity.GetComponent(CTransform.class);
+		Object velocityComponent = entity.GetComponent(CVelocity.class);
+		Object drawableComponent = entity.GetComponent(CDrawable.class);
 		
 		MovableNode movableNode = new MovableNode();
 		DrawableNode drawableNode = new DrawableNode();

@@ -7,6 +7,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
 
+import ffcm.antsim.Ant;
+
 public class EntityFactory
 {
 	public static EntityFactory _instance = new EntityFactory();
@@ -18,9 +20,19 @@ public class EntityFactory
 		entityMap = new HashMap<String, Entity>();
 	}
 	
-	public void InitEntities()
+	public void Init()
 	{
 		ParseEntitiesDescriptionFile("data/entities.json");
+	}
+	
+	public Ant CreateAnt()
+	{		
+		Entity src = entityMap.get("Ant");
+		Ant ant = new Ant();
+		
+		ant.Clone(src);
+		
+		return ant;
 	}
 	
 	private void ParseEntitiesDescriptionFile(String filePath)
@@ -28,26 +40,40 @@ public class EntityFactory
 		JsonReader reader = new JsonReader();
 		JsonValue root = reader.parse(Gdx.files.internal(filePath));
 		
-		JsonValue child = root.child;
-		
-		while(child != null)
+		for(JsonValue child = root.child; child != null; child = child.next)
 		{
-			Entity entity = BuildEntity(child);
-			entityMap.put(child.name, entity);
+			String entityName = child.name;
 			
-			child = child.next;
+			Entity entity = CreateEntityClass(entityName);
+			
+			if(entity == null)
+				continue;
+			
+			entity.LoadFromDisk(child);
+			
+			entityMap.put(entityName, entity);
 		}
 	}
 	
-	private Entity BuildEntity(final JsonValue entityDescription)
+	private Entity CreateEntityClass(String name)
 	{
+		//TODO search for some reflection black magic to do the trick
 		
+		if(name.equalsIgnoreCase("ant"))
+		{
+			return new Ant();
+		}
 		
-		return entity;
-	}
-	
-	public final Entity GetEntity(String name)
-	{
-		Entity entity = entityMap.get(name);
+		return null;
 	}
 }
+
+
+
+
+
+
+
+
+
+

@@ -2,22 +2,28 @@
 package ffcm.ecs;
 
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Set;
 
 import com.badlogic.gdx.utils.JsonValue;
 
 import ffcm.antsim.resource.Log;
+import ffcm.ecs.comps.CDrawable;
+import ffcm.ecs.comps.CTransform;
+import ffcm.ecs.comps.CVelocity;
+import ffcm.ecs.comps.IComponent;
 
 public abstract class Entity
 {
 	private static int nextId = 1;
 	
 	private int id;
-	public HashMap<Class, Object> components;
+	public HashMap<String, IComponent> components;
 	
 	public Entity()
 	{
 		id = nextId++;
-		components = new HashMap<Class, Object>();
+		components = new HashMap<String, IComponent>();
 	}
 	
 	public int GetId()
@@ -25,16 +31,86 @@ public abstract class Entity
 		return id;
 	}
 	
-	public void AddComponent(Object component)
+	public void AddComponent(IComponent component)
 	{
-		if(components.containsKey(component.getClass()))
+		String className = component.getClass().getName();
+		
+		if(components.containsKey(className))
 		{
 			Log.Error("Trying to add a component already inserted in entity: " + component.getClass().getSimpleName());
 			return;
 		}
 		
-		components.put(component.getClass(), component);
+		components.put(className, component);
 	}
 	
-	public abstract void LoadFromDisk(final JsonValue jsonObj);
+	public void LoadFromDisk(JsonValue jsonObj)
+	{
+		JsonValue comps = jsonObj.get("components");
+		
+		if(comps == null)
+		{
+			Log.Error("No components in '" + jsonObj.name + "' entity description");
+			return;
+		}
+		
+		JsonValue comp = comps.child;
+		
+		while(comp != null)
+		{
+			if(comp.name.equalsIgnoreCase("transform"))
+			{
+				CTransform transform = ComponentFactory._instance.CreateTransform(comp);
+				AddComponent(transform);
+			}
+			
+			if(comp.name.equalsIgnoreCase("velocity"))
+			{
+				CVelocity velocity = ComponentFactory._instance.CreateVelocity(comp);
+				AddComponent(velocity);
+			}
+			
+			if(comp.name.equalsIgnoreCase("drawable"))
+			{
+				CDrawable drawable = ComponentFactory._instance.CreateDrawable(comp);
+				AddComponent(drawable);
+			}
+			
+			comp = comp.next;
+		}
+	}
+	
+	public <T extends IComponent> T GetComponent(Class<T> type)
+	{
+		IComponent comp = components.get(type.getName());
+		
+		return type.cast(comp);
+	}
+	
+	public void Clone(final Entity src)
+	{
+		//its enough to copy only the 'components' map
+		//to create a deep copy we must iterate over every key/value pair
+		
+		Set<String> keys = src.components.keySet();
+		Iterator<String> it = keys.iterator();
+		
+		while(it.hasNext())
+		{
+			String key = it.next();
+			
+			IComponent comp = src.components.get(key);
+			
+			components.put(key, comp.Clone());
+		}
+	}
 }
+
+
+
+
+
+
+
+
+

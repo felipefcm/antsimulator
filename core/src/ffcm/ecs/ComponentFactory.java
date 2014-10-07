@@ -6,6 +6,7 @@ import com.badlogic.gdx.utils.JsonValue;
 import ffcm.antsim.resource.ResourceManager;
 import ffcm.ecs.comps.CDrawable;
 import ffcm.ecs.comps.CTransform;
+import ffcm.ecs.comps.CVelocity;
 
 public class ComponentFactory
 {
@@ -15,7 +16,7 @@ public class ComponentFactory
 	{
 	}
 	
-	public CTransform GetTransform(final JsonValue jsonObj)
+	public CTransform CreateTransform(final JsonValue jsonObj)
 	{
 		CTransform transform = new CTransform();
 		
@@ -27,11 +28,24 @@ public class ComponentFactory
 		return transform;
 	}
 	
-	public CDrawable GetDrawable(final JsonValue jsonObj)
+	public CVelocity CreateVelocity(final JsonValue jsonObj)
+	{
+		CVelocity cVelocity = new CVelocity();
+		
+		float[] velocity = jsonObj.asFloatArray();		
+		
+		cVelocity.vector.set(velocity[0], velocity[1]);
+		
+		return cVelocity;
+	}
+	
+	public CDrawable CreateDrawable(final JsonValue jsonObj)
 	{
 		CDrawable drawable = new CDrawable();
 		
-		drawable.CreateFromTextureRegion(ResourceManager._instance.antTextureRegionMap.get(jsonObj.get("sprite").asString()));
+		String spriteName = jsonObj.get("sprite").asString();
+		
+		drawable.CreateFromTextureRegion(ResourceManager._instance.spriteTextureRegionMap.get(spriteName));
 		
 		return drawable;
 	}

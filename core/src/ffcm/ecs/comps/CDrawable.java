@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
-public class CDrawable
+public class CDrawable implements IComponent
 {
 	public Sprite sprite;
 	
@@ -22,5 +22,14 @@ public class CDrawable
 	public void CreateFromTextureRegion(TextureRegion region)
 	{
 		sprite = new Sprite(region);
+	}
+
+	@Override
+	public IComponent Clone()
+	{
+		CDrawable drawable = new CDrawable();
+		drawable.sprite = sprite;
+		
+		return drawable;
 	}
 }

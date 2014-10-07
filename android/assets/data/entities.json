@@ -1,5 +1,5 @@
 {
-	"ant":
+	"Ant":
 	{
 		"components":
 		{
@@ -8,6 +8,8 @@
 				"position": [0, 0],
 				"rotation": 0
 			},
+			
+			"velocity": [0, 0],
 			
 			"drawable":
 			{

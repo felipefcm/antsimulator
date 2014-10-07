@@ -15,7 +15,10 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 
 import ffcm.antsim.resource.Log;
 import ffcm.antsim.resource.ResourceManager;
-import ffcm.ecs.systems.ECSManager;
+import ffcm.ecs.ECSManager;
+import ffcm.ecs.EntityFactory;
+import ffcm.ecs.comps.CTransform;
+import ffcm.ecs.comps.CVelocity;
 
 public class AntSim extends ApplicationAdapter 
 {
@@ -39,6 +42,7 @@ public class AntSim extends ApplicationAdapter
 		Gdx.app.setLogLevel(Application.LOG_DEBUG);
 		
 		ResourceManager._instance.InitTextures();
+		EntityFactory._instance.Init();
 		
 		viewport = ResourceManager._instance.viewport;
 		spriteBatch = ResourceManager._instance.spriteBatch;
@@ -57,9 +61,9 @@ public class AntSim extends ApplicationAdapter
 					Vector2 worldPos = viewport.unproject(new Vector2(screenX, screenY));
 					Log.Debug("Clicked on (" + worldPos.x + "," + worldPos.y + ")");
 					
-					Ant ant = Ant.CreateAnt();
-					ant.transform.position.set(worldPos);
-					ant.velocity.vector.set(5.0f, 5.0f);
+					Ant ant = EntityFactory._instance.CreateAnt();
+					ant.GetComponent(CTransform.class).position.set(worldPos);
+					ant.GetComponent(CVelocity.class).vector.set(5.0f, 5.0f);
 					
 					ECSManager._instance.AddEntity(ant);
 					
