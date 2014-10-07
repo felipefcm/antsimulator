@@ -33,7 +33,7 @@ public abstract class Entity
 	
 	public void AddComponent(IComponent component)
 	{
-		String className = component.getClass().getName();
+		String className = component.getClass().getSimpleName();
 		
 		if(components.containsKey(className))
 		{
@@ -82,7 +82,7 @@ public abstract class Entity
 	
 	public <T extends IComponent> T GetComponent(Class<T> type)
 	{
-		IComponent comp = components.get(type.getName());
+		IComponent comp = components.get(type.getSimpleName());
 		
 		return type.cast(comp);
 	}
