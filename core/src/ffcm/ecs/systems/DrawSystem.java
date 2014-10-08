@@ -36,20 +36,20 @@ public class DrawSystem implements ISystem
 		
 		spriteBatch.setProjectionMatrix(ResourceManager._instance.viewport.getCamera().combined);
 		spriteBatch.begin();
-		
-		while(it.hasNext())
 		{
-			DrawableNode node = it.next();
-			
-			CTransform transform = node.transform;
-			CDrawable drawable = node.drawable;
-			
-			drawable.sprite.setPosition(transform.position.x, transform.position.y);
-			drawable.sprite.setRotation(transform.rotation);
-			
-			drawable.sprite.draw(spriteBatch);
+			while(it.hasNext())
+			{
+				DrawableNode node = it.next();
+				
+				CTransform transform = node.transform;
+				CDrawable drawable = node.drawable;
+				
+				drawable.sprite.setPosition(transform.position.x, transform.position.y);
+				drawable.sprite.setRotation(transform.rotation);
+				
+				drawable.sprite.draw(spriteBatch);
+			}
 		}
-		
 		spriteBatch.end();
 	}
 	

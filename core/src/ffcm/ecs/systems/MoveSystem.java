@@ -36,6 +36,8 @@ public class MoveSystem implements ISystem
 			CTransform transform = node.transform;
 			CVelocity velocity = node.velocity;
 			
+			transform.rotation = velocity.vector.angle() - 90.0f;
+			
 			transform.position.add(velocity.vector);
 		}
 	}

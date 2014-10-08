@@ -20,7 +20,9 @@ public class ResourceManager
 {
 	public static ResourceManager _instance = new ResourceManager();
 	
-	public OrthographicCamera camera;
+	public OrthographicCamera mainCamera;
+	public OrthographicCamera guiCamera;
+	
 	public Viewport viewport;
 	public SpriteBatch spriteBatch;
 	
@@ -30,9 +32,13 @@ public class ResourceManager
 	public HashMap<String, TextureRegion> spriteTextureRegionMap;
 	
 	public ResourceManager()
-	{
-		camera = new OrthographicCamera();
-		viewport = new FitViewport(AntSim.V_WIDTH, AntSim.V_HEIGHT, camera);
+	{		
+		mainCamera = new OrthographicCamera();
+		viewport = new FitViewport(AntSim.V_WIDTH, AntSim.V_HEIGHT, mainCamera);
+		
+		guiCamera = new OrthographicCamera(AntSim.V_WIDTH, AntSim.V_HEIGHT);
+		guiCamera.translate(AntSim.V_WIDTH / 2.0f, AntSim.V_HEIGHT / 2.0f);
+		guiCamera.update();
 		
 		spriteBatch = new SpriteBatch(200);
 		

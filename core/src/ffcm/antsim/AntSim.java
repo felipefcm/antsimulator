@@ -6,6 +6,7 @@ import java.util.LinkedList;
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -14,7 +15,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
-import ffcm.antsim.resource.Log;
 import ffcm.antsim.resource.ResourceManager;
 import ffcm.ecs.ECSManager;
 import ffcm.ecs.EntityFactory;
@@ -39,6 +39,9 @@ public class AntSim extends ApplicationAdapter
 	
 	private LinkedList<Ant> antList;
 	
+	private boolean rightButtonDown = false;
+	private Vector2 mouseMoveStarted;
+	
 	@Override
 	public void create() 
 	{	
@@ -59,13 +62,48 @@ public class AntSim extends ApplicationAdapter
 		(
 			new InputAdapter()
 			{
+				@Override
+				public boolean touchDown(int screenX, int screenY, int pointer, int button)
+				{
+					if(button == Input.Buttons.RIGHT)
+					{
+						rightButtonDown = true;
+						mouseMoveStarted = viewport.unproject(new Vector2(screenX, screenY));
+					}
+					else
+						return false;
+					
+					return true;
+				}
+				
+				@Override
+				public boolean touchDragged(int screenX, int screenY, int pointer)
+				{
+					if(!rightButtonDown)
+						return false;
+					
+					Vector2 current = viewport.unproject(new Vector2(screenX, screenY));
+					
+					Vector2 direction = mouseMoveStarted.cpy().sub(current);
+					
+					((OrthographicCamera) viewport.getCamera()).translate(direction.x, direction.y, 0);
+					viewport.update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), false);
+					
+					return true;
+				}
+				
 				public boolean touchUp(int screenX, int screenY, int pointer, int button) 
 				{
-					if(button != 0)
+					if(button == Input.Buttons.RIGHT)
+					{
+						rightButtonDown = false;
+						return true;
+					}
+					
+					if(button != Input.Buttons.LEFT)
 						return false;
 					
 					Vector2 worldPos = viewport.unproject(new Vector2(screenX, screenY));
-					Log.Debug("Clicked on (" + worldPos.x + "," + worldPos.y + ")");
 					
 					Ant ant = EntityFactory._instance.CreateEntity(Ant.class);
 					
@@ -79,16 +117,12 @@ public class AntSim extends ApplicationAdapter
 					return true;
 				};
 				
-				
-				
 				@Override
 				public boolean scrolled(int amount)
 				{
-					
 					((OrthographicCamera) viewport.getCamera()).zoom += (float) amount * 0.1f;
-					Log.Info("current zoom value = " + ((OrthographicCamera) viewport.getCamera()).zoom);
 					
-					viewport.update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);
+					viewport.update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), false);
 					
 					return true;
 				}
@@ -130,10 +164,10 @@ public class AntSim extends ApplicationAdapter
 		
 		Update();
 		
-		spriteBatch.setProjectionMatrix(viewport.getCamera().combined);
+		spriteBatch.setProjectionMatrix(ResourceManager._instance.guiCamera.combined);
 		spriteBatch.begin();
 		{
-			font.draw(spriteBatch, "" + numFPS, 10.0f, 20.0f);
+			font.draw(spriteBatch, numFPS + "|" + antList.size(), 10.0f, 20.0f);
 		}
 		spriteBatch.end();
 	}
