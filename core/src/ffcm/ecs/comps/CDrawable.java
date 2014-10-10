@@ -5,6 +5,8 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
+import ffcm.ecs.IComponent;
+
 public class CDrawable implements IComponent
 {
 	public Sprite sprite;

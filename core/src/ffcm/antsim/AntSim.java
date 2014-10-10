@@ -15,6 +15,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
+import ffcm.antsim.resource.Log;
 import ffcm.antsim.resource.ResourceManager;
 import ffcm.ecs.ECSManager;
 import ffcm.ecs.EntityFactory;
@@ -35,7 +36,7 @@ public class AntSim extends ApplicationAdapter
 	private SpriteBatch spriteBatch;
 	private BitmapFont font;
 	
-	private float cameraZoom = 1.0f;
+	private World world;
 	
 	private LinkedList<Ant> antList;
 	
@@ -53,6 +54,9 @@ public class AntSim extends ApplicationAdapter
 		viewport = ResourceManager._instance.viewport;
 		spriteBatch = ResourceManager._instance.spriteBatch;
 		font = ResourceManager._instance.font;
+		
+		world = new World();
+		world.Init();
 		
 		antList = new LinkedList<Ant>();
 		
@@ -104,6 +108,8 @@ public class AntSim extends ApplicationAdapter
 						return false;
 					
 					Vector2 worldPos = viewport.unproject(new Vector2(screenX, screenY));
+					
+					Log.Info("Clicked on world position: " + worldPos.x + ", " + worldPos.y);
 					
 					Ant ant = EntityFactory._instance.CreateEntity(Ant.class);
 					
@@ -162,12 +168,19 @@ public class AntSim extends ApplicationAdapter
 	{
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		
+		world.Draw();
+		
 		Update();
 		
+		DrawGUI();
+	}
+	
+	private void DrawGUI()
+	{
 		spriteBatch.setProjectionMatrix(ResourceManager._instance.guiCamera.combined);
 		spriteBatch.begin();
 		{
-			font.draw(spriteBatch, numFPS + "|" + antList.size(), 10.0f, 20.0f);
+			font.draw(spriteBatch, numFPS + " | " + antList.size(), 10.0f, 20.0f);
 		}
 		spriteBatch.end();
 	}

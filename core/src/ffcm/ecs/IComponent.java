@@ -1,5 +1,5 @@
 
-package ffcm.ecs.comps;
+package ffcm.ecs;
 
 public interface IComponent
 {

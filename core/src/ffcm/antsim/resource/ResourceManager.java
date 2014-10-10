@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.viewport.FitViewport;
@@ -25,6 +26,7 @@ public class ResourceManager
 	
 	public Viewport viewport;
 	public SpriteBatch spriteBatch;
+	public ShapeRenderer shapeRenderer;
 	
 	public BitmapFont font;
 	
@@ -41,6 +43,7 @@ public class ResourceManager
 		guiCamera.update();
 		
 		spriteBatch = new SpriteBatch(200);
+		shapeRenderer = new ShapeRenderer(200);
 		
 		font = new BitmapFont();
 		font.setColor(Color.WHITE);

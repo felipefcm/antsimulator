@@ -11,7 +11,6 @@ import ffcm.antsim.resource.Log;
 import ffcm.ecs.comps.CDrawable;
 import ffcm.ecs.comps.CTransform;
 import ffcm.ecs.comps.CVelocity;
-import ffcm.ecs.comps.IComponent;
 
 public abstract class Entity
 {
