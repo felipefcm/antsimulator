@@ -11,6 +11,7 @@ import ffcm.antsim.resource.Log;
 import ffcm.ecs.comps.CDrawable;
 import ffcm.ecs.comps.CTransform;
 import ffcm.ecs.comps.CVelocity;
+import ffcm.ecs.comps.CWander;
 
 public abstract class Entity
 {
@@ -73,6 +74,12 @@ public abstract class Entity
 			{
 				CDrawable drawable = ComponentFactory._instance.CreateDrawable(comp);
 				AddComponent(drawable);
+			}
+			
+			if(comp.name.equalsIgnoreCase("wander"))
+			{
+				CWander wander = ComponentFactory._instance.CreateWander(comp);
+				AddComponent(wander);
 			}
 			
 			comp = comp.next;

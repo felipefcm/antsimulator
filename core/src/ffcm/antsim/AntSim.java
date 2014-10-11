@@ -111,7 +111,6 @@ public class AntSim extends ApplicationAdapter
 					ant.GetComponent(CVelocity.class).vector.set(0.1f, 0.1f);
 					
 					ECSManager._instance.AddEntity(ant);
-					
 					world.AddAnt(ant);
 					
 					return true;
@@ -125,6 +124,18 @@ public class AntSim extends ApplicationAdapter
 					viewport.update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), false);
 					
 					return true;
+				}
+				
+				@Override
+				public boolean keyTyped(char character)
+				{
+					if(character == 'g')
+					{
+						world.drawGrid = !world.drawGrid;
+						return true;
+					}
+					
+					return false;
 				}
 			}
 		);

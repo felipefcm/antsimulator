@@ -7,6 +7,7 @@ import ffcm.antsim.resource.ResourceManager;
 import ffcm.ecs.comps.CDrawable;
 import ffcm.ecs.comps.CTransform;
 import ffcm.ecs.comps.CVelocity;
+import ffcm.ecs.comps.CWander;
 
 public class ComponentFactory
 {
@@ -48,5 +49,15 @@ public class ComponentFactory
 		drawable.CreateFromTextureRegion(ResourceManager._instance.spriteTextureRegionMap.get(spriteName));
 		
 		return drawable;
+	}
+	
+	public CWander CreateWander(final JsonValue jsonObj)
+	{
+		CWander wander = new CWander();
+		
+		wander.circleRadius = jsonObj.get("radius").asFloat();
+		wander.circleDistance = jsonObj.get("distance").asFloat();
+		
+		return wander;
 	}
 }

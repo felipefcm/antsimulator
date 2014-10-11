@@ -7,10 +7,13 @@ import ffcm.antsim.resource.Log;
 import ffcm.ecs.comps.CDrawable;
 import ffcm.ecs.comps.CTransform;
 import ffcm.ecs.comps.CVelocity;
+import ffcm.ecs.comps.CWander;
 import ffcm.ecs.node.DrawableNode;
 import ffcm.ecs.node.MovableNode;
+import ffcm.ecs.node.WanderNode;
 import ffcm.ecs.systems.DrawSystem;
 import ffcm.ecs.systems.MoveSystem;
+import ffcm.ecs.systems.WanderBehaviourSystem;
 
 public class ECSManager
 {
@@ -20,6 +23,7 @@ public class ECSManager
 	
 	private MoveSystem moveSystem;
 	private DrawSystem drawSystem;
+	private WanderBehaviourSystem wanderSystem;
 	
 	public ECSManager()
 	{
@@ -27,7 +31,9 @@ public class ECSManager
 		
 		moveSystem = new MoveSystem();
 		drawSystem = new DrawSystem();
+		wanderSystem = new WanderBehaviourSystem();
 		
+		AddSystem(wanderSystem);
 		AddSystem(moveSystem);
 		AddSystem(drawSystem);
 	}
@@ -57,9 +63,11 @@ public class ECSManager
 		CTransform transformComponent = entity.GetComponent(CTransform.class);
 		CVelocity velocityComponent = entity.GetComponent(CVelocity.class);
 		CDrawable drawableComponent = entity.GetComponent(CDrawable.class);
+		CWander wanderComponent = entity.GetComponent(CWander.class);
 		
 		MovableNode movableNode = new MovableNode();
 		DrawableNode drawableNode = new DrawableNode();
+		WanderNode wanderNode = new WanderNode();
 		
 		if(transformComponent != null)
 		{
@@ -77,8 +85,16 @@ public class ECSManager
 			drawableNode.transform = transformComponent;
 		}
 		
+		if(wanderComponent != null)
+		{
+			wanderNode.transform = transformComponent;
+			wanderNode.velocity = velocityComponent;
+			wanderNode.wander = wanderComponent;
+		}
+		
 		moveSystem.AddNode(movableNode);
 		drawSystem.AddNode(drawableNode);
+		wanderSystem.AddNode(wanderNode);
 	}
 	
 	public void RemoveEntity(Entity entity)

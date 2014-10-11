@@ -21,7 +21,6 @@ public class MoveSystem implements ISystem
 	@Override
 	public void Start()
 	{
-		
 	}
 	
 	@Override
@@ -50,6 +49,5 @@ public class MoveSystem implements ISystem
 	@Override
 	public void End()
 	{
-		
 	}
 }

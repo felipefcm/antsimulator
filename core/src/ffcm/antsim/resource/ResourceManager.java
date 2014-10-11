@@ -1,6 +1,8 @@
 package ffcm.antsim.resource;
 
+import java.util.Date;
 import java.util.HashMap;
+import java.util.Random;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
@@ -33,6 +35,8 @@ public class ResourceManager
 	private Texture spritesTexture;
 	public HashMap<String, TextureRegion> spriteTextureRegionMap;
 	
+	public Random random;
+	
 	public ResourceManager()
 	{		
 		mainCamera = new OrthographicCamera();
@@ -49,6 +53,8 @@ public class ResourceManager
 		font.setColor(Color.WHITE);
 		
 		spriteTextureRegionMap = new HashMap<String, TextureRegion>();
+		
+		random = new Random(new Date().getTime());
 	}
 	
 	public void InitTextures()

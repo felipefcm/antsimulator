@@ -16,6 +16,8 @@ public class World
 {
 	private static final int GridCellSize = 20; //world coordinates
 	
+	public boolean drawGrid = true;
+	
 	private Viewport viewport;
 	private ShapeRenderer shapeRenderer;
 	
@@ -94,7 +96,10 @@ public class World
 	
 	public void Draw()
 	{
-		DrawGrid();
-		DrawWorldOrigin();
+		if(drawGrid)
+		{
+			DrawGrid();
+			DrawWorldOrigin();
+		}
 	}
 }
