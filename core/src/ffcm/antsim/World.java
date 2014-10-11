@@ -30,7 +30,7 @@ public class World
 	private void DrawWorldOrigin()
 	{
 		shapeRenderer.setProjectionMatrix(viewport.getCamera().combined);
-		shapeRenderer.setColor(Color.RED);
+		shapeRenderer.setColor(Color.BLUE);
 		
 		shapeRenderer.begin(ShapeType.Filled);
 		{
@@ -58,9 +58,7 @@ public class World
 			
 			//vertical
 			for(int i = (int)(left / GridCellSize); i <= (left + width) / GridCellSize; ++i)
-			{
-				//Log.Info("Drawing vertical line with i = " + i);
-				
+			{				
 				aPoint.set(i * GridCellSize, bottom);
 				bPoint.set(i * GridCellSize, bottom + height);
 				
