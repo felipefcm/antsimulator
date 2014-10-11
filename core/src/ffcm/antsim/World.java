@@ -62,7 +62,7 @@ public class World
 				//Log.Info("Drawing vertical line with i = " + i);
 				
 				aPoint.set(i * GridCellSize, bottom);
-				bPoint.set(i * GridCellSize, bottom + viewport.getWorldHeight() * camera.zoom);
+				bPoint.set(i * GridCellSize, bottom + height);
 				
 				shapeRenderer.line(aPoint, bPoint);
 			}
@@ -71,7 +71,7 @@ public class World
 			for(int i = (int)(bottom / GridCellSize); i <= (bottom + height) / GridCellSize; ++i)
 			{
 				aPoint.set(left, i * GridCellSize);
-				bPoint.set(left + viewport.getWorldWidth() * camera.zoom, i * GridCellSize);
+				bPoint.set(left + width, i * GridCellSize);
 				
 				shapeRenderer.line(aPoint, bPoint);
 			}
