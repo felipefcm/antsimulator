@@ -1,6 +1,8 @@
 
 package ffcm.antsim;
 
+import java.util.LinkedList;
+
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -17,14 +19,27 @@ public class World
 	private Viewport viewport;
 	private ShapeRenderer shapeRenderer;
 	
+	private LinkedList<Ant> antList;
+	
 	public World()
 	{
+		antList = new LinkedList<Ant>();
 	}
 	
 	public void Init()
 	{
 		viewport = ResourceManager._instance.viewport;
 		shapeRenderer = ResourceManager._instance.shapeRenderer;
+	}
+	
+	public void AddAnt(Ant ant)
+	{
+		antList.add(ant);
+	}
+	
+	public int GetNumAnts()
+	{
+		return antList.size();
 	}
 	
 	private void DrawWorldOrigin()

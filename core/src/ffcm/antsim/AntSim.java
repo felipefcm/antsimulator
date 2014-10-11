@@ -1,8 +1,6 @@
 
 package ffcm.antsim;
 
-import java.util.LinkedList;
-
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
@@ -38,8 +36,6 @@ public class AntSim extends ApplicationAdapter
 	
 	private World world;
 	
-	private LinkedList<Ant> antList;
-	
 	private boolean rightButtonDown = false;
 	private Vector2 mouseMoveStarted;
 	
@@ -57,8 +53,6 @@ public class AntSim extends ApplicationAdapter
 		
 		world = new World();
 		world.Init();
-		
-		antList = new LinkedList<Ant>();
 		
 		Gdx.gl.glClearColor(0.35f, 0.35f, 0.35f, 1.0f);
 		
@@ -118,7 +112,7 @@ public class AntSim extends ApplicationAdapter
 					
 					ECSManager._instance.AddEntity(ant);
 					
-					antList.add(ant);
+					world.AddAnt(ant);
 					
 					return true;
 				};
@@ -180,7 +174,7 @@ public class AntSim extends ApplicationAdapter
 		spriteBatch.setProjectionMatrix(ResourceManager._instance.guiCamera.combined);
 		spriteBatch.begin();
 		{
-			font.draw(spriteBatch, numFPS + " | " + antList.size(), 10.0f, 20.0f);
+			font.draw(spriteBatch, numFPS + " | " + world.GetNumAnts(), 10.0f, 20.0f);
 		}
 		spriteBatch.end();
 	}
