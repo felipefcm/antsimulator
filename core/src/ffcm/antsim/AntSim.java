@@ -60,7 +60,7 @@ public class AntSim extends ApplicationAdapter
 		
 		antList = new LinkedList<Ant>();
 		
-		Gdx.gl.glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
+		Gdx.gl.glClearColor(0.35f, 0.35f, 0.35f, 1.0f);
 		
 		Gdx.input.setInputProcessor
 		(

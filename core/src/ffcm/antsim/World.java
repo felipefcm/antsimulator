@@ -53,21 +53,25 @@ public class World
 		{
 			float left = camera.position.x - (viewport.getWorldWidth() * camera.zoom) / 2.0f;
 			float bottom = camera.position.y - (viewport.getWorldHeight() * camera.zoom) / 2.0f;
+			float width = viewport.getWorldWidth() * camera.zoom;
+			float height = viewport.getWorldHeight() * camera.zoom;
 			
 			//vertical
-			for(int i = 0; i <= viewport.getWorldWidth() * camera.zoom / GridCellSize; ++i)
+			for(int i = (int)(left / GridCellSize); i <= (left + width) / GridCellSize; ++i)
 			{
-				aPoint.set(left + i * GridCellSize, bottom);
-				bPoint.set(left + i * GridCellSize, bottom + viewport.getWorldHeight() * camera.zoom);
+				//Log.Info("Drawing vertical line with i = " + i);
+				
+				aPoint.set(i * GridCellSize, bottom);
+				bPoint.set(i * GridCellSize, bottom + viewport.getWorldHeight() * camera.zoom);
 				
 				shapeRenderer.line(aPoint, bPoint);
 			}
 			
 			//horizontal
-			for(int i = 0; i <= viewport.getWorldHeight() * camera.zoom / GridCellSize; ++i)
+			for(int i = (int)(bottom / GridCellSize); i <= (bottom + height) / GridCellSize; ++i)
 			{
-				aPoint.set(left, bottom + i * GridCellSize);
-				bPoint.set(left + viewport.getWorldWidth() * camera.zoom, bottom + i * GridCellSize);
+				aPoint.set(left, i * GridCellSize);
+				bPoint.set(left + viewport.getWorldWidth() * camera.zoom, i * GridCellSize);
 				
 				shapeRenderer.line(aPoint, bPoint);
 			}
