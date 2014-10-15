@@ -26,10 +26,7 @@ public class World
 	public World()
 	{
 		antList = new LinkedList<Ant>();
-	}
-	
-	public void Init()
-	{
+		
 		viewport = ResourceManager._instance.viewport;
 		shapeRenderer = ResourceManager._instance.shapeRenderer;
 	}

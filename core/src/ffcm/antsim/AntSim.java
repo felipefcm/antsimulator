@@ -4,21 +4,18 @@ package ffcm.antsim;
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
-import com.badlogic.gdx.InputAdapter;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
-import ffcm.antsim.resource.Log;
+import ffcm.antsim.gui.MenuBar;
+import ffcm.antsim.input.AppInput;
+import ffcm.antsim.input.GuiInput;
 import ffcm.antsim.resource.ResourceManager;
 import ffcm.ecs.ECSManager;
 import ffcm.ecs.EntityFactory;
-import ffcm.ecs.comps.CTransform;
-import ffcm.ecs.comps.CVelocity;
 
 public class AntSim extends ApplicationAdapter 
 {
@@ -34,10 +31,12 @@ public class AntSim extends ApplicationAdapter
 	private SpriteBatch spriteBatch;
 	private BitmapFont font;
 	
+	private AppInput appInput;
+	private GuiInput guiInput;
+	
 	private World world;
 	
-	private boolean rightButtonDown = false;
-	private Vector2 mouseMoveStarted;
+	private MenuBar menuBar;
 	
 	@Override
 	public void create() 
@@ -52,93 +51,16 @@ public class AntSim extends ApplicationAdapter
 		font = ResourceManager._instance.font;
 		
 		world = new World();
-		world.Init();
 		
-		Gdx.gl.glClearColor(0.35f, 0.35f, 0.35f, 1.0f);
+		menuBar = new MenuBar();
+		menuBar.Init();
+				
+		appInput = new AppInput(world);
+		guiInput = new GuiInput(menuBar);
+				
+		Gdx.input.setInputProcessor(new InputMultiplexer(guiInput, appInput));
 		
-		Gdx.input.setInputProcessor
-		(
-			new InputAdapter()
-			{
-				@Override
-				public boolean touchDown(int screenX, int screenY, int pointer, int button)
-				{
-					if(button == Input.Buttons.RIGHT)
-					{
-						rightButtonDown = true;
-						mouseMoveStarted = viewport.unproject(new Vector2(screenX, screenY));
-					}
-					else
-						return false;
-					
-					return true;
-				}
-				
-				@Override
-				public boolean touchDragged(int screenX, int screenY, int pointer)
-				{
-					if(!rightButtonDown)
-						return false;
-					
-					Vector2 current = viewport.unproject(new Vector2(screenX, screenY));
-					
-					Vector2 direction = mouseMoveStarted.cpy().sub(current);
-					
-					((OrthographicCamera) viewport.getCamera()).translate(direction.x, direction.y, 0);
-					viewport.update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), false);
-					
-					return true;
-				}
-				
-				public boolean touchUp(int screenX, int screenY, int pointer, int button) 
-				{
-					if(button == Input.Buttons.RIGHT)
-					{
-						rightButtonDown = false;
-						return true;
-					}
-					
-					if(button != Input.Buttons.LEFT)
-						return false;
-					
-					Vector2 worldPos = viewport.unproject(new Vector2(screenX, screenY));
-					
-					Log.Info("Clicked on world position: " + worldPos.x + ", " + worldPos.y);
-					
-					Ant ant = EntityFactory._instance.CreateEntity(Ant.class);
-					
-					ant.GetComponent(CTransform.class).position.set(worldPos);
-					ant.GetComponent(CVelocity.class).vector.set(0.1f, 0.1f);
-					
-					ECSManager._instance.AddEntity(ant);
-					world.AddAnt(ant);
-					
-					return true;
-				};
-				
-				@Override
-				public boolean scrolled(int amount)
-				{
-					((OrthographicCamera) viewport.getCamera()).zoom += (float) amount * 0.1f;
-					
-					viewport.update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), false);
-					
-					return true;
-				}
-				
-				@Override
-				public boolean keyTyped(char character)
-				{
-					if(character == 'g')
-					{
-						world.drawGrid = !world.drawGrid;
-						return true;
-					}
-					
-					return false;
-				}
-			}
-		);
+		Gdx.gl.glClearColor(0.5f, 0.5f, 0.55f, 1.0f);
 	}
 	
 	private void Update()
@@ -188,6 +110,8 @@ public class AntSim extends ApplicationAdapter
 			font.draw(spriteBatch, numFPS + " | " + world.GetNumAnts(), 10.0f, 20.0f);
 		}
 		spriteBatch.end();
+		
+		menuBar.Draw();
 	}
 	
 	@Override
