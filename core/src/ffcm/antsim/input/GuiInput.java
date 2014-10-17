@@ -18,7 +18,7 @@ public class GuiInput extends InputAdapter
 	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button)
 	{
-		if(menuBar.IsPointInMenuBar(new Vector2(screenX, screenY)))
+		if(menuBar.ProcessInputInMenu(new Vector2(screenX, screenY)))
 		{
 			return true;
 		}
@@ -29,7 +29,7 @@ public class GuiInput extends InputAdapter
 	@Override
 	public boolean touchUp(int screenX, int screenY, int pointer, int button) 
 	{
-		if(menuBar.IsPointInMenuBar(new Vector2(screenX, screenY)))
+		if(menuBar.ProcessInputInMenu(new Vector2(screenX, screenY)))
 		{
 			return true;
 		}
