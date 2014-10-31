@@ -14,21 +14,26 @@ import ffcm.antsim.resource.ResourceManager;
 
 public class World
 {
-	private static final int GridCellSize = 20; //world coordinates
+	//both sizes in world coordinates
+	private static final int GridCellSize = 20; 
+	public static final Vector2 WorldSize = new Vector2(1024, 1024);
 	
-	public boolean drawGrid = true;
+	public boolean drawGrid = false;	
 	
 	private Viewport viewport;
 	private ShapeRenderer shapeRenderer;
 	
 	private LinkedList<Ant> antList;
 	
+	private Terrain terrain;
+	
 	public World()
-	{
-		antList = new LinkedList<Ant>();
-		
+	{		
 		viewport = ResourceManager._instance.viewport;
 		shapeRenderer = ResourceManager._instance.shapeRenderer;
+		
+		antList = new LinkedList<Ant>();
+		terrain = new Terrain(WorldSize);
 	}
 	
 	public void AddAnt(Ant ant)
@@ -93,6 +98,8 @@ public class World
 	
 	public void Draw()
 	{
+		terrain.Draw();
+		
 		if(drawGrid)
 		{
 			DrawGrid();
