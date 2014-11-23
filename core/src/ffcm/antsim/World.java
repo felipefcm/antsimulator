@@ -7,10 +7,13 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
+import ffcm.antsim.resource.QuadTree;
 import ffcm.antsim.resource.ResourceManager;
+import ffcm.ecs.comps.CTransform;
 
 public class World
 {
@@ -27,6 +30,8 @@ public class World
 	
 	private Terrain terrain;
 	
+	private QuadTree quadTree;
+	
 	public World()
 	{		
 		viewport = ResourceManager._instance.viewport;
@@ -36,14 +41,31 @@ public class World
 		terrain = new Terrain(WorldSize);
 	}
 	
+	public void Update()
+	{
+		if(quadTree != null)
+			quadTree.Clear();
+		
+		quadTree = new QuadTree(new Rectangle(-WorldSize.x * 0.5f, -WorldSize.y * 0.5f, WorldSize.x, WorldSize.y));
+		
+		for(int i = 0; i < antList.size(); ++i)
+			quadTree.Add(antList.get(i).GetComponent(CTransform.class).position);
+	}
+	
+	public void Draw()
+	{
+		terrain.Draw();
+		
+		if(drawGrid)
+		{
+			DrawGrid();
+			DrawWorldOrigin();
+		}
+	}
+	
 	public void AddAnt(Ant ant)
 	{
 		antList.add(ant);
-	}
-	
-	public int GetNumAnts()
-	{
-		return antList.size();
 	}
 	
 	private void DrawWorldOrigin()
@@ -96,14 +118,8 @@ public class World
 		shapeRenderer.end();
 	}
 	
-	public void Draw()
+	public int GetNumAnts()
 	{
-		terrain.Draw();
-		
-		if(drawGrid)
-		{
-			DrawGrid();
-			DrawWorldOrigin();
-		}
+		return antList.size();
 	}
 }

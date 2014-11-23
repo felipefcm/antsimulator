@@ -43,18 +43,23 @@ public class Terrain
 			for(int c = 0; c < pixmap.getWidth(); ++c)
 			{
 				float frequency = 1.0f / (float) pixmap.getWidth();
-				float amplitude = 1.0f;
+				float amplitude = 1.8f;
 				
 				float value = 0;
 				
 				for(int oc = 0; oc < 12; ++oc)
 				{
 					value += perlin.GetNoiseValue(c * frequency, r * frequency) * amplitude;
-					frequency *= 2.0f; //lacunarity
-					amplitude *= 0.5f; //gain
+					frequency *= 1.6f; //lacunarity
+					amplitude *= 0.6f; //gain
 				}
 				
 				value = Math.abs(value);
+				
+				//Log.Info("value at (" + c + "," + r + ") = " + value);
+				
+				if(value >= 0.0f && value <= 0.4f)
+					value = 0.2f;
 				
 				pixmap.drawPixel(c, r, Color.rgba8888(value, value, value, 1.0f));
 			}

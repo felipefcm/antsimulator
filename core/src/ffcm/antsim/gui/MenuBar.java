@@ -15,7 +15,7 @@ import ffcm.antsim.resource.ResourceManager;
 
 public class MenuBar
 {	
-	private ArrayList<IMenuItem> items;
+	private ArrayList<MenuItem> items;
 	private ArrayList<Rectangle> itemRects;
 	
 	private ShapeRenderer shapeRenderer;
@@ -26,12 +26,18 @@ public class MenuBar
 	
 	private int selectedItem;
 	
+	public MenuButton createAntButton;
+	public MenuButton createFoodButton;
+	
 	public MenuBar()
 	{
-		items = new ArrayList<IMenuItem>();
+		items = new ArrayList<MenuItem>();
 		itemRects = new ArrayList<Rectangle>();
 		
 		selectedItem = -1;
+		
+		createAntButton = new MenuButton();
+		createFoodButton = new MenuButton();
 	}
 	
 	public void Init()
@@ -47,44 +53,11 @@ public class MenuBar
 		
 		itemSize = barRect.width * 0.9f;
 		
-		AddItem
-		(
-			new IMenuItem()
-			{
-				@Override
-				public void Pressed()
-				{
-					
-				}
-				
-				@Override
-				public String GetLabel()
-				{
-					return "Ant";
-				}
-			}
-		);
-		
-		AddItem
-		(
-			new IMenuItem()
-			{
-				@Override
-				public void Pressed()
-				{
-					
-				}
-				
-				@Override
-				public String GetLabel()
-				{
-					return "Nest";
-				}
-			}
-		);
+		AddItem(createAntButton);
+		AddItem(createFoodButton);
 	}
 	
-	public void AddItem(IMenuItem item)
+	public void AddItem(MenuItem item)
 	{		
 		itemRects.add(new Rectangle(barRect.width * 0.05f, barRect.y * 1.05f + items.size() * itemSize * 1.05f, itemSize, itemSize));
 		items.add(item);
@@ -100,7 +73,10 @@ public class MenuBar
 		for(int i = 0; i < itemRects.size(); ++i)
 		{
 			if(itemRects.get(i).contains(pos.x, pos.y))
+			{
 				selectedItem = i;
+				//items.get(i).
+			}
 		}
 		
 		return true;

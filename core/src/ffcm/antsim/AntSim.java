@@ -57,7 +57,7 @@ public class AntSim extends ApplicationAdapter
 				
 		appInput = new AppInput(world);
 		guiInput = new GuiInput(menuBar);
-				
+		
 		Gdx.input.setInputProcessor(new InputMultiplexer(guiInput, appInput));
 		
 		Gdx.gl.glClearColor(0.5f, 0.5f, 0.55f, 1.0f);
@@ -80,6 +80,7 @@ public class AntSim extends ApplicationAdapter
 		}
 		
 		ECSManager._instance.Update();
+		world.Update();
 	}
 	
 	@Override

@@ -100,9 +100,9 @@ public class AppInput extends InputAdapter
 	}
 	
 	@Override
-	public boolean keyTyped(char character)
+	public boolean keyUp(int keycode)
 	{
-		if(character == 'g')
+		if(keycode == Input.Keys.G)
 		{
 			world.drawGrid = !world.drawGrid;
 			return true;

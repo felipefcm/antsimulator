@@ -50,9 +50,18 @@ public class PerlinNoise2d
 		return ((1.0f - a) * x + a * y);
 	}
 	
+	private float NonLinearInterpolate(float x, float y, float a)
+	{	
+		float value = 1.0f - (a*a * (3.0f - 2.0f * a));
+		//float value = 1.0f - (6.0f*a*a*a*a*a - 15.0f*a*a*a*a + 10.0f*a*a*a);
+		
+		return (value * x + (1.0f - value) * y);
+	}
+	
 	private float Interpolate(float x, float y, float a)
 	{
-		return LinearInterpolate(x, y, a);
+		//return LinearInterpolate(x, y, a);
+		return NonLinearInterpolate(x, y, a);
 	}
 	
 	public float GetNoiseValue(final float x, final float y)
