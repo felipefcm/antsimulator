@@ -1,16 +1,16 @@
 
-package ffcm.ecs.systems;
+package ffcm.antsim.systems;
 
 import java.util.Iterator;
 import java.util.LinkedList;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
+import ffcm.antsim.nodes.DrawableNode;
 import ffcm.antsim.resource.ResourceManager;
 import ffcm.ecs.ISystem;
 import ffcm.ecs.comps.CDrawable;
 import ffcm.ecs.comps.CTransform;
-import ffcm.ecs.node.DrawableNode;
 
 public class DrawSystem implements ISystem
 {

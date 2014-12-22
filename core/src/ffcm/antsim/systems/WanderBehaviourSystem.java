@@ -1,5 +1,5 @@
 
-package ffcm.ecs.systems;
+package ffcm.antsim.systems;
 
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -7,11 +7,11 @@ import java.util.Random;
 
 import com.badlogic.gdx.math.Vector2;
 
+import ffcm.antsim.nodes.WanderNode;
 import ffcm.antsim.resource.ResourceManager;
 import ffcm.ecs.ISystem;
 import ffcm.ecs.comps.CVelocity;
 import ffcm.ecs.comps.CWander;
-import ffcm.ecs.node.WanderNode;
 
 public class WanderBehaviourSystem implements ISystem
 {

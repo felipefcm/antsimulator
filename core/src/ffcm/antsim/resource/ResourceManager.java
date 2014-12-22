@@ -15,7 +15,6 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.badlogic.gdx.utils.viewport.Viewport;
 
 import ffcm.antsim.AntSim;
 
@@ -26,7 +25,9 @@ public class ResourceManager
 	public OrthographicCamera mainCamera;
 	public OrthographicCamera guiCamera;
 	
-	public Viewport viewport;
+	public FitViewport viewport;
+	public FitViewport guiViewport;
+	
 	public SpriteBatch spriteBatch;
 	public ShapeRenderer shapeRenderer;
 	
@@ -41,10 +42,11 @@ public class ResourceManager
 	{		
 		mainCamera = new OrthographicCamera();
 		viewport = new FitViewport(AntSim.V_WIDTH, AntSim.V_HEIGHT, mainCamera);
+		viewport.update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);
 		
-		guiCamera = new OrthographicCamera(AntSim.V_WIDTH, AntSim.V_HEIGHT);
-		guiCamera.translate(AntSim.V_WIDTH / 2.0f, AntSim.V_HEIGHT / 2.0f);
-		guiCamera.update();
+		guiCamera = new OrthographicCamera();
+		guiViewport = new FitViewport(AntSim.V_WIDTH, AntSim.V_HEIGHT, guiCamera);
+		guiViewport.update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);
 		
 		spriteBatch = new SpriteBatch(200);
 		shapeRenderer = new ShapeRenderer(200);

@@ -1,13 +1,13 @@
 
-package ffcm.ecs.systems;
+package ffcm.antsim.systems;
 
 import java.util.Iterator;
 import java.util.LinkedList;
 
+import ffcm.antsim.nodes.MovableNode;
 import ffcm.ecs.ISystem;
 import ffcm.ecs.comps.CTransform;
 import ffcm.ecs.comps.CVelocity;
-import ffcm.ecs.node.MovableNode;
 
 public class MoveSystem implements ISystem
 {

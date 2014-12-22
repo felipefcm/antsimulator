@@ -12,8 +12,10 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 
 import ffcm.antsim.gui.MenuBar;
 import ffcm.antsim.input.AppInput;
-import ffcm.antsim.input.GuiInput;
 import ffcm.antsim.resource.ResourceManager;
+import ffcm.antsim.systems.DrawSystem;
+import ffcm.antsim.systems.MoveSystem;
+import ffcm.antsim.systems.WanderBehaviourSystem;
 import ffcm.ecs.ECSManager;
 import ffcm.ecs.EntityFactory;
 
@@ -28,15 +30,19 @@ public class AntSim extends ApplicationAdapter
 	int numFPS = 0;
 	
 	private Viewport viewport;
+	private Viewport guiViewport;
 	private SpriteBatch spriteBatch;
 	private BitmapFont font;
 	
 	private AppInput appInput;
-	private GuiInput guiInput;
 	
 	private World world;
 	
 	private MenuBar menuBar;
+	
+	private MoveSystem moveSystem;
+	private DrawSystem drawSystem;
+	private WanderBehaviourSystem wanderSystem;
 	
 	@Override
 	public void create() 
@@ -47,8 +53,17 @@ public class AntSim extends ApplicationAdapter
 		EntityFactory._instance.Init();
 		
 		viewport = ResourceManager._instance.viewport;
+		guiViewport = ResourceManager._instance.guiViewport;
 		spriteBatch = ResourceManager._instance.spriteBatch;
 		font = ResourceManager._instance.font;
+		
+		moveSystem = new MoveSystem();
+		drawSystem = new DrawSystem();
+		wanderSystem = new WanderBehaviourSystem();
+		
+		ECSManager._instance.AddSystem(wanderSystem);
+		ECSManager._instance.AddSystem(moveSystem);
+		ECSManager._instance.AddSystem(drawSystem);
 		
 		world = new World();
 		
@@ -56,17 +71,14 @@ public class AntSim extends ApplicationAdapter
 		menuBar.Init();
 				
 		appInput = new AppInput(world);
-		guiInput = new GuiInput(menuBar);
 		
-		Gdx.input.setInputProcessor(new InputMultiplexer(guiInput, appInput));
+		Gdx.input.setInputProcessor(new InputMultiplexer(menuBar.stage, appInput));
 		
 		Gdx.gl.glClearColor(0.5f, 0.5f, 0.55f, 1.0f);
 	}
 	
 	private void Update()
 	{
-		timeAccum += Gdx.graphics.getDeltaTime();
-		
 		if(timeAccum < 1.0f)
 		{
 			++numFPSAccum;
@@ -89,6 +101,7 @@ public class AntSim extends ApplicationAdapter
 		super.resize(width, height);
 		
 		viewport.update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);
+		guiViewport.update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);
 	}
 	
 	@Override

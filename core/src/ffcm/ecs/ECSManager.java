@@ -2,40 +2,24 @@
 package ffcm.ecs;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 import ffcm.antsim.resource.Log;
-import ffcm.ecs.comps.CDrawable;
-import ffcm.ecs.comps.CTransform;
-import ffcm.ecs.comps.CVelocity;
-import ffcm.ecs.comps.CWander;
-import ffcm.ecs.node.DrawableNode;
-import ffcm.ecs.node.MovableNode;
-import ffcm.ecs.node.WanderNode;
-import ffcm.ecs.systems.DrawSystem;
-import ffcm.ecs.systems.MoveSystem;
-import ffcm.ecs.systems.WanderBehaviourSystem;
+import ffcm.ecs.node.NodeMap;
 
 public class ECSManager
 {
 	public static ECSManager _instance = new ECSManager();
 	
+	private LinkedList<Entity> entities;
 	private ArrayList<ISystem> systems;
-	
-	private MoveSystem moveSystem;
-	private DrawSystem drawSystem;
-	private WanderBehaviourSystem wanderSystem;
+	private NodeMap nodeMap;
 	
 	public ECSManager()
 	{
+		entities = new LinkedList<Entity>();
 		systems = new ArrayList<ISystem>();
-		
-		moveSystem = new MoveSystem();
-		drawSystem = new DrawSystem();
-		wanderSystem = new WanderBehaviourSystem();
-		
-		AddSystem(wanderSystem);
-		AddSystem(moveSystem);
-		AddSystem(drawSystem);
+		nodeMap = new NodeMap();
 	}
 	
 	public void AddSystem(ISystem system)
@@ -60,10 +44,14 @@ public class ECSManager
 	
 	public void AddEntity(Entity entity)
 	{
+		entities.add(entity);
+		
+		/*
 		CTransform transformComponent = entity.GetComponent(CTransform.class);
 		CVelocity velocityComponent = entity.GetComponent(CVelocity.class);
 		CDrawable drawableComponent = entity.GetComponent(CDrawable.class);
 		CWander wanderComponent = entity.GetComponent(CWander.class);
+		CSelectable selectableComponent = entity.GetComponent(CSelectable.class);
 		
 		MovableNode movableNode = new MovableNode();
 		DrawableNode drawableNode = new DrawableNode();
@@ -92,9 +80,15 @@ public class ECSManager
 			wanderNode.wander = wanderComponent;
 		}
 		
+		if(selectableComponent != null)
+		{
+			
+		}
+		
 		moveSystem.AddNode(movableNode);
 		drawSystem.AddNode(drawableNode);
 		wanderSystem.AddNode(wanderNode);
+		*/
 	}
 	
 	public void RemoveEntity(Entity entity)

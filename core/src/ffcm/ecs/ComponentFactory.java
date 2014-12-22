@@ -5,6 +5,7 @@ import com.badlogic.gdx.utils.JsonValue;
 
 import ffcm.antsim.resource.ResourceManager;
 import ffcm.ecs.comps.CDrawable;
+import ffcm.ecs.comps.CSelectable;
 import ffcm.ecs.comps.CTransform;
 import ffcm.ecs.comps.CVelocity;
 import ffcm.ecs.comps.CWander;
@@ -59,5 +60,10 @@ public class ComponentFactory
 		wander.circleDistance = jsonObj.get("distance").asFloat();
 		
 		return wander;
+	}
+	
+	public CSelectable CreateSelectable(final JsonValue jsonObj)
+	{
+		return null;
 	}
 }

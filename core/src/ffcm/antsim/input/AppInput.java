@@ -23,11 +23,13 @@ public class AppInput extends InputAdapter
 	private Vector2 mouseMoveStarted;
 	
 	private Viewport viewport;
+	private OrthographicCamera mainCamera;
 	private World world;
 	
 	public AppInput(World world)
 	{
 		viewport = ResourceManager._instance.viewport;
+		mainCamera = ResourceManager._instance.mainCamera;
 		
 		this.world = world;
 	}
@@ -92,9 +94,13 @@ public class AppInput extends InputAdapter
 	@Override
 	public boolean scrolled(int amount)
 	{
-		((OrthographicCamera) viewport.getCamera()).zoom += (float) amount * 0.1f;
+		float newZoom = mainCamera.zoom + (float) amount * 0.1f;
 		
-		viewport.update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), false);
+		if(newZoom > 0 && newZoom < 5.0f)
+		{
+			mainCamera.zoom = newZoom;
+			viewport.update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), false);
+		}
 		
 		return true;
 	}
