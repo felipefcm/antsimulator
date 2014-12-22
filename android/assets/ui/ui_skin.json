@@ -1,0 +1,12 @@
+{
+	"com.badlogic.gdx.scenes.scene2d.ui.ImageButton$ImageButtonStyle":
+	{
+		"createAntButton":
+		{
+			"up": "button_up",
+			"down": "button_down",
+			"over": "button_over",
+			"imageUp": "createAnt"
+		}
+	}
+}
