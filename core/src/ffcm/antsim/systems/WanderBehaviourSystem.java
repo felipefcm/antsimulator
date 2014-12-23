@@ -7,19 +7,18 @@ import java.util.Random;
 
 import com.badlogic.gdx.math.Vector2;
 
+import ffcm.antsim.comps.CVelocity;
+import ffcm.antsim.comps.CWander;
 import ffcm.antsim.nodes.WanderNode;
 import ffcm.antsim.resource.ResourceManager;
+import ffcm.ecs.INode;
 import ffcm.ecs.ISystem;
-import ffcm.ecs.comps.CVelocity;
-import ffcm.ecs.comps.CWander;
+import ffcm.ecs.NodeMap;
 
 public class WanderBehaviourSystem implements ISystem
-{
-	private LinkedList<WanderNode> wanderNodes;
-	
+{	
 	public WanderBehaviourSystem()
 	{
-		wanderNodes = new LinkedList<WanderNode>();
 	}
 	
 	@Override
@@ -28,13 +27,18 @@ public class WanderBehaviourSystem implements ISystem
 	}
 
 	@Override
-	public void Update()
+	public void Update(final NodeMap nodeMap)
 	{
-		Iterator<WanderNode> it = wanderNodes.iterator();
+		LinkedList<INode> nodeList = nodeMap.GetNodes(WanderNode.class);
+		
+		if(nodeList == null)
+			return;
+		
+		Iterator<INode> it = nodeList.iterator();
 		
 		while(it.hasNext())
 		{
-			WanderNode node = it.next();
+			WanderNode node = (WanderNode) it.next();
 			
 			CWander wander = node.wander;
 			CVelocity velocity = node.velocity;
@@ -58,11 +62,6 @@ public class WanderBehaviourSystem implements ISystem
 			
 			velocity.vector.add(steerForce).nor().scl(0.5f); //max velocity
 		}
-	}
-	
-	public void AddNode(WanderNode node)
-	{
-		wanderNodes.add(node);
 	}
 
 	@Override

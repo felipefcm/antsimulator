@@ -6,31 +6,34 @@ import java.util.LinkedList;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
+import ffcm.antsim.comps.CDrawable;
+import ffcm.antsim.comps.CTransform;
 import ffcm.antsim.nodes.DrawableNode;
 import ffcm.antsim.resource.ResourceManager;
+import ffcm.ecs.INode;
 import ffcm.ecs.ISystem;
-import ffcm.ecs.comps.CDrawable;
-import ffcm.ecs.comps.CTransform;
+import ffcm.ecs.NodeMap;
 
 public class DrawSystem implements ISystem
-{
-	private LinkedList<DrawableNode> drawableNodes;
-	
+{	
 	public DrawSystem()
 	{
-		drawableNodes = new LinkedList<DrawableNode>();
 	}
 	
 	@Override
 	public void Start()
 	{
-		
 	}
 	
 	@Override
-	public void Update()
+	public void Update(final NodeMap nodeMap)
 	{
-		Iterator<DrawableNode> it = drawableNodes.iterator();
+		LinkedList<INode> nodeList = nodeMap.GetNodes(DrawableNode.class);
+		
+		if(nodeList == null)
+			return;
+		
+		Iterator<INode> it = nodeList.iterator();
 		
 		SpriteBatch spriteBatch = ResourceManager._instance.spriteBatch;
 		
@@ -39,7 +42,7 @@ public class DrawSystem implements ISystem
 		{
 			while(it.hasNext())
 			{
-				DrawableNode node = it.next();
+				DrawableNode node = (DrawableNode) it.next();
 				
 				CTransform transform = node.transform;
 				CDrawable drawable = node.drawable;
@@ -53,14 +56,8 @@ public class DrawSystem implements ISystem
 		spriteBatch.end();
 	}
 	
-	public void AddNode(DrawableNode node)
-	{
-		drawableNodes.add(node);
-	}
-
 	@Override
 	public void End()
 	{
-		
 	}	
 }

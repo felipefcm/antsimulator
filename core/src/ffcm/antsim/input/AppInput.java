@@ -10,12 +10,12 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 
 import ffcm.antsim.Ant;
 import ffcm.antsim.World;
+import ffcm.antsim.comps.CTransform;
+import ffcm.antsim.comps.CVelocity;
 import ffcm.antsim.resource.Log;
 import ffcm.antsim.resource.ResourceManager;
 import ffcm.ecs.ECSManager;
 import ffcm.ecs.EntityFactory;
-import ffcm.ecs.comps.CTransform;
-import ffcm.ecs.comps.CVelocity;
 
 public class AppInput extends InputAdapter
 {

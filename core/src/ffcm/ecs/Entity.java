@@ -8,7 +8,6 @@ import java.util.Set;
 import com.badlogic.gdx.utils.JsonValue;
 
 import ffcm.antsim.resource.Log;
-import ffcm.ecs.node.NodeMap;
 
 public abstract class Entity
 {

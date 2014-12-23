@@ -1,14 +1,21 @@
 
 package ffcm.antsim.nodes;
 
-import ffcm.ecs.comps.CTransform;
-import ffcm.ecs.comps.CVelocity;
-import ffcm.ecs.comps.CWander;
-import ffcm.ecs.node.INode;
+import ffcm.antsim.comps.CTransform;
+import ffcm.antsim.comps.CVelocity;
+import ffcm.antsim.comps.CWander;
+import ffcm.ecs.INode;
 
 public class WanderNode implements INode
 {
 	public CWander wander;
 	public CTransform transform;
 	public CVelocity velocity;
+	
+	public WanderNode(CWander wander, CTransform transform, CVelocity velocity)
+	{
+		this.wander = wander;
+		this.transform = transform;
+		this.velocity = velocity;
+	}
 }

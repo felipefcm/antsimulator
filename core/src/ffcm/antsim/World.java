@@ -11,9 +11,9 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
+import ffcm.antsim.comps.CTransform;
 import ffcm.antsim.resource.QuadTree;
 import ffcm.antsim.resource.ResourceManager;
-import ffcm.ecs.comps.CTransform;
 
 public class World
 {

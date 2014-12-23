@@ -1,12 +1,18 @@
 
 package ffcm.antsim.nodes;
 
-import ffcm.ecs.comps.CDrawable;
-import ffcm.ecs.comps.CTransform;
-import ffcm.ecs.node.INode;
+import ffcm.antsim.comps.CDrawable;
+import ffcm.antsim.comps.CTransform;
+import ffcm.ecs.INode;
 
 public class DrawableNode implements INode
-{
+{	
 	public CDrawable drawable;
 	public CTransform transform;
+	
+	public DrawableNode(CDrawable drawable, CTransform transform)
+	{
+		this.drawable = drawable;
+		this.transform = transform;
+	}
 }

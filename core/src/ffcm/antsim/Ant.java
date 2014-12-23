@@ -3,14 +3,17 @@ package ffcm.antsim;
 
 import com.badlogic.gdx.utils.JsonValue;
 
+import ffcm.antsim.comps.CDrawable;
+import ffcm.antsim.comps.CTransform;
+import ffcm.antsim.comps.CVelocity;
+import ffcm.antsim.comps.CWander;
+import ffcm.antsim.nodes.DrawableNode;
+import ffcm.antsim.nodes.MovableNode;
+import ffcm.antsim.nodes.WanderNode;
 import ffcm.antsim.resource.Log;
 import ffcm.ecs.ComponentFactory;
 import ffcm.ecs.Entity;
-import ffcm.ecs.comps.CDrawable;
-import ffcm.ecs.comps.CTransform;
-import ffcm.ecs.comps.CVelocity;
-import ffcm.ecs.comps.CWander;
-import ffcm.ecs.node.NodeMap;
+import ffcm.ecs.NodeMap;
 
 public class Ant extends Entity
 {		
@@ -21,7 +24,18 @@ public class Ant extends Entity
 	@Override
 	public void AddNodes(NodeMap nodeMap)
 	{
+		CTransform transform = GetComponent(CTransform.class);
+		CVelocity velocity = GetComponent(CVelocity.class);
+		CWander wander = GetComponent(CWander.class);
+		CDrawable drawable = GetComponent(CDrawable.class);
 		
+		MovableNode movableNode = new MovableNode(transform, velocity);
+		DrawableNode drawableNode = new DrawableNode(drawable, transform);
+		WanderNode wanderNode = new WanderNode(wander, transform, velocity);
+		
+		nodeMap.AddNode(MovableNode.class, movableNode);
+		nodeMap.AddNode(DrawableNode.class, drawableNode);
+		nodeMap.AddNode(WanderNode.class, wanderNode);
 	}
 	
 	@Override

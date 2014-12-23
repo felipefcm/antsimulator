@@ -1,5 +1,5 @@
 
-package ffcm.ecs.comps;
+package ffcm.antsim.comps;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;

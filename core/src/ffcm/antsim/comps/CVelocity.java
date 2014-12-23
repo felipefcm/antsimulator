@@ -1,5 +1,5 @@
 
-package ffcm.ecs.comps;
+package ffcm.antsim.comps;
 
 import com.badlogic.gdx.math.Vector2;
 

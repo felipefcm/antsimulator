@@ -4,18 +4,17 @@ package ffcm.antsim.systems;
 import java.util.Iterator;
 import java.util.LinkedList;
 
+import ffcm.antsim.comps.CTransform;
+import ffcm.antsim.comps.CVelocity;
 import ffcm.antsim.nodes.MovableNode;
+import ffcm.ecs.INode;
 import ffcm.ecs.ISystem;
-import ffcm.ecs.comps.CTransform;
-import ffcm.ecs.comps.CVelocity;
+import ffcm.ecs.NodeMap;
 
 public class MoveSystem implements ISystem
-{
-	private LinkedList<MovableNode> movableNodes;
-	
+{	
 	public MoveSystem()
 	{
-		movableNodes = new LinkedList<MovableNode>();
 	}
 	
 	@Override
@@ -24,13 +23,18 @@ public class MoveSystem implements ISystem
 	}
 	
 	@Override
-	public void Update()
+	public void Update(final NodeMap nodeMap)
 	{
-		Iterator<MovableNode> it = movableNodes.iterator();
+		LinkedList<INode> nodeList = nodeMap.GetNodes(MovableNode.class);
+		
+		if(nodeList == null)
+			return;
+		
+		Iterator<INode> it = nodeList.iterator();
 		
 		while(it.hasNext())
 		{
-			MovableNode node = it.next();
+			MovableNode node = (MovableNode) it.next();
 			
 			CTransform transform = node.transform;
 			CVelocity velocity = node.velocity;
@@ -39,11 +43,6 @@ public class MoveSystem implements ISystem
 			
 			transform.position.add(velocity.vector);
 		}
-	}
-	
-	public void AddNode(MovableNode node)
-	{
-		movableNodes.add(node);
 	}
 
 	@Override

@@ -3,12 +3,12 @@ package ffcm.ecs;
 
 import com.badlogic.gdx.utils.JsonValue;
 
+import ffcm.antsim.comps.CDrawable;
+import ffcm.antsim.comps.CSelectable;
+import ffcm.antsim.comps.CTransform;
+import ffcm.antsim.comps.CVelocity;
+import ffcm.antsim.comps.CWander;
 import ffcm.antsim.resource.ResourceManager;
-import ffcm.ecs.comps.CDrawable;
-import ffcm.ecs.comps.CSelectable;
-import ffcm.ecs.comps.CTransform;
-import ffcm.ecs.comps.CVelocity;
-import ffcm.ecs.comps.CWander;
 
 public class ComponentFactory
 {

@@ -1,5 +1,5 @@
 
-package ffcm.ecs.node;
+package ffcm.ecs;
 
 public interface INode
 {
