@@ -49,4 +49,10 @@ public class MoveSystem implements ISystem
 	public void End()
 	{
 	}
+
+	@Override
+	public int GetPriority()
+	{
+		return HighPriority;
+	}
 }

@@ -3,20 +3,20 @@
 	{
 		"components":
 		{
-			"transform":
+			"ffcm.antsim.comps.CTransform":
 			{
 				"position": [0, 0],
 				"rotation": 0
 			},
 			
-			"velocity": [0, 0],
+			"ffcm.antsim.comps.CVelocity": [0, 0],
 			
-			"drawable":
+			"ffcm.antsim.comps.CDrawable":
 			{
 				"sprite": "ant"
 			},
 			
-			"wander":
+			"ffcm.antsim.comps.CWander":
 			{
 				"radius": 1.0,
 				"distance": 8.0

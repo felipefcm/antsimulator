@@ -59,5 +59,11 @@ public class DrawSystem implements ISystem
 	@Override
 	public void End()
 	{
+	}
+
+	@Override
+	public int GetPriority()
+	{
+		return NormalPriority;
 	}	
 }

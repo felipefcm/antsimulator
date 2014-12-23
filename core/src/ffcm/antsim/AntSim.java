@@ -50,7 +50,7 @@ public class AntSim extends ApplicationAdapter
 		Gdx.app.setLogLevel(Application.LOG_DEBUG);
 		
 		ResourceManager._instance.InitTextures();
-		EntityFactory._instance.Init();
+		EntityFactory._instance.Init("data/entities.json");
 		
 		viewport = ResourceManager._instance.viewport;
 		guiViewport = ResourceManager._instance.guiViewport;

@@ -68,4 +68,10 @@ public class WanderBehaviourSystem implements ISystem
 	public void End()
 	{
 	}
+
+	@Override
+	public int GetPriority()
+	{
+		return HighPriority;
+	}
 }

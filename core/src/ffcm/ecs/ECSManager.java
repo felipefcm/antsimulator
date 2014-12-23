@@ -2,6 +2,7 @@
 package ffcm.ecs;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.LinkedList;
 
 import ffcm.antsim.resource.Log;
@@ -14,11 +15,22 @@ public class ECSManager
 	private ArrayList<ISystem> systems;
 	private NodeMap nodeMap;
 	
+	private Comparator<ISystem> systemComparator;
+	
 	public ECSManager()
 	{
 		entities = new LinkedList<Entity>();
 		systems = new ArrayList<ISystem>();
 		nodeMap = new NodeMap();
+		
+		systemComparator = new Comparator<ISystem>()
+		{
+			@Override
+			public int compare(ISystem o1, ISystem o2)
+			{
+				return o1.GetPriority() - o2.GetPriority();
+			}	
+		};
 	}
 	
 	public void AddSystem(ISystem system)
@@ -30,7 +42,8 @@ public class ECSManager
 		}
 		
 		systems.add(system);
-		
+		systems.sort(systemComparator);
+				
 		system.Start();
 	}
 	

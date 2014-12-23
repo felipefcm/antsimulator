@@ -5,8 +5,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Set;
 
-import com.badlogic.gdx.utils.JsonValue;
-
 import ffcm.antsim.resource.Log;
 
 public abstract class Entity
@@ -22,7 +20,7 @@ public abstract class Entity
 		components = new HashMap<String, IComponent>();
 	}
 	
-	public abstract void LoadFromDisk(JsonValue jsonObj);
+	//public abstract void LoadFromDisk(JsonValue jsonObj);
 	public abstract void AddNodes(NodeMap nodeMap);
 	
 	public int GetId()
@@ -36,7 +34,7 @@ public abstract class Entity
 		
 		if(components.containsKey(className))
 		{
-			Log.Error("Trying to add a component already inserted in entity: " + component.getClass().getSimpleName());
+			Log.Error("Trying to add a component already inserted in entity: " + className);
 			return;
 		}
 		

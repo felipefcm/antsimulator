@@ -2,24 +2,24 @@
 	"ant":
 	{
 		"origin": [0, 0],
-		"size": [21, 27]
+		"size": [35, 51]
 	},
 	
 	"ant_child":
 	{
-		"origin": [0, 0],
-		"size": [21, 27]
-	},
-	
-	"nest":
-	{
-		"origin": [0, 0],
-		"size": [21, 27]
+		"origin": [36, 0],
+		"size": [18, 23]
 	},
 	
 	"food":
 	{
-		"origin": [0, 0],
-		"size": [21, 27]
+		"origin": [54, 0],
+		"size": [40, 58]
+	},
+	
+	"nest":
+	{
+		"origin": [95, 0],
+		"size": [37, 37]
 	}
 }

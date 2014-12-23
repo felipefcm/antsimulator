@@ -1,6 +1,8 @@
 
 package ffcm.antsim.comps;
 
+import com.badlogic.gdx.utils.JsonValue;
+
 import ffcm.ecs.IComponent;
 
 public class CWander implements IComponent
@@ -26,5 +28,14 @@ public class CWander implements IComponent
 		wander.wanderAngle = wanderAngle;
 		
 		return wander;
+	}
+
+	@Override
+	public IComponent CreateFromJson(JsonValue jsonObj)
+	{
+		circleRadius = jsonObj.get("radius").asFloat();
+		circleDistance = jsonObj.get("distance").asFloat();
+		
+		return this;
 	}
 }

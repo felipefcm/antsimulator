@@ -20,50 +20,9 @@ public class EntityFactory
 		entityMap = new HashMap<String, Entity>();
 	}
 	
-	public void Init()
+	public void Init(String entityDescriptionFile)
 	{
-		ParseEntitiesDescriptionFile("data/entities.json");
-	}
-	
-	public <T extends Entity> T CreateEntity(Class<T> type)
-	{		
-		Entity src = entityMap.get(type.getName());
-		
-		T newEntity = CreateEntityInstance(type);
-		
-		newEntity.Clone(src);
-		
-		return newEntity;
-	}
-	
-	private void ParseEntitiesDescriptionFile(String filePath)
-	{
-		JsonReader reader = new JsonReader();
-		JsonValue root = reader.parse(Gdx.files.internal(filePath));
-		
-		for(JsonValue child = root.child; child != null; child = child.next)
-		{
-			//fully qualified name of the entity
-			String entityName = child.name;
-			Entity entity = null;
-			
-			try
-			{
-				//TODO guarantee that the entityName is an Entity object
-				entity = CreateEntityInstance((Class<? extends Entity>) Class.forName(entityName));
-			}
-			catch(Exception e)
-			{
-				Log.Error("Failed to create entity for name " + entityName + ": " + e.getMessage());
-			}
-			
-			if(entity == null)
-				continue;
-			
-			entity.LoadFromDisk(child);
-			
-			entityMap.put(entityName, entity);
-		}
+		ParseEntitiesDescriptionFile(entityDescriptionFile);
 	}
 	
 	private <T extends Entity> T CreateEntityInstance(Class<T> type)
@@ -76,10 +35,77 @@ public class EntityFactory
 		}
 		catch(Exception e)
 		{
-			Log.Error("Could not create entity: " + type.getName() + ": " + e.getMessage());
+			Log.Error("Could not create entity " + type.getName() + ": " + e.getMessage());
 		}
 		
 		return entity;
+	}
+	
+	public <T extends Entity> T CreateEntity(Class<T> type)
+	{		
+		T newEntity = CreateEntityInstance(type);
+		
+		Entity src = entityMap.get(type.getName());		
+		newEntity.Clone(src);
+		
+		return newEntity;
+	}
+	
+	//TODO change the name of this method to something more meaningful
+	private void ParseEntitiesDescriptionFile(String filePath)
+	{
+		JsonReader reader = new JsonReader();
+		JsonValue root = reader.parse(Gdx.files.internal(filePath));
+		
+		JsonValue child = root.child;
+		
+		while(child != null)
+		{
+			//fully qualified name of the entity
+			String entityName = child.name;
+			
+			Entity entity = null;
+			
+			try
+			{
+				entity = CreateEntityInstance(Class.forName(entityName).asSubclass(Entity.class));
+			}
+			catch(Exception e)
+			{
+				Log.Error("Failed to create entity instance " + entityName + ": " + e.getMessage());
+			}
+			
+			if(entity == null)
+			{
+				Log.Error("Skipping null entity in creation: " + entityName);
+				continue;
+			}
+			
+			JsonValue comp = child.getChild("components");
+			
+			while(comp != null)
+			{
+				IComponent component = null;
+				
+				try
+				{
+					component = (IComponent) Class.forName(comp.name).newInstance();
+					component.CreateFromJson(comp);
+				}
+				catch(Exception e)
+				{
+					Log.Error("Failed to create component '" + comp.name + "' for entity '" + entityName + "': " + e.getMessage());
+				}
+				
+				entity.AddComponent(component);
+				
+				comp = comp.next;
+			}
+			
+			entityMap.put(entityName, entity);
+			
+			child = child.next;
+		}
 	}
 }
 

@@ -2,6 +2,7 @@
 package ffcm.antsim.comps;
 
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.JsonValue;
 
 import ffcm.ecs.IComponent;
 
@@ -21,5 +22,15 @@ public class CVelocity implements IComponent
 		velocity.vector = vector.cpy();
 		
 		return velocity;
+	}
+
+	@Override
+	public IComponent CreateFromJson(final JsonValue jsonObj)
+	{
+		float[] velocity = jsonObj.asFloatArray();		
+		
+		vector.set(velocity[0], velocity[1]);
+		
+		return this;
 	}
 }
