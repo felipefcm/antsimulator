@@ -15,6 +15,7 @@ import ffcm.antsim.input.AppInput;
 import ffcm.antsim.resource.ResourceManager;
 import ffcm.antsim.systems.DrawSystem;
 import ffcm.antsim.systems.MoveSystem;
+import ffcm.antsim.systems.SpatialPartitioningSystem;
 import ffcm.antsim.systems.WanderBehaviourSystem;
 import ffcm.ecs.ECSManager;
 import ffcm.ecs.EntityFactory;
@@ -24,6 +25,8 @@ public class AntSim extends ApplicationAdapter
 	public static final int V_WIDTH = 640;
 	public static final int V_HEIGHT = 480;
 	public static final float DESKTOP_SCALE = 2.0f;
+	
+	public static AntSim antSim;
 	
 	float timeAccum = 0;
 	int numFPSAccum = 0;
@@ -36,17 +39,20 @@ public class AntSim extends ApplicationAdapter
 	
 	private AppInput appInput;
 	
-	private World world;
+	public World world;
 	
 	private MenuBar menuBar;
 	
 	private MoveSystem moveSystem;
 	private DrawSystem drawSystem;
 	private WanderBehaviourSystem wanderSystem;
+	private SpatialPartitioningSystem spatialPartSystem;
 	
 	@Override
 	public void create() 
 	{	
+		antSim = this;
+		
 		Gdx.app.setLogLevel(Application.LOG_DEBUG);
 		
 		ResourceManager._instance.InitTextures();
@@ -60,10 +66,12 @@ public class AntSim extends ApplicationAdapter
 		moveSystem = new MoveSystem();
 		drawSystem = new DrawSystem();
 		wanderSystem = new WanderBehaviourSystem();
+		spatialPartSystem = new SpatialPartitioningSystem();
 		
-		ECSManager._instance.AddSystem(wanderSystem);
 		ECSManager._instance.AddSystem(moveSystem);
 		ECSManager._instance.AddSystem(drawSystem);
+		ECSManager._instance.AddSystem(wanderSystem);
+		ECSManager._instance.AddSystem(spatialPartSystem);
 		
 		world = new World();
 		
@@ -79,7 +87,9 @@ public class AntSim extends ApplicationAdapter
 	
 	private void Update()
 	{
-		if(timeAccum < 1.0f)
+		timeAccum += Gdx.graphics.getDeltaTime();
+		
+		if(timeAccum <= 1.0f)
 		{
 			++numFPSAccum;
 		}
@@ -91,8 +101,10 @@ public class AntSim extends ApplicationAdapter
 			numFPSAccum = 0;
 		}
 		
-		ECSManager._instance.Update();
 		world.Update();
+		world.Draw();
+		
+		ECSManager._instance.Update();
 	}
 	
 	@Override
@@ -108,8 +120,6 @@ public class AntSim extends ApplicationAdapter
 	public void render() 
 	{
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		
-		world.Draw();
 		
 		Update();
 		

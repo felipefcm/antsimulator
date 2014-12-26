@@ -9,10 +9,12 @@ import ffcm.ecs.IComponent;
 public class CVelocity implements IComponent
 {
 	public Vector2 vector;
+	public float maxVelocity;
 	
 	public CVelocity()
 	{
-		vector = new Vector2();
+		vector = new Vector2(0, 0);
+		maxVelocity = 1.0f;
 	}
 
 	@Override
@@ -20,6 +22,7 @@ public class CVelocity implements IComponent
 	{
 		CVelocity velocity = new CVelocity();
 		velocity.vector = vector.cpy();
+		velocity.maxVelocity = maxVelocity;
 		
 		return velocity;
 	}
@@ -27,9 +30,10 @@ public class CVelocity implements IComponent
 	@Override
 	public IComponent CreateFromJson(final JsonValue jsonObj)
 	{
-		float[] velocity = jsonObj.asFloatArray();		
+		JsonValue maxVel = jsonObj.get("maxVelocity");
 		
-		vector.set(velocity[0], velocity[1]);
+		if(maxVel != null)
+			maxVelocity = maxVel.asFloat();
 		
 		return this;
 	}

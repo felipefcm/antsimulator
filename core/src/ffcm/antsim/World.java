@@ -1,8 +1,6 @@
 
 package ffcm.antsim;
 
-import java.util.LinkedList;
-
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -11,14 +9,13 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
-import ffcm.antsim.comps.CTransform;
 import ffcm.antsim.resource.QuadTree;
 import ffcm.antsim.resource.ResourceManager;
 
 public class World
 {
 	//both sizes in world coordinates
-	private static final int GridCellSize = 20; 
+	private static final int GridCellSize = 32; 
 	public static final Vector2 WorldSize = new Vector2(1024, 1024);
 	
 	public boolean drawGrid = false;	
@@ -26,9 +23,7 @@ public class World
 	private Viewport viewport;
 	private ShapeRenderer shapeRenderer;
 	
-	private LinkedList<Ant> antList;
-	
-	private Terrain terrain;
+	public Terrain terrain;
 	
 	private QuadTree quadTree;
 	
@@ -37,7 +32,6 @@ public class World
 		viewport = ResourceManager._instance.viewport;
 		shapeRenderer = ResourceManager._instance.shapeRenderer;
 		
-		antList = new LinkedList<Ant>();
 		terrain = new Terrain(WorldSize);
 	}
 	
@@ -48,8 +42,10 @@ public class World
 		
 		quadTree = new QuadTree(new Rectangle(-WorldSize.x * 0.5f, -WorldSize.y * 0.5f, WorldSize.x, WorldSize.y));
 		
+		/*
 		for(int i = 0; i < antList.size(); ++i)
 			quadTree.Add(antList.get(i).GetComponent(CTransform.class).position);
+		*/
 	}
 	
 	public void Draw()
@@ -65,7 +61,7 @@ public class World
 	
 	public void AddAnt(Ant ant)
 	{
-		antList.add(ant);
+		//antList.add(ant);
 	}
 	
 	private void DrawWorldOrigin()
@@ -120,6 +116,7 @@ public class World
 	
 	public int GetNumAnts()
 	{
-		return antList.size();
+		//return antList.size();
+		return 0;
 	}
 }

@@ -152,10 +152,17 @@ public class QuadTree
 	{
 	}
 	
+	public void FastClear()
+	{
+		data.clear();
+		data = new ArrayList<Vector2>(BucketSize);
+		
+		child = null;
+	}
+	
 	public void Clear()
 	{
 		data.clear();
-		data = null;
 		
 		if(child != null)
 		{

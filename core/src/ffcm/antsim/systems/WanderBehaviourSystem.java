@@ -46,21 +46,22 @@ public class WanderBehaviourSystem implements ISystem
 			Vector2 circleCenter = velocity.vector.cpy();
 			circleCenter.nor().scl(wander.circleDistance);
 			
-			Random random = ResourceManager._instance.random; 
+			Random random = ResourceManager._instance.random;
 			
-			//pick a random displacement vector inside the circle
 			Vector2 disp = new Vector2(0, 1.0f);
-			disp.setAngle(wander.wanderAngle);
-			disp.nor().scl(wander.circleRadius);
+			disp.scl(wander.circleRadius);
 			
-			wander.wanderAngle += random.nextFloat() * 15.0f * (random.nextBoolean() ? 1.0f : -1.0f);
+			//wander.wanderAngle += random.nextFloat() * 15.0f * (random.nextBoolean() ? 1.0f : -1.0f);
+			wander.wanderAngle += random.nextFloat() * 30.0f - 30.0f * 0.5f;
 			wander.wanderAngle = (int) wander.wanderAngle % 360.0f;
+			
+			disp.setAngle(wander.wanderAngle);
 			
 			Vector2 wanderForce = circleCenter.cpy().add(disp);
 			
 			Vector2 steerForce = wanderForce.sub(velocity.vector);
 			
-			velocity.vector.add(steerForce).nor().scl(0.5f); //max velocity
+			velocity.vector.add(steerForce).nor().scl(velocity.maxVelocity); //max velocity
 		}
 	}
 

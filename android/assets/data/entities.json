@@ -9,7 +9,10 @@
 				"rotation": 0
 			},
 			
-			"ffcm.antsim.comps.CVelocity": [0, 0],
+			"ffcm.antsim.comps.CVelocity": 
+			{
+				"maxVelocity": 0.3
+			},
 			
 			"ffcm.antsim.comps.CDrawable":
 			{

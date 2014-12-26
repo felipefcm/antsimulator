@@ -21,15 +21,23 @@ public class Terrain
 	private Viewport viewport;
 	private SpriteBatch spriteBatch;
 	
-	public Terrain(Vector2 size)
+	public Terrain(Vector2 worldSize)
 	{
-		this.size = size;
+		this.size = worldSize;
 		
 		viewport = ResourceManager._instance.viewport;
 		spriteBatch = ResourceManager._instance.spriteBatch;
 		
 		map = new TmxMapLoader().load("terrain/terrain1.tmx");
-		mapRenderer = new OrthogonalTiledMapRenderer(map, 2.5f, spriteBatch);
+		
+		int mapWidth = map.getProperties().get("width", Integer.class);
+		//int mapHeight = map.getProperties().get("height", Integer.class);
+		int tilePixelWidth = map.getProperties().get("tilewidth", Integer.class);
+		//int tilePixelHeight = map.getProperties().get("tileheight", Integer.class);
+		
+		float mapScale = World.WorldSize.x / (float)(mapWidth * tilePixelWidth);
+		
+		mapRenderer = new OrthogonalTiledMapRenderer(map, mapScale, spriteBatch);
 		mapRenderer.setView(ResourceManager._instance.mainCamera);
 	}
 	
