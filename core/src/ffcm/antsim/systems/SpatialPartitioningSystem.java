@@ -8,25 +8,25 @@ import com.badlogic.gdx.math.Rectangle;
 
 import ffcm.antsim.World;
 import ffcm.antsim.nodes.SpatialNode;
-import ffcm.antsim.resource.QuadTree;
+import ffcm.antsim.resource.quadtree.QuadTree;
+import ffcm.ecs.Entity;
 import ffcm.ecs.INode;
 import ffcm.ecs.ISystem;
 import ffcm.ecs.NodeMap;
 
 public class SpatialPartitioningSystem implements ISystem
 {
-	private QuadTree quadTree;
+	public QuadTree<Entity> quadTree;
 	
 	@Override
 	public void Start()
 	{
-		quadTree = new QuadTree(new Rectangle(0, 0, World.WorldSize.x, World.WorldSize.y));
+		quadTree = new QuadTree<Entity>(new Rectangle(0, 0, World.WorldSize.x, World.WorldSize.y));
 	}
 
 	@Override
 	public void End()
 	{
-		
 	}
 
 	@Override
@@ -45,7 +45,7 @@ public class SpatialPartitioningSystem implements ISystem
 		{
 			SpatialNode node = (SpatialNode) it.next();
 			
-			quadTree.Add(node.transform.position);
+			quadTree.Add(node.quadTreeDataNode);
 		}
 	}
 

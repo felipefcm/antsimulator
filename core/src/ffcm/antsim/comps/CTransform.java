@@ -9,12 +9,12 @@ import ffcm.ecs.IComponent;
 public class CTransform implements IComponent
 {
 	public Vector2 position;
-	public float rotation;
+	public Float rotation;
 	
 	public CTransform()
 	{
 		position = new Vector2();
-		rotation = 0;
+		rotation = 0.0f;
 	}
 
 	@Override

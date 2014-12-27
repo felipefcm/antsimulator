@@ -13,10 +13,11 @@ import ffcm.antsim.resource.ResourceManager;
 
 public class Terrain
 {
-	private TiledMap map;
+	public TiledMap map;
 	private TiledMapRenderer mapRenderer;
 	
 	private Vector2 size;
+	public float mapScale;
 	
 	private Viewport viewport;
 	private SpriteBatch spriteBatch;
@@ -35,7 +36,7 @@ public class Terrain
 		int tilePixelWidth = map.getProperties().get("tilewidth", Integer.class);
 		//int tilePixelHeight = map.getProperties().get("tileheight", Integer.class);
 		
-		float mapScale = World.WorldSize.x / (float)(mapWidth * tilePixelWidth);
+		mapScale = World.WorldSize.x / (float)(mapWidth * tilePixelWidth);
 		
 		mapRenderer = new OrthogonalTiledMapRenderer(map, mapScale, spriteBatch);
 		mapRenderer.setView(ResourceManager._instance.mainCamera);

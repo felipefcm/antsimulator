@@ -15,6 +15,7 @@ import ffcm.antsim.input.AppInput;
 import ffcm.antsim.resource.ResourceManager;
 import ffcm.antsim.systems.DrawSystem;
 import ffcm.antsim.systems.MoveSystem;
+import ffcm.antsim.systems.SelectSystem;
 import ffcm.antsim.systems.SpatialPartitioningSystem;
 import ffcm.antsim.systems.WanderBehaviourSystem;
 import ffcm.ecs.ECSManager;
@@ -47,6 +48,7 @@ public class AntSim extends ApplicationAdapter
 	private DrawSystem drawSystem;
 	private WanderBehaviourSystem wanderSystem;
 	private SpatialPartitioningSystem spatialPartSystem;
+	public SelectSystem selectSystem;
 	
 	@Override
 	public void create() 
@@ -67,11 +69,13 @@ public class AntSim extends ApplicationAdapter
 		drawSystem = new DrawSystem();
 		wanderSystem = new WanderBehaviourSystem();
 		spatialPartSystem = new SpatialPartitioningSystem();
+		selectSystem = new SelectSystem(spatialPartSystem);
 		
 		ECSManager._instance.AddSystem(moveSystem);
 		ECSManager._instance.AddSystem(drawSystem);
 		ECSManager._instance.AddSystem(wanderSystem);
 		ECSManager._instance.AddSystem(spatialPartSystem);
+		ECSManager._instance.AddSystem(selectSystem);
 		
 		world = new World();
 		
@@ -82,7 +86,7 @@ public class AntSim extends ApplicationAdapter
 		
 		Gdx.input.setInputProcessor(new InputMultiplexer(menuBar.stage, appInput));
 		
-		Gdx.gl.glClearColor(0.5f, 0.5f, 0.55f, 1.0f);
+		Gdx.gl.glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
 	}
 	
 	private void Update()
@@ -112,7 +116,7 @@ public class AntSim extends ApplicationAdapter
 	{
 		super.resize(width, height);
 		
-		viewport.update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);
+		viewport.update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		guiViewport.update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);
 	}
 	
@@ -131,7 +135,7 @@ public class AntSim extends ApplicationAdapter
 		spriteBatch.setProjectionMatrix(ResourceManager._instance.guiCamera.combined);
 		spriteBatch.begin();
 		{
-			font.draw(spriteBatch, numFPS + " | " + world.GetNumAnts(), 10.0f, 20.0f);
+			font.draw(spriteBatch, numFPS + " | " + world.numAnts, 10.0f, 20.0f);
 		}
 		spriteBatch.end();
 		

@@ -3,21 +3,21 @@ package ffcm.antsim.comps;
 
 import com.badlogic.gdx.utils.JsonValue;
 
-import ffcm.antsim.Terrain;
 import ffcm.ecs.IComponent;
 
 public class CWander implements IComponent
 {
-	public float circleRadius;
-	public float circleDistance;
-	public float wanderAngle;
-	public Terrain terrain;
+	public Float circleRadius;
+	public Float circleDistance;
+	public Float wanderAngle;
+	public Boolean avoidObstacles;
 	
 	public CWander()
 	{
 		circleRadius = 1.0f;
 		circleDistance = 1.0f;
-		wanderAngle = 0;
+		wanderAngle = 0.0f;
+		avoidObstacles = true;
 	}
 	
 	@Override
@@ -28,6 +28,7 @@ public class CWander implements IComponent
 		wander.circleRadius = circleRadius;
 		wander.circleDistance = circleDistance;
 		wander.wanderAngle = wanderAngle;
+		wander.avoidObstacles = avoidObstacles;
 		
 		return wander;
 	}

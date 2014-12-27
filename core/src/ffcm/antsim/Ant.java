@@ -30,14 +30,14 @@ public class Ant extends Entity
 		drawable.sprite.setSize(World.WorldSize.x / 200.0f, World.WorldSize.y / (200.0f * 0.686f));
 		drawable.sprite.setOriginCenter();
 		
-		transform.rotation = ResourceManager._instance.random.nextInt() % 360;
-		
-		wander.terrain = AntSim.antSim.world.terrain;
+		transform.rotation = (float) (ResourceManager._instance.random.nextInt() % 360);
 		
 		MovableNode movableNode = new MovableNode(transform, velocity);
 		DrawableNode drawableNode = new DrawableNode(drawable, transform);
 		WanderNode wanderNode = new WanderNode(wander, transform, velocity);
-		SpatialNode spatialNode = new SpatialNode(transform);
+		SpatialNode spatialNode = new SpatialNode(transform, this);
+		
+		wanderNode.terrain = AntSim.antSim.world.terrain;
 		
 		nodeMap.AddNode(MovableNode.class, movableNode);
 		nodeMap.AddNode(DrawableNode.class, drawableNode);

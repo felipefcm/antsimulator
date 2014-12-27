@@ -9,7 +9,7 @@ import ffcm.ecs.IComponent;
 public class CVelocity implements IComponent
 {
 	public Vector2 vector;
-	public float maxVelocity;
+	public Float maxVelocity;
 	
 	public CVelocity()
 	{

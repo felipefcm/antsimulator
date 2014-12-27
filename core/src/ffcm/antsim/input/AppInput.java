@@ -9,6 +9,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 import ffcm.antsim.Ant;
+import ffcm.antsim.AntSim;
 import ffcm.antsim.World;
 import ffcm.antsim.comps.CTransform;
 import ffcm.antsim.comps.CVelocity;
@@ -42,7 +43,28 @@ public class AppInput extends InputAdapter
 			rightButtonDown = true;
 			mouseMoveStarted = viewport.unproject(new Vector2(screenX, screenY));
 		}
-		else
+		else if(button == Input.Buttons.LEFT)
+		{
+			Vector2 worldPos = viewport.unproject(new Vector2(screenX, screenY));
+			
+			Log.Info("Clicked on world position: " + worldPos.x + ", " + worldPos.y);
+			
+			final int antsToAdd = 10;
+			
+			for(int i = 0; i < antsToAdd; ++i)
+			{
+				Ant ant = EntityFactory._instance.CreateEntity(Ant.class);
+				
+				ant.GetComponent(CTransform.class).position.set(worldPos);
+				ant.GetComponent(CVelocity.class).vector.set(ResourceManager._instance.random.nextFloat() * (ResourceManager._instance.random.nextBoolean() ? 1.0f : -1.0f), ResourceManager._instance.random.nextFloat() * (ResourceManager._instance.random.nextBoolean() ? 1.0f : -1.0f));
+				
+				ECSManager._instance.AddEntity(ant);
+				world.AddAnt(ant);
+			}
+			
+			world.numAnts += antsToAdd;
+		}
+		else	
 			return false;
 		
 		return true;
@@ -80,14 +102,6 @@ public class AppInput extends InputAdapter
 		
 		Log.Info("Clicked on world position: " + worldPos.x + ", " + worldPos.y);
 		
-		Ant ant = EntityFactory._instance.CreateEntity(Ant.class);
-		
-		ant.GetComponent(CTransform.class).position.set(worldPos);
-		ant.GetComponent(CVelocity.class).vector.set(0.1f, 0.1f);
-		
-		ECSManager._instance.AddEntity(ant);
-		world.AddAnt(ant);
-		
 		return true;
 	};
 	
@@ -106,12 +120,19 @@ public class AppInput extends InputAdapter
 	}
 	
 	@Override
-	public boolean keyUp(int keycode)
+	public boolean keyDown(int keycode)
 	{
 		if(keycode == Input.Keys.G)
 		{
 			world.drawGrid = !world.drawGrid;
 			return true;
+		}
+		
+		if(keycode == Input.Keys.S)
+		{
+			Vector2 worldPos = viewport.unproject(new Vector2(Gdx.input.getX(), Gdx.input.getY()));
+			
+			AntSim.antSim.selectSystem.Clicked(worldPos);
 		}
 		
 		return false;

@@ -1,6 +1,7 @@
 
-package ffcm.antsim.resource;
+package ffcm.antsim.resource.quadtree;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -8,7 +9,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
-public class QuadTree
+public class QuadTree<T>
 {	
 	public static final int BucketSize = 2;
 	
@@ -19,58 +20,60 @@ public class QuadTree
 	
 	public static int numComp = 0;
 	
-	public ArrayList<Vector2> data;
-	public QuadTree[] child;
+	public ArrayList<QuadTreeDataNode<T>> data;
+	public QuadTree<T>[] child;
 	public Rectangle area;
 	
 	public QuadTree(final Rectangle area)
 	{	
-		data = new ArrayList<Vector2>(BucketSize);
+		data = new ArrayList<QuadTreeDataNode<T>>(BucketSize);
 		
 		this.area = area;
 	}
 	
-	public boolean Add(final Vector2 newPoint)
+	public boolean Add(final QuadTreeDataNode<T> newNode)
 	{
-		if(!area.contains(newPoint))
+		if(!area.contains(newNode.position))
 			return false;
 		
 		if(data.size() < BucketSize)
 		{
-			data.add(newPoint);
+			data.add(newNode);
 			return true;
 		}
 		
 		if(child == null)
 			Split();
 
-		if(child[TopLeft].Add(newPoint))
+		if(child[TopLeft].Add(newNode))
 			return true;
 		
-		if(child[BottomLeft].Add(newPoint))
+		if(child[BottomLeft].Add(newNode))
 			return true;
 		
-		if(child[BottomRight].Add(newPoint))
+		if(child[BottomRight].Add(newNode))
 			return true;
 		
-		if(child[TopRight].Add(newPoint))
+		if(child[TopRight].Add(newNode))
 			return true;
 		
 		Gdx.app.error("QuadTree", "Could not add node in tree");
 		return false;
 	}
 	
+	@SuppressWarnings("unchecked")
 	private void Split()
 	{
-		child = new QuadTree[4];
+		//child = new QuadTree<T>[4];
+		child = (QuadTree<T>[]) Array.newInstance(QuadTree.class, 4);
 		
 		float halfWidth = area.width * 0.5f;
 		float halfHeight = area.height * 0.5f;
 		
-		child[TopLeft] = new QuadTree(new Rectangle(area.x, area.y + halfHeight, halfWidth, halfHeight));
-		child[BottomLeft] = new QuadTree(new Rectangle(area.x, area.y, halfWidth, halfHeight));
-		child[BottomRight] = new QuadTree(new Rectangle(area.x + halfWidth, area.y, halfWidth, halfHeight));
-		child[TopRight] = new QuadTree(new Rectangle(area.x + halfWidth, area.y + halfHeight, halfWidth, halfHeight));
+		child[TopLeft] = new QuadTree<T>(new Rectangle(area.x, area.y + halfHeight, halfWidth, halfHeight));
+		child[BottomLeft] = new QuadTree<T>(new Rectangle(area.x, area.y, halfWidth, halfHeight));
+		child[BottomRight] = new QuadTree<T>(new Rectangle(area.x + halfWidth, area.y, halfWidth, halfHeight));
+		child[TopRight] = new QuadTree<T>(new Rectangle(area.x + halfWidth, area.y + halfHeight, halfWidth, halfHeight));
 	}
 	
 	public Vector2[] SearchArea(final Rectangle searchArea)
@@ -84,7 +87,7 @@ public class QuadTree
 		
 		for(int i = 0; i < data.size(); ++i)
 		{
-			Vector2 point = data.get(i);
+			Vector2 point = data.get(i).position;
 			
 			if(searchArea.contains(point))
 				points.add(point);
@@ -110,7 +113,8 @@ public class QuadTree
 		if(!area.contains(point))
 			return new Vector2[0];
 		
-		points.addAll(data);
+		for(QuadTreeDataNode<T> i : data)
+			points.add(i.position);
 		
 		if(child != null)
 		{
@@ -132,7 +136,7 @@ public class QuadTree
 		
 		for(int i = 0; i < data.size(); ++i)
 		{
-			Vector2 dataPoint = data.get(i);
+			Vector2 dataPoint = data.get(i).position;
 			
 			if(dataPoint.epsilonEquals(point, 0.05f))
 				return true;
@@ -155,7 +159,7 @@ public class QuadTree
 	public void FastClear()
 	{
 		data.clear();
-		data = new ArrayList<Vector2>(BucketSize);
+		data = new ArrayList<QuadTreeDataNode<T>>(BucketSize);
 		
 		child = null;
 	}

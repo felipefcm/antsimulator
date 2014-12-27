@@ -9,8 +9,8 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
-import ffcm.antsim.resource.QuadTree;
 import ffcm.antsim.resource.ResourceManager;
+import ffcm.antsim.resource.quadtree.QuadTree;
 
 public class World
 {
@@ -18,7 +18,9 @@ public class World
 	private static final int GridCellSize = 32; 
 	public static final Vector2 WorldSize = new Vector2(1024, 1024);
 	
-	public boolean drawGrid = false;	
+	public boolean drawGrid = false;
+	
+	public int numAnts = 0;
 	
 	private Viewport viewport;
 	private ShapeRenderer shapeRenderer;
@@ -112,11 +114,5 @@ public class World
 			}
 		}
 		shapeRenderer.end();
-	}
-	
-	public int GetNumAnts()
-	{
-		//return antList.size();
-		return 0;
 	}
 }
