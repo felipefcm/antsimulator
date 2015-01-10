@@ -127,10 +127,14 @@ public class AppInput extends InputAdapter
 			world.drawGrid = !world.drawGrid;
 			return true;
 		}
-		
+		else
 		if(keycode == Input.Keys.S)
-		{
-			Vector2 worldPos = viewport.unproject(new Vector2(Gdx.input.getX(), Gdx.input.getY()));
+		{			
+			Vector2 mouseScreenPos = new Vector2(Gdx.input.getX(), Gdx.input.getY());
+			
+			Vector2 worldPos = viewport.unproject(mouseScreenPos);
+			
+			Log.Debug("Searching world point: " + worldPos.x + "," + worldPos.y);
 			
 			AntSim.antSim.selectSystem.Clicked(worldPos);
 		}

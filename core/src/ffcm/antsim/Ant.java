@@ -2,6 +2,7 @@
 package ffcm.antsim;
 
 import ffcm.antsim.comps.CDrawable;
+import ffcm.antsim.comps.CSelectable;
 import ffcm.antsim.comps.CTransform;
 import ffcm.antsim.comps.CVelocity;
 import ffcm.antsim.comps.CWander;
@@ -26,6 +27,7 @@ public class Ant extends Entity
 		CVelocity velocity = GetComponent(CVelocity.class);
 		CWander wander = GetComponent(CWander.class);
 		CDrawable drawable = GetComponent(CDrawable.class);
+		CSelectable selectable = GetComponent(CSelectable.class);
 		
 		drawable.sprite.setSize(World.WorldSize.x / 200.0f, World.WorldSize.y / (200.0f * 0.686f));
 		drawable.sprite.setOriginCenter();

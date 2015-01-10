@@ -18,8 +18,6 @@ public class QuadTree<T>
 	private static final int BottomLeft = 2;
 	private static final int BottomRight = 3;
 	
-	public static int numComp = 0;
-	
 	public ArrayList<QuadTreeDataNode<T>> data;
 	public QuadTree<T>[] child;
 	public Rectangle area;
@@ -76,45 +74,49 @@ public class QuadTree<T>
 		child[TopRight] = new QuadTree<T>(new Rectangle(area.x + halfWidth, area.y + halfHeight, halfWidth, halfHeight));
 	}
 	
-	public Vector2[] SearchArea(final Rectangle searchArea)
+	@SuppressWarnings("unchecked")
+	public T[] SearchArea(final Rectangle searchArea)
 	{
-		ArrayList<Vector2> points = new ArrayList<Vector2>();
-		
-		numComp++;
+		ArrayList<T> inside = new ArrayList<T>();
 		
 		if(!area.overlaps(searchArea))
-			return new Vector2[0];
+			//return (T[]) inside.toArray();
+			return (T[]) Array.newInstance(Object.class, 0);
 		
 		for(int i = 0; i < data.size(); ++i)
 		{
 			Vector2 point = data.get(i).position;
 			
 			if(searchArea.contains(point))
-				points.add(point);
+				inside.add(data.get(i).info);
 		}
+		
+		//TODO make performance optimizations
 		
 		if(child != null)
 		{
 			for(int i = 0; i < child.length; ++i)
-				points.addAll(Arrays.asList(child[i].SearchArea(searchArea)));
+				inside.addAll(Arrays.asList(child[i].SearchArea(searchArea)));
 		}
 			
-		Vector2[] vecs = points.toArray(new Vector2[points.size()]);
+		T[] vecs = (T[]) inside.toArray((T[]) Array.newInstance(Object.class, inside.size()));
 		
 		return vecs;
 	}
 	
-	public Vector2[] GetPathToPoint(final Vector2 point)
+	@SuppressWarnings("unchecked")
+	public T[] GetPathToPoint(final Vector2 point)
 	{
-		ArrayList<Vector2> points = new ArrayList<Vector2>();
-		
-		numComp++;
+		ArrayList<T> points = new ArrayList<T>();
 		
 		if(!area.contains(point))
-			return new Vector2[0];
+			//return (T[]) points.toArray();
+			return (T[]) Array.newInstance(Object.class, 0);
 		
 		for(QuadTreeDataNode<T> i : data)
-			points.add(i.position);
+			points.add(i.info);
+
+		//TODO make performance optimizations
 		
 		if(child != null)
 		{
@@ -122,15 +124,13 @@ public class QuadTree<T>
 				points.addAll(Arrays.asList(child[i].GetPathToPoint(point)));
 		}
 		
-		Vector2[] vecs = points.toArray(new Vector2[points.size()]);
+		T[] vecs = (T[]) points.toArray((T[]) Array.newInstance(Object.class, points.size()));
 		
 		return vecs;
 	}
 	
 	public boolean Contains(final Vector2 point)
-	{
-		numComp++;
-		
+	{	
 		if(!area.contains(point))
 			return false;
 		
