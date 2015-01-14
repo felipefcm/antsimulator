@@ -5,12 +5,14 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
+import ffcm.antsim.comps.CTransform;
+import ffcm.antsim.comps.CVelocity;
 import ffcm.antsim.resource.ResourceManager;
-import ffcm.antsim.resource.quadtree.QuadTree;
+import ffcm.ecs.ECSManager;
+import ffcm.ecs.EntityFactory;
 
 public class World
 {
@@ -27,8 +29,6 @@ public class World
 	
 	public Terrain terrain;
 	
-	private QuadTree quadTree;
-	
 	public World()
 	{		
 		viewport = ResourceManager._instance.viewport;
@@ -39,15 +39,7 @@ public class World
 	
 	public void Update()
 	{
-		if(quadTree != null)
-			quadTree.Clear();
 		
-		quadTree = new QuadTree(new Rectangle(-WorldSize.x * 0.5f, -WorldSize.y * 0.5f, WorldSize.x, WorldSize.y));
-		
-		/*
-		for(int i = 0; i < antList.size(); ++i)
-			quadTree.Add(antList.get(i).GetComponent(CTransform.class).position);
-		*/
 	}
 	
 	public void Draw()
@@ -61,9 +53,19 @@ public class World
 		}
 	}
 	
-	public void AddAnt(Ant ant)
+	public void SpawnAnts(int num, Vector2 worldPos)
 	{
-		//antList.add(ant);
+		for(int i = 0; i < num; ++i)
+		{
+			Ant ant = EntityFactory._instance.CreateEntity(Ant.class);
+			
+			ant.GetComponent(CTransform.class).position.set(worldPos);
+			ant.GetComponent(CVelocity.class).vector.set(ResourceManager._instance.random.nextFloat() * (ResourceManager._instance.random.nextBoolean() ? 1.0f : -1.0f), ResourceManager._instance.random.nextFloat() * (ResourceManager._instance.random.nextBoolean() ? 1.0f : -1.0f));
+			
+			ECSManager._instance.AddEntity(ant);
+		}
+		
+		this.numAnts += num;
 	}
 	
 	private void DrawWorldOrigin()

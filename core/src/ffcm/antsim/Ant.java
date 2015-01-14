@@ -8,6 +8,7 @@ import ffcm.antsim.comps.CVelocity;
 import ffcm.antsim.comps.CWander;
 import ffcm.antsim.nodes.DrawableNode;
 import ffcm.antsim.nodes.MovableNode;
+import ffcm.antsim.nodes.SelectableNode;
 import ffcm.antsim.nodes.SpatialNode;
 import ffcm.antsim.nodes.WanderNode;
 import ffcm.antsim.resource.ResourceManager;
@@ -37,7 +38,8 @@ public class Ant extends Entity
 		MovableNode movableNode = new MovableNode(transform, velocity);
 		DrawableNode drawableNode = new DrawableNode(drawable, transform);
 		WanderNode wanderNode = new WanderNode(wander, transform, velocity);
-		SpatialNode spatialNode = new SpatialNode(transform, this);
+		SpatialNode spatialNode = new SpatialNode(drawable.sprite, transform, this);
+		SelectableNode selectableNode = new SelectableNode();
 		
 		wanderNode.terrain = AntSim.antSim.world.terrain;
 		
@@ -45,5 +47,6 @@ public class Ant extends Entity
 		nodeMap.AddNode(DrawableNode.class, drawableNode);
 		nodeMap.AddNode(WanderNode.class, wanderNode);
 		nodeMap.AddNode(SpatialNode.class, spatialNode);
+		nodeMap.AddNode(SelectableNode.class, selectableNode);
 	}
 }

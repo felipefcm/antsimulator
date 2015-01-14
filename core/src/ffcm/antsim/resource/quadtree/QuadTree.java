@@ -18,20 +18,20 @@ public class QuadTree<T>
 	private static final int BottomLeft = 2;
 	private static final int BottomRight = 3;
 	
-	public ArrayList<QuadTreeDataNode<T>> data;
+	public ArrayList<QuadTreeData<T>> data;
 	public QuadTree<T>[] child;
 	public Rectangle area;
 	
 	public QuadTree(final Rectangle area)
 	{	
-		data = new ArrayList<QuadTreeDataNode<T>>(BucketSize);
+		data = new ArrayList<QuadTreeData<T>>(BucketSize);
 		
 		this.area = area;
 	}
 	
-	public boolean Add(final QuadTreeDataNode<T> newNode)
+	public boolean Add(final QuadTreeData<T> newNode)
 	{
-		if(!area.contains(newNode.position))
+		if(!area.overlaps(newNode.bounds))
 			return false;
 		
 		if(data.size() < BucketSize)
@@ -85,9 +85,9 @@ public class QuadTree<T>
 		
 		for(int i = 0; i < data.size(); ++i)
 		{
-			Vector2 point = data.get(i).position;
+			Rectangle box = data.get(i).bounds;
 			
-			if(searchArea.contains(point))
+			if(searchArea.overlaps(box))
 				inside.add(data.get(i).info);
 		}
 		
@@ -113,7 +113,7 @@ public class QuadTree<T>
 			//return (T[]) points.toArray();
 			return (T[]) Array.newInstance(Object.class, 0);
 		
-		for(QuadTreeDataNode<T> i : data)
+		for(QuadTreeData<T> i : data)
 			points.add(i.info);
 
 		//TODO make performance optimizations
@@ -136,7 +136,7 @@ public class QuadTree<T>
 		
 		for(int i = 0; i < data.size(); ++i)
 		{
-			Vector2 dataPoint = data.get(i).position;
+			Vector2 dataPoint = data.get(i).bounds.getPosition(Vector2.Zero);
 			
 			if(dataPoint.epsilonEquals(point, 0.05f))
 				return true;
@@ -159,7 +159,7 @@ public class QuadTree<T>
 	public void FastClear()
 	{
 		data.clear();
-		data = new ArrayList<QuadTreeDataNode<T>>(BucketSize);
+		data = new ArrayList<QuadTreeData<T>>(BucketSize);
 		
 		child = null;
 	}

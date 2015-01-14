@@ -61,13 +61,12 @@ public class DrawSystem implements ISystem
 			}
 		}
 		spriteBatch.end();
-		
 		/*
+		it = nodeList.iterator();
+		
 		shapeRenderer.setProjectionMatrix(camera.combined);
 		shapeRenderer.begin(ShapeType.Line);
-		{
-			it = nodeList.iterator();
-			
+		{	
 			while(it.hasNext())
 			{
 				DrawableNode node = (DrawableNode) it.next();
@@ -75,7 +74,8 @@ public class DrawSystem implements ISystem
 				CTransform transform = node.transform;
 				CDrawable drawable = node.drawable;
 				
-				//Rectangle bound = drawable.sprite.getx;
+				drawable.sprite.setPosition(transform.position.x, transform.position.y);
+				drawable.sprite.setRotation(transform.rotation);
 				
 				shapeRenderer.rect(drawable.sprite.getX(), drawable.sprite.getY(), drawable.sprite.getWidth(), drawable.sprite.getHeight());
 			}
@@ -92,6 +92,6 @@ public class DrawSystem implements ISystem
 	@Override
 	public int GetPriority()
 	{
-		return LowPriority;
+		return RenderPriority;
 	}	
 }

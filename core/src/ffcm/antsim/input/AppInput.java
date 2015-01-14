@@ -8,15 +8,10 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
-import ffcm.antsim.Ant;
 import ffcm.antsim.AntSim;
 import ffcm.antsim.World;
-import ffcm.antsim.comps.CTransform;
-import ffcm.antsim.comps.CVelocity;
 import ffcm.antsim.resource.Log;
 import ffcm.antsim.resource.ResourceManager;
-import ffcm.ecs.ECSManager;
-import ffcm.ecs.EntityFactory;
 
 public class AppInput extends InputAdapter
 {
@@ -49,20 +44,7 @@ public class AppInput extends InputAdapter
 			
 			Log.Info("Clicked on world position: " + worldPos.x + ", " + worldPos.y);
 			
-			final int antsToAdd = 10;
-			
-			for(int i = 0; i < antsToAdd; ++i)
-			{
-				Ant ant = EntityFactory._instance.CreateEntity(Ant.class);
-				
-				ant.GetComponent(CTransform.class).position.set(worldPos);
-				ant.GetComponent(CVelocity.class).vector.set(ResourceManager._instance.random.nextFloat() * (ResourceManager._instance.random.nextBoolean() ? 1.0f : -1.0f), ResourceManager._instance.random.nextFloat() * (ResourceManager._instance.random.nextBoolean() ? 1.0f : -1.0f));
-				
-				ECSManager._instance.AddEntity(ant);
-				world.AddAnt(ant);
-			}
-			
-			world.numAnts += antsToAdd;
+			world.SpawnAnts(5, worldPos);
 		}
 		else	
 			return false;
@@ -127,16 +109,21 @@ public class AppInput extends InputAdapter
 			world.drawGrid = !world.drawGrid;
 			return true;
 		}
-		else
-		if(keycode == Input.Keys.S)
+		else if(keycode == Input.Keys.S)
 		{			
 			Vector2 mouseScreenPos = new Vector2(Gdx.input.getX(), Gdx.input.getY());
-			
 			Vector2 worldPos = viewport.unproject(mouseScreenPos);
 			
 			Log.Debug("Searching world point: " + worldPos.x + "," + worldPos.y);
 			
 			AntSim.antSim.selectSystem.Clicked(worldPos);
+		}
+		else if(keycode == Input.Keys.A)
+		{
+			Vector2 mouseScreenPos = new Vector2(Gdx.input.getX(), Gdx.input.getY());
+			Vector2 worldPos = viewport.unproject(mouseScreenPos);
+			
+			world.SpawnAnts(200, worldPos);
 		}
 		
 		return false;

@@ -65,13 +65,15 @@ public class SelectSystem implements ISystem
 							2.0f * PositionTolerance
 						);
 		
-		Entity[] entities = spatialSystem.quadTree.SearchArea(area);
+		Entity[] entities = (Entity[]) spatialSystem.quadTree.SearchArea(area);
 		
 		if(entities.length <= 0)
 		{
 			Log.Debug("No entities found");
 			return;
 		}
+		
+		Log.Debug("Entities found: " + entities.length);
 		
 		for(int i = 0; i < entities.length; ++i)
 		{

@@ -20,7 +20,6 @@ public abstract class Entity
 		components = new HashMap<String, IComponent>();
 	}
 	
-	//public abstract void LoadFromDisk(JsonValue jsonObj);
 	public abstract void AddNodes(NodeMap nodeMap);
 	
 	public int GetId()
