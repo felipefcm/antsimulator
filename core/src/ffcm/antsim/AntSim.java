@@ -12,20 +12,15 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 
 import ffcm.antsim.gui.MenuBar;
 import ffcm.antsim.input.AppInput;
-import ffcm.antsim.resource.ResourceManager;
-import ffcm.antsim.systems.DrawSystem;
-import ffcm.antsim.systems.MoveSystem;
-import ffcm.antsim.systems.SelectSystem;
-import ffcm.antsim.systems.SpatialPartitioningSystem;
-import ffcm.antsim.systems.WanderBehaviourSystem;
+import ffcm.antsim.resource.Resources;
+import ffcm.ecs.ECSConfig;
 import ffcm.ecs.ECSManager;
-import ffcm.ecs.EntityFactory;
 
 public class AntSim extends ApplicationAdapter 
 {
-	public static final int V_WIDTH = 640;
-	public static final int V_HEIGHT = 480;
-	public static final float DESKTOP_SCALE = 2.0f;
+	public static final int V_WIDTH = 1024;
+	public static final int V_HEIGHT = 768;
+	public static final float DESKTOP_SCALE = 1.2f;
 	
 	public static AntSim antSim;
 	
@@ -37,18 +32,12 @@ public class AntSim extends ApplicationAdapter
 	private Viewport guiViewport;
 	private SpriteBatch spriteBatch;
 	private BitmapFont font;
-	
+
 	private AppInput appInput;
-	
+
 	public World world;
 	
 	private MenuBar menuBar;
-	
-	private MoveSystem moveSystem;
-	private DrawSystem drawSystem;
-	private WanderBehaviourSystem wanderSystem;
-	private SpatialPartitioningSystem spatialPartSystem;
-	public SelectSystem selectSystem;
 	
 	@Override
 	public void create() 
@@ -56,27 +45,22 @@ public class AntSim extends ApplicationAdapter
 		antSim = this;
 		
 		Gdx.app.setLogLevel(Application.LOG_DEBUG);
-		
-		ResourceManager._instance.InitTextures();
-		EntityFactory._instance.Init("data/entities.json");
-		
-		viewport = ResourceManager._instance.viewport;
-		guiViewport = ResourceManager._instance.guiViewport;
-		spriteBatch = ResourceManager._instance.spriteBatch;
-		font = ResourceManager._instance.font;
-		
-		moveSystem = new MoveSystem();
-		drawSystem = new DrawSystem();
-		wanderSystem = new WanderBehaviourSystem();
-		spatialPartSystem = new SpatialPartitioningSystem();
-		selectSystem = new SelectSystem(spatialPartSystem);
-		
-		ECSManager._instance.AddSystem(moveSystem);
-		ECSManager._instance.AddSystem(drawSystem);
-		ECSManager._instance.AddSystem(wanderSystem);
-		ECSManager._instance.AddSystem(spatialPartSystem);
-		ECSManager._instance.AddSystem(selectSystem);
-		
+
+		Resources.instance.Init();
+
+		viewport = Resources.instance.viewport;
+		guiViewport = Resources.instance.guiViewport;
+		spriteBatch = Resources.instance.spriteBatch;
+		font = Resources.instance.font;
+
+        ECSConfig ecsConfig = new ECSConfig();
+        ecsConfig.spriteBatch = Resources.instance.spriteBatch;
+        ecsConfig.shapeRenderer = Resources.instance.shapeRenderer;
+        ecsConfig.mainCamera = Resources.instance.mainCamera;
+        ecsConfig.guiCamera = Resources.instance.guiCamera;
+
+		ECSManager.instance.Init(ecsConfig);
+
 		world = new World();
 		
 		menuBar = new MenuBar();
@@ -86,7 +70,7 @@ public class AntSim extends ApplicationAdapter
 		
 		Gdx.input.setInputProcessor(new InputMultiplexer(menuBar.stage, appInput));
 		
-		Gdx.gl.glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
+		Gdx.gl.glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
 	}
 	
 	private void Update()
@@ -108,7 +92,7 @@ public class AntSim extends ApplicationAdapter
 		world.Update();
 		world.Draw();
 		
-		ECSManager._instance.Update();
+        ECSManager.instance.Update();
 	}
 	
 	@Override
@@ -132,7 +116,7 @@ public class AntSim extends ApplicationAdapter
 	
 	private void DrawGUI()
 	{
-		spriteBatch.setProjectionMatrix(ResourceManager._instance.guiCamera.combined);
+		spriteBatch.setProjectionMatrix(Resources.instance.guiCamera.combined);
 		spriteBatch.begin();
 		{
 			font.draw(spriteBatch, numFPS + " | " + world.numAnts, 10.0f, 20.0f);
@@ -145,7 +129,7 @@ public class AntSim extends ApplicationAdapter
 	@Override
 	public void dispose()
 	{
-		spriteBatch.dispose();
+		Resources.instance.Dispose();
 		
 		super.dispose();
 	}

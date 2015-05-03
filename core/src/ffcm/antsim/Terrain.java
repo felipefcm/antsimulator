@@ -9,7 +9,7 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
-import ffcm.antsim.resource.ResourceManager;
+import ffcm.antsim.resource.Resources;
 
 public class Terrain
 {
@@ -26,8 +26,8 @@ public class Terrain
 	{
 		this.size = worldSize;
 		
-		viewport = ResourceManager._instance.viewport;
-		spriteBatch = ResourceManager._instance.spriteBatch;
+		viewport = Resources.instance.viewport;
+		spriteBatch = Resources.instance.spriteBatch;
 		
 		map = new TmxMapLoader().load("terrain/terrain1.tmx");
 		
@@ -39,12 +39,12 @@ public class Terrain
 		mapScale = World.WorldSize.x / (float)(mapWidth * tilePixelWidth);
 		
 		mapRenderer = new OrthogonalTiledMapRenderer(map, mapScale, spriteBatch);
-		mapRenderer.setView(ResourceManager._instance.mainCamera);
+		mapRenderer.setView(Resources.instance.mainCamera);
 	}
 	
 	public void Draw()
 	{
-		mapRenderer.setView(ResourceManager._instance.mainCamera);
+		mapRenderer.setView(Resources.instance.mainCamera);
 		mapRenderer.render();
 	}
 	

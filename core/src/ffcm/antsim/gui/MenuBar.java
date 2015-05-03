@@ -12,7 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 
-import ffcm.antsim.resource.ResourceManager;
+import ffcm.antsim.resource.Resources;
 
 public class MenuBar
 {	
@@ -35,9 +35,9 @@ public class MenuBar
 	
 	public void Init()
 	{
-		spriteBatch = ResourceManager._instance.spriteBatch;
-		shapeRenderer = ResourceManager._instance.shapeRenderer;
-		guiCamera = ResourceManager._instance.guiCamera;
+		spriteBatch = Resources.instance.spriteBatch;
+		shapeRenderer = Resources.instance.shapeRenderer;
+		guiCamera = Resources.instance.guiCamera;
 		
 		Texture uiAtlasTexture = new Texture(Gdx.files.internal("ui/ui_atlas.png"));
 		
@@ -58,7 +58,7 @@ public class MenuBar
 					guiCamera.viewportWidth * 0.05f, guiCamera.viewportHeight * 0.8f
 				);
 
-		stage = new Stage(ResourceManager._instance.guiViewport, spriteBatch);		
+		stage = new Stage(Resources.instance.guiViewport, spriteBatch);
 		stage.addActor(table);
 		
 		createAntButton = new ImageButton(skin, "createAntButton");

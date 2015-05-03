@@ -8,10 +8,9 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
-import ffcm.antsim.AntSim;
 import ffcm.antsim.World;
 import ffcm.antsim.resource.Log;
-import ffcm.antsim.resource.ResourceManager;
+import ffcm.antsim.resource.Resources;
 
 public class AppInput extends InputAdapter
 {
@@ -24,8 +23,8 @@ public class AppInput extends InputAdapter
 	
 	public AppInput(World world)
 	{
-		viewport = ResourceManager._instance.viewport;
-		mainCamera = ResourceManager._instance.mainCamera;
+		viewport = Resources.instance.viewport;
+		mainCamera = Resources.instance.mainCamera;
 		
 		this.world = world;
 	}
@@ -108,15 +107,6 @@ public class AppInput extends InputAdapter
 		{
 			world.drawGrid = !world.drawGrid;
 			return true;
-		}
-		else if(keycode == Input.Keys.S)
-		{			
-			Vector2 mouseScreenPos = new Vector2(Gdx.input.getX(), Gdx.input.getY());
-			Vector2 worldPos = viewport.unproject(mouseScreenPos);
-			
-			Log.Debug("Searching world point: " + worldPos.x + "," + worldPos.y);
-			
-			AntSim.antSim.selectSystem.Clicked(worldPos);
 		}
 		else if(keycode == Input.Keys.A)
 		{

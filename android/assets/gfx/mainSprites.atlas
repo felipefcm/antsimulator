@@ -1,0 +1,34 @@
+
+mainSprites.png
+size: 256,64
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+ant
+  rotate: false
+  xy: 44, 9
+  size: 35, 51
+  orig: 35, 51
+  offset: 0, 0
+  index: -1
+antChild
+  rotate: false
+  xy: 120, 37
+  size: 18, 23
+  orig: 18, 23
+  offset: 0, 0
+  index: -1
+food
+  rotate: false
+  xy: 2, 2
+  size: 40, 58
+  orig: 40, 58
+  offset: 0, 0
+  index: -1
+nest
+  rotate: false
+  xy: 81, 23
+  size: 37, 37
+  orig: 37, 37
+  offset: 0, 0
+  index: -1

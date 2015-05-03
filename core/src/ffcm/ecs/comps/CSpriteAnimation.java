@@ -1,0 +1,58 @@
+
+package ffcm.ecs.comps;
+
+import com.badlogic.ashley.core.Component;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.utils.Array;
+
+public class CSpriteAnimation extends Component
+{
+    public Array<TextureRegion> regions;
+
+    public int frame = 0;
+    public float time = 0;
+    public float changeTime = 0;
+
+    private int fps = 24;
+
+    public CSpriteAnimation(Array<TextureRegion> regions, int fps)
+    {
+        this.regions = regions;
+
+        SetFPS(fps);
+    }
+
+    public void SetFPS(int fps)
+    {
+        this.fps = fps;
+
+        time = 0;
+        changeTime = 1 / (float) fps;
+    }
+
+    public void CreateFromTexture(Texture texture, int rows, int cols)
+    {
+        int regionWidth = (int)(texture.getWidth() / (float) cols);
+        int regionHeight = (int)(texture.getHeight() / (float) rows);
+
+        regions = new Array<TextureRegion>(rows * cols);
+
+        for(int i = 0; i < rows; ++i)
+        {
+            for(int j = 0; j < cols; ++j)
+            {
+                TextureRegion region = new TextureRegion
+                (
+                    texture,
+                    j * regionWidth,
+                    i * regionHeight,
+                    regionWidth,
+                    regionHeight
+                );
+
+                regions.add(region);
+            }
+        }
+    }
+}

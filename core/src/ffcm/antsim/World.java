@@ -8,11 +8,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
-import ffcm.antsim.comps.CTransform;
-import ffcm.antsim.comps.CVelocity;
-import ffcm.antsim.resource.ResourceManager;
-import ffcm.ecs.ECSManager;
-import ffcm.ecs.EntityFactory;
+import ffcm.antsim.resource.Resources;
 
 public class World
 {
@@ -31,8 +27,8 @@ public class World
 	
 	public World()
 	{		
-		viewport = ResourceManager._instance.viewport;
-		shapeRenderer = ResourceManager._instance.shapeRenderer;
+		viewport = Resources.instance.viewport;
+		shapeRenderer = Resources.instance.shapeRenderer;
 		
 		terrain = new Terrain(WorldSize);
 	}
@@ -57,12 +53,7 @@ public class World
 	{
 		for(int i = 0; i < num; ++i)
 		{
-			Ant ant = EntityFactory._instance.CreateEntity(Ant.class);
-			
-			ant.GetComponent(CTransform.class).position.set(worldPos);
-			ant.GetComponent(CVelocity.class).vector.set(ResourceManager._instance.random.nextFloat() * (ResourceManager._instance.random.nextBoolean() ? 1.0f : -1.0f), ResourceManager._instance.random.nextFloat() * (ResourceManager._instance.random.nextBoolean() ? 1.0f : -1.0f));
-			
-			ECSManager._instance.AddEntity(ant);
+
 		}
 		
 		this.numAnts += num;
