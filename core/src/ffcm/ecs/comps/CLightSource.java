@@ -22,6 +22,12 @@ public class CLightSource extends Component
         this.lightSystem = lightSystem;
     }
 
+    public CLightSource(CLightSource source)
+    {
+        light = source.light;
+        lightSystem = source.lightSystem;
+    }
+
     public void SetAsPointLight(int numRays, Color color, float distance)
     {
         SetAsPointLight(numRays, color, distance, 0, 0);

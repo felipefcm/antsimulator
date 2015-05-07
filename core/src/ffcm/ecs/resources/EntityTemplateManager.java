@@ -10,19 +10,24 @@ public class EntityTemplateManager
 {
     public static EntityTemplateManager instance = new EntityTemplateManager();
 
-    private ObjectMap<String, JsonValue> dataMap;
+    private ObjectMap<String, EntityTemplate> templateMap;
 
     public EntityTemplateManager()
     {
-        dataMap = new ObjectMap<>();
+        templateMap = new ObjectMap<>();
     }
 
     public boolean ProcessTemplateFile(FileHandle file)
     {
         JsonReader reader = new JsonReader();
-        reader.parse(file);
+        JsonValue root = reader.parse(file);
+
+        for(JsonValue child = root.child; child != null; child = child.next)
+        {
+            String name = child.name;
 
 
+        }
 
         return true;
     }

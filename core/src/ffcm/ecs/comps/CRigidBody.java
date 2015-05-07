@@ -17,9 +17,15 @@ public class CRigidBody extends Component
     public CRigidBody()
     {
         bodyDef = new BodyDef();
-
         fixtureDef = new FixtureDef();
-
         massData = new MassData();
+    }
+
+    public CRigidBody(CRigidBody rigidBody)
+    {
+        bodyDef = rigidBody.bodyDef;
+        fixtureDef = rigidBody.fixtureDef;
+        massData = rigidBody.massData;
+        body = rigidBody.body;
     }
 }

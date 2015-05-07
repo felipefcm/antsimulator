@@ -14,4 +14,10 @@ public class CVelocity extends Component
         linear = new Vector2(0, 0);
         angular = 0;
     }
+
+    public CVelocity(CVelocity velocity)
+    {
+        linear = velocity.linear.cpy();
+        angular = velocity.angular;
+    }
 }

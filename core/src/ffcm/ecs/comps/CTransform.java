@@ -16,4 +16,11 @@ public class CTransform extends Component
         scale = new Vector2(1.0f, 1.0f);
         rotation = 0;
     }
+
+    public CTransform(CTransform transform)
+    {
+        position = transform.position.cpy();
+        scale = transform.scale.cpy();
+        rotation = transform.rotation;
+    }
 }

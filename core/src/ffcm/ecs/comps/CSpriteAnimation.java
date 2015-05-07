@@ -23,6 +23,15 @@ public class CSpriteAnimation extends Component
         SetFPS(fps);
     }
 
+    public CSpriteAnimation(CSpriteAnimation animation)
+    {
+        regions = animation.regions;
+        frame = animation.frame;
+        time = animation.time;
+        changeTime = animation.changeTime;
+        fps = animation.fps;
+    }
+
     public void SetFPS(int fps)
     {
         this.fps = fps;

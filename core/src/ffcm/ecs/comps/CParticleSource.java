@@ -15,6 +15,12 @@ public class CParticleSource extends Component
         particleEffect = new ParticleEffect();
     }
 
+    public CParticleSource(CParticleSource source)
+    {
+        particleEffect = source.particleEffect;
+        loop = source.loop;
+    }
+
     public void LoadEffect(FileHandle emitterFile, FileHandle imagesDir)
     {
         particleEffect.load(emitterFile, imagesDir);

@@ -36,6 +36,19 @@ public class CWander extends Component implements Steerable<Vector2>
         behaviour.setWanderOrientation(orientation);
     }
 
+    public CWander(CWander wander)
+    {
+        behaviour = wander.behaviour;
+        maxLinearSpeed = wander.maxLinearSpeed;
+        maxLinearAcceleration = wander.maxLinearAcceleration;
+        maxAngularSpeed = wander.maxAngularSpeed;
+        maxAngularAcceleration = wander.maxAngularAcceleration;
+
+        position = wander.position.cpy();
+        linearVel = wander.linearVel.cpy();
+        angularVel = wander.angularVel;
+    }
+
     public void SetSteerablePosition(Vector2 position)
     {
         this.position = position;

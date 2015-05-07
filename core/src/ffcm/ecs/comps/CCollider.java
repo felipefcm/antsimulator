@@ -31,6 +31,12 @@ public class CCollider extends Component
         shapeType = ShapeType.None;
     }
 
+    public CCollider(CCollider collider)
+    {
+        shape = collider.shape;
+        shapeType = collider.shapeType;
+    }
+
     public void SetAsBox(float width, float height)
     {
         PolygonShape poly = new PolygonShape();

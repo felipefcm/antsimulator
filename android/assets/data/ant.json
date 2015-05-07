@@ -1,10 +1,15 @@
 {	
+	"ffcm.ecs.comps.CSprite":
+	{
+		"name": "ant1"
+	},
+
 	"ffcm.ecs.comps.CWander":
 	{
-		"maxLinearSpeed": "20.0",
-		"maxLinearAcceleration": "5.0",
-		"maxAngularSpeed: "20.0",
-		"maxAngularAcceleration": "3.0",
+		"maxLinearSpeed": 20.0,
+		"maxLinearAcceleration": 5.0,
+		"maxAngularSpeed: 20.0,
+		"maxAngularAcceleration": 3.0,
 		"orientation": "",
 		"radius": "",
 		"offset": "",
