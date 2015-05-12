@@ -37,10 +37,10 @@ public class RenderManager
             renderables.put(passes[i], new Array<IRenderable>());
 
         state = new RenderState();
-        state.spriteBatch = ECSManager.instance.spriteBatch;
-        state.shapeRenderer = ECSManager.instance.shapeRenderer;
-        state.mainCamera = ECSManager.instance.mainCamera;
-        state.guiCamera = ECSManager.instance.guiCamera;
+        state.spriteBatch = ECSManager.instance.ecsConfig.spriteBatch;
+        state.shapeRenderer = ECSManager.instance.ecsConfig.shapeRenderer;
+        state.mainCamera = ECSManager.instance.ecsConfig.mainCamera;
+        state.guiCamera = ECSManager.instance.ecsConfig.guiCamera;
     }
 
     public void RegisterRenderable(RenderPass pass, final IRenderable renderable)

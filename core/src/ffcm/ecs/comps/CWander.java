@@ -6,8 +6,11 @@ import com.badlogic.gdx.ai.steer.Steerable;
 import com.badlogic.gdx.ai.steer.behaviors.Wander;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.JsonValue;
 
-public class CWander extends Component implements Steerable<Vector2>
+import ffcm.ecs.resources.ILoadableFromJSON;
+
+public class CWander extends Component implements Steerable<Vector2>, ILoadableFromJSON
 {
     public Wander<Vector2> behaviour;
 
@@ -20,6 +23,11 @@ public class CWander extends Component implements Steerable<Vector2>
     private Vector2 position;
     private Vector2 linearVel;
     private float angularVel;
+
+    public CWander()
+    {
+        this(1.0f, 1.0f);
+    }
 
     public CWander(float radius, float offset)
     {
@@ -173,5 +181,11 @@ public class CWander extends Component implements Steerable<Vector2>
     public void setMaxAngularAcceleration(float maxAngularAcceleration)
     {
         this.maxAngularAcceleration = maxAngularAcceleration;
+    }
+
+    @Override
+    public void LoadFromJSON(JsonValue jsonValue)
+    {
+
     }
 }

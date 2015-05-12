@@ -1,18 +1,22 @@
 {	
-	"ffcm.ecs.comps.CSprite":
+	"ffcm.antsim.entity.Ant":
 	{
-		"name": "ant1"
-	},
+		"ffcm.ecs.comps.CSprite":
+		{
+			"atlas": "gfx/mainSprites.atlas",
+			"name": "ant1"
+		},
 
-	"ffcm.ecs.comps.CWander":
-	{
-		"maxLinearSpeed": 20.0,
-		"maxLinearAcceleration": 5.0,
-		"maxAngularSpeed: 20.0,
-		"maxAngularAcceleration": 3.0,
-		"orientation": "",
-		"radius": "",
-		"offset": "",
-		"rate": ""
+		"ffcm.ecs.comps.CWander":
+		{
+			"maxLinearSpeed": 20.0,
+			"maxLinearAcceleration": 5.0,
+			"maxAngularSpeed": 20.0,
+			"maxAngularAcceleration": 3.0,
+			"orientation": "",
+			"radius": "",
+			"offset": "",
+			"rate": ""
+		}
 	}
 }

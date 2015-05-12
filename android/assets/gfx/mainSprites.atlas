@@ -4,7 +4,7 @@ size: 256,64
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
-ant
+ant1
   rotate: false
   xy: 44, 9
   size: 35, 51
@@ -18,7 +18,7 @@ antChild
   orig: 18, 23
   offset: 0, 0
   index: -1
-food
+leaf
   rotate: false
   xy: 2, 2
   size: 40, 58

@@ -1,12 +1,10 @@
 package ffcm.antsim.resource;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
@@ -27,10 +25,10 @@ public class Resources
 
 	public SpriteBatch spriteBatch;
 	public ShapeRenderer shapeRenderer;
-	
+
+	public AssetManager assetManager;
+
 	public BitmapFont font;
-	
-	private TextureAtlas mainSpritesAtlas;
 	
 	public Resources()
 	{
@@ -50,23 +48,18 @@ public class Resources
 		shapeRenderer = new ShapeRenderer(200);
 
 		font = new BitmapFont();
-		font.setColor(Color.WHITE);
+
+		//load some assets and wait until completion
+		assetManager = new AssetManager();
 
 		MathUtils.random.setSeed(new Date().getTime());
-
-        mainSpritesAtlas = new TextureAtlas(Gdx.files.internal("gfx/mainSprites.atlas"));
     }
-
-    public TextureRegion GetMainSpritesRegion(String name)
-	{
-		return mainSpritesAtlas.findRegion(name);
-	}
 
 	public void Dispose()
     {
         spriteBatch.dispose();
         shapeRenderer.dispose();
-        mainSpritesAtlas.dispose();
         font.dispose();
+        assetManager.dispose();
     }
 }

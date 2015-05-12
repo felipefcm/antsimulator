@@ -3,23 +3,18 @@ package ffcm.ecs;
 
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 import ffcm.ecs.render.RenderManager;
+import ffcm.ecs.resources.EntityTemplateManager;
 
 public class ECSManager
 {
     public static ECSManager instance = new ECSManager();
 
-    public OrthographicCamera mainCamera;
-	public OrthographicCamera guiCamera;
-
-	public SpriteBatch spriteBatch;
-	public ShapeRenderer shapeRenderer;
+    public ECSConfig ecsConfig;
 
 	public Engine ecsEngine;
+	public EntityTemplateManager entityTemplateManager;
 
     public ECSManager()
     {
@@ -27,13 +22,10 @@ public class ECSManager
 
     public void Init(final ECSConfig config)
     {
-		spriteBatch = config.spriteBatch;
-		shapeRenderer = config.shapeRenderer;
-
-        mainCamera = config.mainCamera;
-		guiCamera = config.guiCamera;
+		this.ecsConfig = config;
 
 		ecsEngine = new Engine();
+		entityTemplateManager = new EntityTemplateManager();
 
         RenderManager.instance.Init();
     }
