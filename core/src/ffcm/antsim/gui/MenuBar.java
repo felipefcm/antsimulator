@@ -3,7 +3,6 @@ package ffcm.antsim.gui;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -15,7 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import ffcm.antsim.resource.Resources;
 
 public class MenuBar
-{	
+{
 	private SpriteBatch spriteBatch;
 	private ShapeRenderer shapeRenderer;
 	private OrthographicCamera guiCamera;
@@ -38,14 +37,8 @@ public class MenuBar
 		spriteBatch = Resources.instance.spriteBatch;
 		shapeRenderer = Resources.instance.shapeRenderer;
 		guiCamera = Resources.instance.guiCamera;
-		
-		Texture uiAtlasTexture = new Texture(Gdx.files.internal("ui/ui_atlas.png"));
-		
-		atlas = new TextureAtlas();
-		atlas.addRegion("button_up", uiAtlasTexture, 0, 0, 32, 32);
-		atlas.addRegion("button_down", uiAtlasTexture, 32, 0, 32, 32);
-		atlas.addRegion("button_over", uiAtlasTexture, 64, 0, 32, 32);
-		atlas.addRegion("createAnt", uiAtlasTexture, 96, 0, 32, 32);
+
+		atlas = Resources.instance.assetManager.get("ui/uiSprites.atlas", TextureAtlas.class);
 		
 		skin = new Skin(Gdx.files.internal("ui/ui_skin.json"), atlas);
 		

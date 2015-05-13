@@ -12,6 +12,8 @@ import ffcm.antsim.resource.Resources;
 
 public class SplashScreen implements Screen
 {
+    private static final float MinTime = 1.0f;
+
     private AssetManager assetManager;
 
     private Texture loadingTexture;
@@ -48,8 +50,10 @@ public class SplashScreen implements Screen
 
         if(assetManager.update())
         {
-            if(timeLoading >= 1.0f)
-                AntSim.antSim.setScreen(null);
+            if(timeLoading >= MinTime)
+            {
+                AntSim.antSim.setScreen(new SimulationScreen());
+            }
         }
     }
 
@@ -71,10 +75,12 @@ public class SplashScreen implements Screen
     @Override
     public void hide()
     {
+        dispose();
     }
 
     @Override
     public void dispose()
     {
+        assetManager.unload("gfx/loading.png");
     }
 }

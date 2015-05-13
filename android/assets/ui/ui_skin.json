@@ -3,10 +3,10 @@
 	{
 		"createAntButton":
 		{
-			"up": "button_up",
-			"down": "button_down",
-			"over": "button_over",
-			"imageUp": "createAnt"
+			"up": "up",
+			"down": "down",
+			"over": "over",
+			"imageUp": "addAnt"
 		}
 	}
 }
