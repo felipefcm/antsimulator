@@ -8,6 +8,7 @@ import com.badlogic.ashley.core.EntitySystem;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.ai.steer.SteeringAcceleration;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 
 import ffcm.ecs.comps.CRigidBody;
@@ -55,17 +56,19 @@ public class WanderSteeringSystem extends EntitySystem implements EntityListener
         CVelocity velocity = Mapper.velocity.get(entity);
         CRigidBody rigidBody = Mapper.rigidBody.get(entity);
 
-        wander.SetSteerablePosition(transform.position);
+        wander.transform = transform;
 
         if(velocity != null)
         {
-            wander.SetSteerableLinearVelocity(velocity.linear);
-            wander.SetSteerableAngularVel(velocity.angular);
+            //has CVelocity
+            wander.velocity = velocity;
+            wander.rigidBody = null;
         }
         else
         {
-            wander.SetSteerableLinearVelocity(rigidBody.body.getLinearVelocity());
-            wander.SetSteerableAngularVel(rigidBody.body.getAngularVelocity());
+            //has CRigidBody
+            wander.rigidBody = rigidBody;
+            wander.velocity = null;
         }
     }
 
@@ -80,24 +83,24 @@ public class WanderSteeringSystem extends EntitySystem implements EntityListener
         for(Entity e : entities)
         {
             CWander wander = Mapper.wander.get(e);
-            CTransform transform = Mapper.transform.get(e);
+            //CTransform transform = Mapper.transform.get(e);
 
             CVelocity velocity = Mapper.velocity.get(e);
-            CRigidBody rigidBody = Mapper.rigidBody.get(e);
+            //CRigidBody rigidBody = Mapper.rigidBody.get(e);
 
             wander.behaviour.calculateSteering(steeringAcceleration);
 
             if(velocity != null)
             {
                 //has a CVelocity
-                velocity.linear.add(steeringAcceleration.linear).nor().scl(20.0f);
-                //velocity.angular += steeringAcceleration.angular;
-                transform.rotation = velocity.linear.angle();
+                velocity.linear.add(steeringAcceleration.linear).clamp(0.0f, wander.maxLinearSpeed);
+
+                velocity.angular += steeringAcceleration.angular;
+                velocity.angular = MathUtils.clamp(velocity.angular, -wander.maxAngularSpeed, wander.maxAngularSpeed);
             }
             else
             {
                 //has CRigidBody
-
             }
 
             //Log.d("Accel: " + steeringAcceleration.linear.x + "," + steeringAcceleration.linear.y + " angle: " + steeringAcceleration.linear.angle());

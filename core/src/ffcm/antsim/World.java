@@ -8,6 +8,8 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
+import ffcm.antsim.entity.Ant;
+import ffcm.antsim.entity.EntityFactory;
 import ffcm.antsim.resource.Resources;
 
 public class World
@@ -53,7 +55,9 @@ public class World
 	{
 		for(int i = 0; i < num; ++i)
 		{
+			Ant ant = EntityFactory.instance.CreateAnt();
 
+			ant.transform.position.set(worldPos);
 		}
 		
 		this.numAnts += num;

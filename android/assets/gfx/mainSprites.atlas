@@ -6,16 +6,16 @@ filter: Nearest,Nearest
 repeat: none
 ant1
   rotate: false
-  xy: 44, 9
-  size: 35, 51
-  orig: 35, 51
+  xy: 44, 25
+  size: 51, 35
+  orig: 51, 35
   offset: 0, 0
   index: -1
 antChild
   rotate: false
-  xy: 120, 37
-  size: 18, 23
-  orig: 18, 23
+  xy: 44, 5
+  size: 23, 18
+  orig: 23, 18
   offset: 0, 0
   index: -1
 leaf
@@ -27,7 +27,7 @@ leaf
   index: -1
 nest
   rotate: false
-  xy: 81, 23
+  xy: 97, 23
   size: 37, 37
   orig: 37, 37
   offset: 0, 0

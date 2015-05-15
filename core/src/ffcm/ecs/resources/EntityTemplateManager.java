@@ -2,6 +2,7 @@
 package ffcm.ecs.resources;
 
 import com.badlogic.ashley.core.Component;
+import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
@@ -70,5 +71,18 @@ public class EntityTemplateManager
         templateMap.put(className, template);
 
         return true;
+    }
+
+    public EntityTemplate GetTemplate(Class<? extends Entity> entityClass)
+    {
+        if(!templateMap.containsKey(entityClass.getCanonicalName()))
+            return null;
+
+        return templateMap.get(entityClass.getCanonicalName());
+    }
+
+    public void Clear()
+    {
+        templateMap.clear();
     }
 }

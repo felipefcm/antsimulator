@@ -14,15 +14,17 @@ public class CWander extends Component implements Steerable<Vector2>, ILoadableF
 {
     public Wander<Vector2> behaviour;
 
+    //acceleration limits are in modulus
     public float maxLinearSpeed = 20.0f;
-    public float maxLinearAcceleration = 5.0f;
     public float maxAngularSpeed = 20.0f;
+    public float maxLinearAcceleration = 5.0f;
     public float maxAngularAcceleration = 3.0f;
 
-    //these values will be updated by the WanderSystem
-    private Vector2 position;
-    private Vector2 linearVel;
-    private float angularVel;
+    //the entity components references must be kept to be used by the steering behaviour
+    //they will be set when added to the wander system
+    public CTransform transform;
+    public CVelocity velocity;
+    public CRigidBody rigidBody;
 
     public CWander()
     {
@@ -46,54 +48,51 @@ public class CWander extends Component implements Steerable<Vector2>, ILoadableF
 
     public CWander(CWander wander)
     {
-        behaviour = wander.behaviour;
+        behaviour = new Wander<>(this);
+
         maxLinearSpeed = wander.maxLinearSpeed;
-        maxLinearAcceleration = wander.maxLinearAcceleration;
         maxAngularSpeed = wander.maxAngularSpeed;
+        maxLinearAcceleration = wander.maxLinearAcceleration;
         maxAngularAcceleration = wander.maxAngularAcceleration;
 
-        position = wander.position.cpy();
-        linearVel = wander.linearVel.cpy();
-        angularVel = wander.angularVel;
-    }
-
-    public void SetSteerablePosition(Vector2 position)
-    {
-        this.position = position;
-    }
-
-    public void SetSteerableLinearVelocity(Vector2 linearVel)
-    {
-        this.linearVel = linearVel;
-    }
-
-    public void SetSteerableAngularVel(float angularVel)
-    {
-        this.angularVel = angularVel;
+        behaviour.setWanderOrientation(wander.behaviour.getWanderOrientation());
+        behaviour.setWanderRadius(wander.behaviour.getWanderRadius());
+        behaviour.setWanderOffset(wander.behaviour.getWanderOffset());
+        behaviour.setWanderRate(wander.behaviour.getWanderRate());
     }
 
     @Override
     public Vector2 getPosition()
     {
-        return position;
+        return transform.position;
     }
 
     @Override
     public float getOrientation()
     {
-        return linearVel.angleRad();
+        //face the linear velocity vector
+        if(velocity != null)
+            return velocity.linear.angleRad();
+        else
+            return rigidBody.body.getAngle();
     }
 
     @Override
     public Vector2 getLinearVelocity()
     {
-        return linearVel;
+        if(velocity != null)
+            return velocity.linear;
+        else
+            return rigidBody.body.getLinearVelocity();
     }
 
     @Override
     public float getAngularVelocity()
     {
-        return angularVel;
+        if(velocity != null)
+            return velocity.angular;
+        else
+            return rigidBody.body.getAngularVelocity();
     }
 
     @Override
@@ -111,7 +110,6 @@ public class CWander extends Component implements Steerable<Vector2>, ILoadableF
     @Override
     public void setTagged(boolean tagged)
     {
-
     }
 
     @Override
@@ -186,6 +184,14 @@ public class CWander extends Component implements Steerable<Vector2>, ILoadableF
     @Override
     public void LoadFromJSON(JsonValue jsonValue)
     {
+        maxLinearSpeed = jsonValue.get("maxLinearSpeed").asFloat();
+        maxAngularSpeed = jsonValue.get("maxAngularSpeed").asFloat();
+        maxLinearAcceleration = jsonValue.get("maxLinearAcceleration").asFloat();
+        maxAngularAcceleration = jsonValue.get("maxAngularAcceleration").asFloat();
 
+        behaviour.setWanderOrientation(jsonValue.get("orientation").asFloat());
+        behaviour.setWanderRadius(jsonValue.get("radius").asFloat());
+        behaviour.setWanderOffset(jsonValue.get("offset").asFloat());
+        behaviour.setWanderRate(jsonValue.get("rate").asFloat());
     }
 }

@@ -8,7 +8,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 import ffcm.antsim.resource.Resources;
-import ffcm.antsim.screen.SplashScreen;
+import ffcm.antsim.screen.LoadingScreen;
 import ffcm.ecs.ECSConfig;
 import ffcm.ecs.ECSManager;
 
@@ -44,12 +44,9 @@ public class AntSim extends Game
 
 		ECSManager.instance.Init(ecsConfig);
 
-		//init entity templates
-		ECSManager.instance.entityTemplateManager.ProcessTemplateFile(Gdx.files.internal("data/ant.json"));
-
 		Gdx.gl.glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
 
-		setScreen(new SplashScreen());
+		setScreen(new LoadingScreen());
 	}
 	
 	@Override

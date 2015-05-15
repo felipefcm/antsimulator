@@ -11,6 +11,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import ffcm.antsim.World;
 import ffcm.antsim.resource.Log;
 import ffcm.antsim.resource.Resources;
+import ffcm.ecs.ECSManager;
 
 public class AppInput extends InputAdapter
 {
@@ -43,7 +44,7 @@ public class AppInput extends InputAdapter
 			
 			Log.Info("Clicked on world position: " + worldPos.x + ", " + worldPos.y);
 			
-			world.SpawnAnts(5, worldPos);
+			world.SpawnAnts(1, worldPos);
 		}
 		else	
 			return false;
@@ -114,6 +115,13 @@ public class AppInput extends InputAdapter
 			Vector2 worldPos = viewport.unproject(mouseScreenPos);
 			
 			world.SpawnAnts(200, worldPos);
+		}
+		else if(keycode == Input.Keys.R)
+		{
+			ECSManager.instance.entityTemplateManager.Clear();
+			ECSManager.instance.entityTemplateManager.ProcessTemplateFile(Gdx.files.internal("data/ant.json"));
+
+			Log.Info("Refreshed entity templates!");
 		}
 		
 		return false;

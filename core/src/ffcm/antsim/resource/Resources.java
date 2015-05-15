@@ -12,6 +12,9 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import java.util.Date;
 
 import ffcm.antsim.AntSim;
+import ffcm.ecs.systems.MoveSystem;
+import ffcm.ecs.systems.SpriteDrawSystem;
+import ffcm.ecs.systems.ai.WanderSteeringSystem;
 
 public class Resources
 {
@@ -29,6 +32,10 @@ public class Resources
 	public AssetManager assetManager;
 
 	public BitmapFont font;
+
+	public MoveSystem moveSystem;
+	public SpriteDrawSystem spriteDrawSystem;
+	public WanderSteeringSystem wanderSteeringSystem;
 	
 	public Resources()
 	{
@@ -49,7 +56,6 @@ public class Resources
 
 		font = new BitmapFont();
 
-		//load some assets and wait until completion
 		assetManager = new AssetManager();
 
 		MathUtils.random.setSeed(new Date().getTime());

@@ -6,8 +6,8 @@ import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.math.MathUtils;
 
+import ffcm.ecs.ECSManager;
 import ffcm.ecs.comps.CTransform;
 import ffcm.ecs.comps.CVelocity;
 import ffcm.ecs.comps.Mapper;
@@ -15,7 +15,7 @@ import ffcm.ecs.render.RenderManager;
 
 public class MoveSystem extends IteratingSystem
 {
-    public boolean debug = false;
+    public boolean debug = true;
 
     public MoveSystem(int priority)
     {
@@ -29,13 +29,14 @@ public class MoveSystem extends IteratingSystem
         CVelocity velocity = Mapper.velocity.get(entity);
 
         transform.position.add(velocity.linear.cpy().scl(deltaTime));
-        transform.rotation += velocity.angular * MathUtils.radDeg * deltaTime;
+        transform.rotation = velocity.linear.angle();
 
         //no render pass for debug rendering
         if(debug)
         {
             ShapeRenderer shapeRenderer = RenderManager.instance.state.shapeRenderer;
 
+            shapeRenderer.setProjectionMatrix(ECSManager.instance.ecsConfig.mainCamera.combined);
             shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
             {
                 shapeRenderer.setColor(Color.RED);

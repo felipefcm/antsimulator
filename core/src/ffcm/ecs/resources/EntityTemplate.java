@@ -2,18 +2,18 @@
 package ffcm.ecs.resources;
 
 import com.badlogic.ashley.core.Component;
-import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.JsonValue;
+import com.badlogic.gdx.utils.ObjectMap;
 
 import ffcm.antsim.resource.Log;
 
 public class EntityTemplate
 {
-    private Array<Component> components;
+    private ObjectMap<String, Component> componentMap;
 
     public EntityTemplate()
     {
-        components = new Array<>();
+        componentMap = new ObjectMap<>();
     }
 
     public void AddComponent(Class<? extends Component> componentClass, JsonValue data)
@@ -40,11 +40,24 @@ public class EntityTemplate
             return;
         }
 
-        components.add(component);
+        componentMap.put(componentClass.getCanonicalName(), component);
+    }
+
+    public boolean HasComponent(Class<? extends Component> componentClass)
+    {
+        return componentMap.containsKey(componentClass.getCanonicalName());
+    }
+
+    public <T extends Component> T GetComponent(Class<T> componentClass)
+    {
+        if(!HasComponent(componentClass))
+            return null;
+
+        return (T) componentMap.get(componentClass.getCanonicalName());
     }
 
     public int GetNumComponents()
     {
-        return components.size;
+        return componentMap.size;
     }
 }

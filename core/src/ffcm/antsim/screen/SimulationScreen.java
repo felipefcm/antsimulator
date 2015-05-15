@@ -17,8 +17,6 @@ public class SimulationScreen implements Screen
 {
     public World world;
 
-    private AppInput appInput;
-
 	private MenuBar menuBar;
 
 	private SpriteBatch spriteBatch;
@@ -35,9 +33,7 @@ public class SimulationScreen implements Screen
         menuBar = new MenuBar();
 		menuBar.Init();
 
-		appInput = new AppInput(world);
-
-		Gdx.input.setInputProcessor(new InputMultiplexer(menuBar.stage, appInput));
+		Gdx.input.setInputProcessor(new InputMultiplexer(menuBar.stage, new AppInput(world)));
     }
 
     @Override

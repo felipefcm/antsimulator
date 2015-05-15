@@ -11,12 +11,12 @@
 		{
 			"maxLinearSpeed": 20.0,
 			"maxLinearAcceleration": 5.0,
-			"maxAngularSpeed": 20.0,
+			"maxAngularSpeed": 6.0,
 			"maxAngularAcceleration": 3.0,
-			"orientation": "",
-			"radius": "",
-			"offset": "",
-			"rate": ""
+			"orientation": 0.0,
+			"radius": 2.0,
+			"offset": 20.0,
+			"rate": 0.5
 		}
 	}
 }

@@ -3,8 +3,10 @@ package ffcm.ecs.comps;
 
 import com.badlogic.ashley.core.Component;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.utils.JsonValue;
 
+import ffcm.ecs.ECSManager;
 import ffcm.ecs.resources.ILoadableFromJSON;
 
 public class CSprite extends Component implements ILoadableFromJSON
@@ -28,6 +30,8 @@ public class CSprite extends Component implements ILoadableFromJSON
         String atlasPath = jsonValue.get("atlas").asString();
         String spriteName = jsonValue.get("name").asString();
 
-        //ECSManager.instance.ecsConfig.assetManager.lo
+        TextureAtlas atlas = ECSManager.instance.ecsConfig.assetManager.get(atlasPath, TextureAtlas.class);
+
+        sprite = new Sprite(atlas.findRegion(spriteName));
     }
 }
