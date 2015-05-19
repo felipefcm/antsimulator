@@ -1,11 +1,12 @@
 package ffcm.antsim.resource;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
@@ -45,11 +46,11 @@ public class Resources
     {
         mainCamera = new OrthographicCamera();
 		viewport = new FitViewport(AntSim.V_WIDTH, AntSim.V_HEIGHT, mainCamera);
-		viewport.update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);
+
+		mainCamera.translate(AntSim.V_WIDTH * 0.5f, AntSim.V_HEIGHT * 0.5f, 0);
 
 		guiCamera = new OrthographicCamera();
 		guiViewport = new FitViewport(AntSim.V_WIDTH, AntSim.V_HEIGHT, guiCamera);
-		guiViewport.update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);
 
 		spriteBatch = new SpriteBatch(200);
 		shapeRenderer = new ShapeRenderer(200);
@@ -57,6 +58,7 @@ public class Resources
 		font = new BitmapFont();
 
 		assetManager = new AssetManager();
+		assetManager.setLoader(TiledMap.class, new TmxMapLoader());
 
 		MathUtils.random.setSeed(new Date().getTime());
     }

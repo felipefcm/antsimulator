@@ -15,7 +15,7 @@ import ffcm.ecs.render.RenderManager;
 
 public class MoveSystem extends IteratingSystem
 {
-    public boolean debug = true;
+    public boolean debug = false;
 
     public MoveSystem(int priority)
     {

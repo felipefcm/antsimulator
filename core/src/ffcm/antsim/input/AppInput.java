@@ -104,6 +104,9 @@ public class AppInput extends InputAdapter
 	@Override
 	public boolean keyDown(int keycode)
 	{
+	    if(!Gdx.input.isKeyPressed(Input.Keys.CONTROL_LEFT))
+	        return false;
+
 		if(keycode == Input.Keys.G)
 		{
 			world.drawGrid = !world.drawGrid;
@@ -120,6 +123,7 @@ public class AppInput extends InputAdapter
 		{
 			ECSManager.instance.entityTemplateManager.Clear();
 			ECSManager.instance.entityTemplateManager.ProcessTemplateFile(Gdx.files.internal("data/ant.json"));
+			ECSManager.instance.entityTemplateManager.ProcessTemplateFile(Gdx.files.internal("data/nest.json"));
 
 			Log.Info("Refreshed entity templates!");
 		}

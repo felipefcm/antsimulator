@@ -1,0 +1,10 @@
+{	
+	"ffcm.antsim.entity.Nest":
+	{
+		"ffcm.ecs.comps.CSprite":
+		{
+			"atlas": "gfx/mainSprites.atlas",
+			"name": "nest"
+		}
+	}
+}

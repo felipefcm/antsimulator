@@ -11,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 
+import ffcm.antsim.AntSim;
 import ffcm.antsim.resource.Resources;
 
 public class MenuBar
@@ -44,21 +45,15 @@ public class MenuBar
 		
 		table = new Table(skin);
 		//table.debug();
-		
-		table.setBounds
-				(
-					0, guiCamera.viewportHeight * 0.1f, 
-					guiCamera.viewportWidth * 0.05f, guiCamera.viewportHeight * 0.8f
-				);
+
+		table.setPosition(AntSim.V_WIDTH * 0.03f, AntSim.V_HEIGHT * 0.5f);
 
 		stage = new Stage(Resources.instance.guiViewport, spriteBatch);
 		stage.addActor(table);
 		
 		createAntButton = new ImageButton(skin, "createAntButton");
 		
-		table.add(createAntButton);
-		
-		
+		table.add(createAntButton).size(AntSim.V_HEIGHT * 0.1f);//.row();
 	}
 	
 	public void Draw()
@@ -73,7 +68,7 @@ public class MenuBar
 		}
 		shapeRenderer.end();
 		*/
-		
+
 		stage.act();
 		stage.draw();
 	}

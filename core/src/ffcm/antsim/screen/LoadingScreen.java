@@ -7,6 +7,7 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.maps.tiled.TiledMap;
 
 import ffcm.antsim.AntSim;
 import ffcm.antsim.resource.Resources;
@@ -25,6 +26,31 @@ public class LoadingScreen implements Screen
     private SpriteBatch spriteBatch;
     private float timeLoading = 0;
 
+    private void PreLoad()
+    {
+        assetManager.load("ui/uiSprites.atlas", TextureAtlas.class);
+        assetManager.load("gfx/mainSprites.atlas", TextureAtlas.class);
+
+        assetManager.load("terrain/terrain1.tmx", TiledMap.class);
+    }
+
+    private void PostLoad()
+    {
+        //init entity templates
+        ECSManager.instance.entityTemplateManager.ProcessTemplateFile(Gdx.files.internal("data/ant.json"));
+        ECSManager.instance.entityTemplateManager.ProcessTemplateFile(Gdx.files.internal("data/nest.json"));
+
+        Resources.instance.wanderSteeringSystem = new WanderSteeringSystem(1);
+        Resources.instance.moveSystem = new MoveSystem(2);
+        Resources.instance.spriteDrawSystem = new SpriteDrawSystem(3);
+
+        ECSManager.instance.ecsEngine.addSystem(Resources.instance.spriteDrawSystem);
+        ECSManager.instance.ecsEngine.addSystem(Resources.instance.wanderSteeringSystem);
+        ECSManager.instance.ecsEngine.addSystem(Resources.instance.moveSystem);
+
+        AntSim.antSim.setScreen(new SimulationScreen());
+    }
+
     @Override
     public void show()
     {
@@ -38,8 +64,7 @@ public class LoadingScreen implements Screen
 
 		loadingTexture = assetManager.get("gfx/loading.png");
 
-        assetManager.load("ui/uiSprites.atlas", TextureAtlas.class);
-        assetManager.load("gfx/mainSprites.atlas", TextureAtlas.class);
+		PreLoad();
     }
 
     @Override
@@ -53,24 +78,8 @@ public class LoadingScreen implements Screen
 
         timeLoading += delta;
 
-        if(assetManager.update())
-        {
-            if(timeLoading >= MinTime)
-            {
-                //init entity templates
-		        ECSManager.instance.entityTemplateManager.ProcessTemplateFile(Gdx.files.internal("data/ant.json"));
-
-		        Resources.instance.wanderSteeringSystem = new WanderSteeringSystem(1);
-                Resources.instance.moveSystem = new MoveSystem(2);
-                Resources.instance.spriteDrawSystem = new SpriteDrawSystem(3);
-
-                ECSManager.instance.ecsEngine.addSystem(Resources.instance.spriteDrawSystem);
-                ECSManager.instance.ecsEngine.addSystem(Resources.instance.wanderSteeringSystem);
-                ECSManager.instance.ecsEngine.addSystem(Resources.instance.moveSystem);
-
-                AntSim.antSim.setScreen(new SimulationScreen());
-            }
-        }
+        if(assetManager.update() && timeLoading >= MinTime)
+            PostLoad();
     }
 
     @Override

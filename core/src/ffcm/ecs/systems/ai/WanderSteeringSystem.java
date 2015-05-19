@@ -27,7 +27,7 @@ public class WanderSteeringSystem extends EntitySystem implements EntityListener
     {
         super(priority);
 
-        steeringAcceleration = new SteeringAcceleration<Vector2>(new Vector2());
+        steeringAcceleration = new SteeringAcceleration<>(new Vector2());
     }
 
     @Override
@@ -90,6 +90,10 @@ public class WanderSteeringSystem extends EntitySystem implements EntityListener
 
             wander.behaviour.calculateSteering(steeringAcceleration);
 
+            if(e instanceof IWanderSteeringCallback)
+                if(!((IWanderSteeringCallback) e).WillApplyAcceleration(steeringAcceleration))
+                    continue;
+
             if(velocity != null)
             {
                 //has a CVelocity
@@ -105,5 +109,18 @@ public class WanderSteeringSystem extends EntitySystem implements EntityListener
 
             //Log.d("Accel: " + steeringAcceleration.linear.x + "," + steeringAcceleration.linear.y + " angle: " + steeringAcceleration.linear.angle());
         }
+    }
+
+    public interface IWanderSteeringCallback
+    {
+        /**
+         * Use this callback to be notified before the acceleration is applied.
+         * This is the chance to perform any modification in the acceleration or
+         * to skip this update frame.
+         *
+         * @param accel The acceleration calculated by the steering system
+         * @return true if the acceleration should be applied, false otherwise
+         */
+        public boolean WillApplyAcceleration(SteeringAcceleration<Vector2> accel);
     }
 }

@@ -10,6 +10,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 
 import ffcm.antsim.entity.Ant;
 import ffcm.antsim.entity.EntityFactory;
+import ffcm.antsim.entity.Nest;
 import ffcm.antsim.resource.Resources;
 
 public class World
@@ -26,13 +27,17 @@ public class World
 	private ShapeRenderer shapeRenderer;
 	
 	public Terrain terrain;
+	public Nest nest;
 	
 	public World()
 	{		
 		viewport = Resources.instance.viewport;
 		shapeRenderer = Resources.instance.shapeRenderer;
 		
-		terrain = new Terrain(WorldSize);
+		terrain = new Terrain();
+
+		nest = EntityFactory.instance.CreateNest();
+		nest.transform.position.set(terrain.nestPosition).scl(terrain.mapScale);
 	}
 	
 	public void Update()
@@ -111,5 +116,11 @@ public class World
 			}
 		}
 		shapeRenderer.end();
+	}
+
+	public void Dispose()
+	{
+		if(terrain != null)
+			terrain.Dispose();
 	}
 }
