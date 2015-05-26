@@ -14,4 +14,5 @@ public class Mapper
     public static final ComponentMapper<CLightSource> light = ComponentMapper.getFor(CLightSource.class);
     public static final ComponentMapper<CSpriteAnimation> spriteAnimation = ComponentMapper.getFor(CSpriteAnimation.class);
     public static final ComponentMapper<CWander> wander = ComponentMapper.getFor(CWander.class);
+    public static final ComponentMapper<CSpatial> spatial = ComponentMapper.getFor(CSpatial.class);
 }

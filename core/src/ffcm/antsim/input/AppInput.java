@@ -62,7 +62,7 @@ public class AppInput extends InputAdapter
 		
 		Vector2 direction = mouseMoveStarted.cpy().sub(current);
 		
-		((OrthographicCamera) viewport.getCamera()).translate(direction.x, direction.y, 0);
+		viewport.getCamera().translate(direction.x, direction.y, 0);
 		viewport.update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), false);
 		
 		return true;
@@ -79,10 +79,6 @@ public class AppInput extends InputAdapter
 		
 		if(button != Input.Buttons.LEFT)
 			return false;
-		
-		Vector2 worldPos = viewport.unproject(new Vector2(screenX, screenY));
-		
-		Log.Info("Clicked on world position: " + worldPos.x + ", " + worldPos.y);
 		
 		return true;
 	};
@@ -117,7 +113,7 @@ public class AppInput extends InputAdapter
 			Vector2 mouseScreenPos = new Vector2(Gdx.input.getX(), Gdx.input.getY());
 			Vector2 worldPos = viewport.unproject(mouseScreenPos);
 			
-			world.SpawnAnts(200, worldPos);
+			world.SpawnAnts(500, worldPos);
 		}
 		else if(keycode == Input.Keys.R)
 		{

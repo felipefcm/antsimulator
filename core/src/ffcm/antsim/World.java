@@ -5,6 +5,8 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
+import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
@@ -15,9 +17,8 @@ import ffcm.antsim.resource.Resources;
 
 public class World
 {
-	//both sizes in world coordinates
-	private static final int GridCellSize = 32; 
-	public static final Vector2 WorldSize = new Vector2(1024, 1024);
+	//in world coordinates
+	private static final int GridCellSize = 32;
 	
 	public boolean drawGrid = false;
 	
@@ -38,6 +39,8 @@ public class World
 
 		nest = EntityFactory.instance.CreateNest();
 		nest.transform.position.set(terrain.nestPosition).scl(terrain.mapScale);
+
+		Resources.instance.spatialPartitioningSystem.SetArea(new Rectangle(0, 0, terrain.mapSizeWorld.x, terrain.mapSizeWorld.y));
 	}
 	
 	public void Update()
@@ -63,6 +66,7 @@ public class World
 			Ant ant = EntityFactory.instance.CreateAnt();
 
 			ant.transform.position.set(worldPos);
+			ant.transform.rotation = MathUtils.random(2.0f);
 		}
 		
 		this.numAnts += num;

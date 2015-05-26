@@ -57,6 +57,7 @@ public class WanderSteeringSystem extends EntitySystem implements EntityListener
         CRigidBody rigidBody = Mapper.rigidBody.get(entity);
 
         wander.transform = transform;
+        wander.behaviour.setWanderOrientation(transform.rotation);
 
         if(velocity != null)
         {

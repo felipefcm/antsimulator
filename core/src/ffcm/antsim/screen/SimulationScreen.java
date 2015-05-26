@@ -4,6 +4,7 @@ package ffcm.antsim.screen;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
@@ -33,7 +34,13 @@ public class SimulationScreen implements Screen
         menuBar = new MenuBar();
 		menuBar.Init();
 
-		Gdx.input.setInputProcessor(new InputMultiplexer(menuBar.stage, new AppInput(world)));
+        OrthographicCamera mainCamera = Resources.instance.mainCamera;
+
+        mainCamera.zoom = 2.0f;
+		mainCamera.translate(world.terrain.mapSizePixels.x * 0.195f, world.terrain.mapSizePixels.y * 0.2f);
+		mainCamera.update();
+
+        Gdx.input.setInputProcessor(new InputMultiplexer(menuBar.stage, new AppInput(world)));
     }
 
     @Override

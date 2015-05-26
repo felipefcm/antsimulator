@@ -6,6 +6,7 @@ import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 
@@ -17,6 +18,9 @@ public class Terrain
 	private TiledMapRenderer mapRenderer;
 
 	public float mapScale;
+	public Vector2 mapSizePixels;
+	public Vector2 mapSizeWorld;
+	public int tileSize;
 
 	private SpriteBatch spriteBatch;
 
@@ -31,13 +35,14 @@ public class Terrain
 		MapProperties nestObjProp = GetObjectByName("nest").getProperties();
         nestPosition = new Vector2((float) nestObjProp.get("x"), (float) nestObjProp.get("y"));
 		
-		int mapWidth = map.getProperties().get("width", Integer.class);
-		//int mapHeight = map.getProperties().get("height", Integer.class);
+		tileSize = map.getProperties().get("tilewidth", Integer.class);
 
-		int tilePixelWidth = map.getProperties().get("tilewidth", Integer.class);
-		//int tilePixelHeight = map.getProperties().get("tileheight", Integer.class);
-		
-		mapScale = World.WorldSize.x / (float)(mapWidth * tilePixelWidth);
+		mapSizePixels = new Vector2(map.getProperties().get("width", Integer.class) * tileSize, map.getProperties().get("height", Integer.class) * tileSize);
+
+		//mapScale = 1024.0f / mapSizePixels.x;
+		mapScale = 1.0f;
+
+		mapSizeWorld = mapSizePixels.cpy().scl(mapScale);
 		
 		mapRenderer = new OrthogonalTiledMapRenderer(map, mapScale, spriteBatch);
 		mapRenderer.setView(Resources.instance.mainCamera);
@@ -53,6 +58,18 @@ public class Terrain
 	{
 		return map.getLayers().get("objects").getObjects().get(name);
 	}
+
+	public TiledMapTileLayer.Cell GetCell(String layerName, final Vector2 worldPos)
+	{
+		Vector2 mapPos = worldPos.cpy().scl(1.0f / mapScale);
+
+        int row = (int)(mapPos.y / tileSize);
+        int col = (int)(mapPos.x / tileSize);
+
+        //Log.Debug("Got Tile at " + row + "," + col);
+
+        return ((TiledMapTileLayer) map.getLayers().get(layerName)).getCell(col, row);
+    }
 	
 	public void Dispose()
 	{

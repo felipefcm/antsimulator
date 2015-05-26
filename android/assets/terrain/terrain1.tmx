@@ -8,9 +8,9 @@
    eJztwwEJAAAMBKHL8P3DLsdAwVVTVVVVVVVVVVVVXz1jDrQB
   </data>
  </layer>
- <layer name="borders" width="64" height="40">
+ <layer name="collidable" width="64" height="40">
   <data encoding="base64" compression="zlib">
-   eJzt2ksKgDAMRdFMugH34P63KA6EUhDSj01M7oNMiyfY2qpFREryOquKmDdf68+W2p8xjz9r8O/3e5pr+G38Xnpg6R/pwereWa1/M46VPbBc/z3MAfz/f/7P9BE//r/7Z4IfP/6Y0ayLUf3aM0ZUvzY9fk/n1lXBz/2PP2/w48efN/ht3/+v3lP1jhXJPzJWpO9fI2O2/q/3+N7+s6n9O67Ls1+bo6meeLLfKZRcKCcNYA==
+   eJzt2t0KgCAMhuGdeCnd/y1GB4EIgT/Lze39wFPpGbm0KiJSko+rGhHz5Wv92VL7M+b1Zw3+/X5Paw2/jd9LDSz9MzXQrp1V/1txaNbAsv97WAP4z3/+r9QRP/7T/SvBjx9/zPT0xaj+3jNGVH9vRvyezq1awc/9jz9v8OPHnzf4bd//a++pRueK5J+ZK9L3r5k5W//fe3xv/9nU/h3X5dm/I57sTwpDbqdIDRg=
   </data>
  </layer>
  <objectgroup name="objects">

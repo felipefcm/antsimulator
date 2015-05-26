@@ -7,4 +7,9 @@ public class QuadTreeData<T>
 {
 	public Rectangle bounds;
 	public T info;
+
+	public QuadTreeData()
+	{
+		bounds = new Rectangle();
+	}
 }

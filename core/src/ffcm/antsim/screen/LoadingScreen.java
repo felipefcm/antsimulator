@@ -1,6 +1,7 @@
 
 package ffcm.antsim.screen;
 
+import com.badlogic.ashley.core.Engine;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
@@ -12,9 +13,7 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import ffcm.antsim.AntSim;
 import ffcm.antsim.resource.Resources;
 import ffcm.ecs.ECSManager;
-import ffcm.ecs.systems.MoveSystem;
-import ffcm.ecs.systems.SpriteDrawSystem;
-import ffcm.ecs.systems.ai.WanderSteeringSystem;
+import ffcm.ecs.resources.EntityTemplateManager;
 
 public class LoadingScreen implements Screen
 {
@@ -26,8 +25,14 @@ public class LoadingScreen implements Screen
     private SpriteBatch spriteBatch;
     private float timeLoading = 0;
 
+    private EntityTemplateManager entityTemplateManager;
+    private Engine ecsEngine;
+
     private void PreLoad()
     {
+        spriteBatch = Resources.instance.spriteBatch;
+        spriteBatch.setProjectionMatrix(Resources.instance.viewport.getCamera().combined);
+
         assetManager.load("ui/uiSprites.atlas", TextureAtlas.class);
         assetManager.load("gfx/mainSprites.atlas", TextureAtlas.class);
 
@@ -37,16 +42,10 @@ public class LoadingScreen implements Screen
     private void PostLoad()
     {
         //init entity templates
-        ECSManager.instance.entityTemplateManager.ProcessTemplateFile(Gdx.files.internal("data/ant.json"));
-        ECSManager.instance.entityTemplateManager.ProcessTemplateFile(Gdx.files.internal("data/nest.json"));
+        entityTemplateManager.ProcessTemplateFile(Gdx.files.internal("data/ant.json"));
+        entityTemplateManager.ProcessTemplateFile(Gdx.files.internal("data/nest.json"));
 
-        Resources.instance.wanderSteeringSystem = new WanderSteeringSystem(1);
-        Resources.instance.moveSystem = new MoveSystem(2);
-        Resources.instance.spriteDrawSystem = new SpriteDrawSystem(3);
-
-        ECSManager.instance.ecsEngine.addSystem(Resources.instance.spriteDrawSystem);
-        ECSManager.instance.ecsEngine.addSystem(Resources.instance.wanderSteeringSystem);
-        ECSManager.instance.ecsEngine.addSystem(Resources.instance.moveSystem);
+        Resources.instance.InitSystems();
 
         AntSim.antSim.setScreen(new SimulationScreen());
     }
@@ -55,9 +54,8 @@ public class LoadingScreen implements Screen
     public void show()
     {
         assetManager = Resources.instance.assetManager;
-
-        spriteBatch = Resources.instance.spriteBatch;
-        spriteBatch.setProjectionMatrix(Resources.instance.viewport.getCamera().combined);
+        entityTemplateManager = ECSManager.instance.entityTemplateManager;
+        ecsEngine = ECSManager.instance.ecsEngine;
 
         assetManager.load("gfx/loading.png", Texture.class);
 		assetManager.finishLoading();
@@ -70,6 +68,7 @@ public class LoadingScreen implements Screen
     @Override
     public void render(float delta)
     {
+        spriteBatch.setProjectionMatrix(Resources.instance.viewport.getCamera().combined);
         spriteBatch.begin();
         {
             spriteBatch.draw(loadingTexture, 0, 0, AntSim.V_WIDTH, AntSim.V_HEIGHT);
