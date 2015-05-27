@@ -18,7 +18,7 @@ public class AntSim extends Game
 	public static final int V_HEIGHT = 720;
 	public static final float DESKTOP_SCALE = 1.2f;
 	
-	public static AntSim antSim;
+	public static AntSim instance;
 
 	private Viewport viewport;
 	private Viewport guiViewport;
@@ -26,7 +26,7 @@ public class AntSim extends Game
 	@Override
 	public void create() 
 	{	
-		antSim = this;
+		instance = this;
 		
 		Gdx.app.setLogLevel(Application.LOG_DEBUG);
 

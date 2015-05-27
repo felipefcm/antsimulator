@@ -47,7 +47,7 @@ public class LoadingScreen implements Screen
 
         Resources.instance.InitSystems();
 
-        AntSim.antSim.setScreen(new SimulationScreen());
+        AntSim.instance.setScreen(new SimulationScreen());
     }
 
     @Override

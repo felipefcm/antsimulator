@@ -11,28 +11,29 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 
-import ffcm.antsim.resource.quadtree.QuadTree;
 import ffcm.ecs.comps.CSpatial;
-import ffcm.ecs.comps.CSprite;
 import ffcm.ecs.comps.CTransform;
 import ffcm.ecs.comps.Mapper;
 import ffcm.ecs.render.IRenderable;
 import ffcm.ecs.render.RenderManager;
 import ffcm.ecs.render.RenderState;
+import ffcm.ecs.resources.quadtree.QuadTree;
 
 public class SpatialPartitioningSystem extends EntitySystem implements EntityListener, IRenderable
 {
     private ImmutableArray<Entity> entities;
 
-    private QuadTree<Entity> quadTree;
+    private QuadTree quadTree;
 
     private float timer = 0;
+
+    public boolean drawTree = false;
 
     public SpatialPartitioningSystem(int priority)
     {
         super(priority);
 
-        quadTree = new QuadTree<>(null);
+        quadTree = new QuadTree(null);
     }
 
     public void SetArea(Rectangle area)
@@ -63,10 +64,9 @@ public class SpatialPartitioningSystem extends EntitySystem implements EntityLis
     public void entityAdded(Entity entity)
     {
         CSpatial spatial = Mapper.spatial.get(entity);
-        CSprite sprite = Mapper.sprite.get(entity);
+        CTransform transform = Mapper.transform.get(entity);
 
-        if(sprite != null)
-            spatial.quadTreeData.bounds.setSize(sprite.sprite.getWidth(), sprite.sprite.getHeight());
+        spatial.quadTreeData.point = transform.position;
     }
 
     @Override
@@ -84,14 +84,11 @@ public class SpatialPartitioningSystem extends EntitySystem implements EntityLis
 
         timer = 0;
 
-        quadTree.FastClear();
+        quadTree.Clear();
 
         for(Entity e : entities)
         {
             CSpatial spatial = Mapper.spatial.get(e);
-            CTransform transform = Mapper.transform.get(e);
-
-            spatial.quadTreeData.bounds.set(transform.position.x, transform.position.y, 0, 0);
 
             quadTree.Add(spatial.quadTreeData);
         }
@@ -100,12 +97,15 @@ public class SpatialPartitioningSystem extends EntitySystem implements EntityLis
     @Override
     public void Render(RenderState renderState)
     {
+        if(!drawTree)
+            return;
+
         renderState.shapeRenderer.setProjectionMatrix(renderState.mainCamera.combined);
 
         Draw(renderState.shapeRenderer, quadTree);
     }
 
-    private void Draw(ShapeRenderer shapeRenderer, QuadTree<Entity> node)
+    private void Draw(ShapeRenderer shapeRenderer, QuadTree node)
     {
         shapeRenderer.setColor(Color.WHITE);
         shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
@@ -117,7 +117,7 @@ public class SpatialPartitioningSystem extends EntitySystem implements EntityLis
 		if(node.child == null)
 			return;
 
-		for(int i = 0; i < node.child.size; ++i)
-			Draw(shapeRenderer, node.child.get(i));
+		for(int i = 0; i < node.child.length; ++i)
+			Draw(shapeRenderer, node.child[i]);
     }
 }

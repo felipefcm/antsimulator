@@ -8,7 +8,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-import ffcm.antsim.World;
+import ffcm.antsim.AntWorld;
 import ffcm.antsim.gui.MenuBar;
 import ffcm.antsim.input.AppInput;
 import ffcm.antsim.resource.Resources;
@@ -16,7 +16,7 @@ import ffcm.ecs.ECSManager;
 
 public class SimulationScreen implements Screen
 {
-    public World world;
+    public AntWorld world;
 
 	private MenuBar menuBar;
 
@@ -29,7 +29,7 @@ public class SimulationScreen implements Screen
         spriteBatch = Resources.instance.spriteBatch;
         font = Resources.instance.font;
 
-        world = new World();
+        world = new AntWorld();
 
         menuBar = new MenuBar();
 		menuBar.Init();
@@ -89,10 +89,16 @@ public class SimulationScreen implements Screen
     @Override
     public void hide()
     {
+        dispose();
     }
 
     @Override
     public void dispose()
     {
+        if(menuBar != null)
+            menuBar.Dispose();
+
+        if(world != null)
+            world.Dispose();
     }
 }

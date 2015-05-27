@@ -8,7 +8,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
-import ffcm.antsim.World;
+import ffcm.antsim.AntWorld;
 import ffcm.antsim.resource.Log;
 import ffcm.antsim.resource.Resources;
 import ffcm.ecs.ECSManager;
@@ -20,9 +20,9 @@ public class AppInput extends InputAdapter
 	
 	private Viewport viewport;
 	private OrthographicCamera mainCamera;
-	private World world;
+	private AntWorld world;
 	
-	public AppInput(World world)
+	public AppInput(AntWorld world)
 	{
 		viewport = Resources.instance.viewport;
 		mainCamera = Resources.instance.mainCamera;
@@ -40,11 +40,11 @@ public class AppInput extends InputAdapter
 		}
 		else if(button == Input.Buttons.LEFT)
 		{
+
 			Vector2 worldPos = viewport.unproject(new Vector2(screenX, screenY));
-			
 			Log.Info("Clicked on world position: " + worldPos.x + ", " + worldPos.y);
 			
-			world.SpawnAnts(1, worldPos);
+			//world.SpawnAnts(1, worldPos);
 		}
 		else	
 			return false;
@@ -103,25 +103,29 @@ public class AppInput extends InputAdapter
 	    if(!Gdx.input.isKeyPressed(Input.Keys.CONTROL_LEFT))
 	        return false;
 
-		if(keycode == Input.Keys.G)
+		if(keycode == Input.Keys.G) //toggle grid
 		{
 			world.drawGrid = !world.drawGrid;
 			return true;
 		}
-		else if(keycode == Input.Keys.A)
+		else if(keycode == Input.Keys.A) //insert a huge amount of ants
 		{
 			Vector2 mouseScreenPos = new Vector2(Gdx.input.getX(), Gdx.input.getY());
 			Vector2 worldPos = viewport.unproject(mouseScreenPos);
 			
 			world.SpawnAnts(500, worldPos);
 		}
-		else if(keycode == Input.Keys.R)
+		else if(keycode == Input.Keys.R) //refresh entity template descriptions
 		{
 			ECSManager.instance.entityTemplateManager.Clear();
 			ECSManager.instance.entityTemplateManager.ProcessTemplateFile(Gdx.files.internal("data/ant.json"));
 			ECSManager.instance.entityTemplateManager.ProcessTemplateFile(Gdx.files.internal("data/nest.json"));
 
 			Log.Info("Refreshed entity templates!");
+		}
+		else if(keycode == Input.Keys.T)
+		{
+			Resources.instance.spatialPartitioningSystem.drawTree = !Resources.instance.spatialPartitioningSystem.drawTree;
 		}
 		
 		return false;

@@ -57,7 +57,7 @@ public class Resources
 		guiCamera = new OrthographicCamera();
 		guiViewport = new FitViewport(AntSim.V_WIDTH, AntSim.V_HEIGHT, guiCamera);
 
-		spriteBatch = new SpriteBatch(800);
+		spriteBatch = new SpriteBatch(1000);
 		shapeRenderer = new ShapeRenderer(200);
 
 		font = new BitmapFont();
