@@ -14,7 +14,9 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import java.util.Date;
 
 import ffcm.antsim.AntSim;
+import ffcm.antsim.ecs.systems.FoodSpawnSystem;
 import ffcm.ecs.ECSManager;
+import ffcm.ecs.resources.EntityTemplateManager;
 import ffcm.ecs.systems.MoveSystem;
 import ffcm.ecs.systems.SpatialPartitioningSystem;
 import ffcm.ecs.systems.SpriteDrawSystem;
@@ -41,8 +43,10 @@ public class Resources
 	public SpriteDrawSystem spriteDrawSystem;
 	public WanderSteeringSystem wanderSteeringSystem;
 	public SpatialPartitioningSystem spatialPartitioningSystem;
+	public FoodSpawnSystem foodSpawnSystem;
 
 	public Engine ecsEngine;
+	public EntityTemplateManager entityTemplateManager;
 
 	public Resources()
 	{
@@ -58,14 +62,16 @@ public class Resources
 		guiViewport = new FitViewport(AntSim.V_WIDTH, AntSim.V_HEIGHT, guiCamera);
 
 		spriteBatch = new SpriteBatch(1000);
-		shapeRenderer = new ShapeRenderer(200);
+		shapeRenderer = new ShapeRenderer(500);
 
 		font = new BitmapFont();
 
 		assetManager = new AssetManager();
 		assetManager.setLoader(TiledMap.class, new TmxMapLoader());
 
-		MathUtils.random.setSeed(new Date().getTime());
+        long seed = new Date().getTime();
+		MathUtils.random.setSeed(seed);
+		Log.Debug("Using random seed: " + seed);
     }
 
     public void InitSystems()
@@ -73,14 +79,35 @@ public class Resources
         ecsEngine = ECSManager.instance.ecsEngine;
 
         wanderSteeringSystem = new WanderSteeringSystem(0);
+
+        foodSpawnSystem = new FoodSpawnSystem(1);
         moveSystem = new MoveSystem(5);
-        spatialPartitioningSystem = new SpatialPartitioningSystem(10);
+
+        spatialPartitioningSystem = new SpatialPartitioningSystem(10, 2);
+
         spriteDrawSystem = new SpriteDrawSystem(15);
 
         ecsEngine.addSystem(wanderSteeringSystem);
         ecsEngine.addSystem(moveSystem);
         ecsEngine.addSystem(spatialPartitioningSystem);
         ecsEngine.addSystem(spriteDrawSystem);
+        ecsEngine.addSystem(foodSpawnSystem);
+	}
+
+	public boolean InitEntityTemplates()
+	{
+	    entityTemplateManager = ECSManager.instance.entityTemplateManager;
+
+        if(!entityTemplateManager.ProcessTemplateFile("data/ant.json"))
+            return false;
+
+        if(!entityTemplateManager.ProcessTemplateFile("data/nest.json"))
+            return false;
+
+        if(!entityTemplateManager.ProcessTemplateFile("data/food.json"))
+            return false;
+
+        return true;
 	}
 
 	public void Dispose()
@@ -94,5 +121,6 @@ public class Resources
         ecsEngine.removeSystem(moveSystem);
         ecsEngine.removeSystem(spatialPartitioningSystem);
         ecsEngine.removeSystem(spriteDrawSystem);
+        ecsEngine.removeSystem(foodSpawnSystem);
     }
 }

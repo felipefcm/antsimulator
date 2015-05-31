@@ -44,7 +44,7 @@ public class AppInput extends InputAdapter
 			Vector2 worldPos = viewport.unproject(new Vector2(screenX, screenY));
 			Log.Info("Clicked on world position: " + worldPos.x + ", " + worldPos.y);
 			
-			//world.SpawnAnts(1, worldPos);
+			//antWorld.SpawnAnts(1, worldPos);
 		}
 		else	
 			return false;
@@ -113,13 +113,11 @@ public class AppInput extends InputAdapter
 			Vector2 mouseScreenPos = new Vector2(Gdx.input.getX(), Gdx.input.getY());
 			Vector2 worldPos = viewport.unproject(mouseScreenPos);
 			
-			world.SpawnAnts(500, worldPos);
+			world.SpawnAnts(250, worldPos, true);
 		}
 		else if(keycode == Input.Keys.R) //refresh entity template descriptions
 		{
-			ECSManager.instance.entityTemplateManager.Clear();
-			ECSManager.instance.entityTemplateManager.ProcessTemplateFile(Gdx.files.internal("data/ant.json"));
-			ECSManager.instance.entityTemplateManager.ProcessTemplateFile(Gdx.files.internal("data/nest.json"));
+			ECSManager.instance.entityTemplateManager.ReloadTemplates();
 
 			Log.Info("Refreshed entity templates!");
 		}

@@ -58,14 +58,25 @@ public class AntWorld
 		}
 	}
 	
-	public void SpawnAnts(int num, Vector2 worldPos)
+	public void SpawnAnts(int num, Vector2 worldPos, boolean applyRandomDisplacement)
 	{
+		Vector2 randomDisplacement = new Vector2();
+
 		for(int i = 0; i < num; ++i)
 		{
 			Ant ant = EntityFactory.instance.CreateAnt();
 
-			ant.transform.position.set(worldPos);
-			ant.transform.rotation = MathUtils.random(2.0f);
+			if(applyRandomDisplacement)
+			{
+				randomDisplacement.set(worldPos).add(MathUtils.random(-50, 50), MathUtils.random(-50, 50));
+				ant.transform.position.set(randomDisplacement);
+			}
+			else
+			{
+				ant.transform.position.set(worldPos);
+			}
+
+			ant.transform.rotation = MathUtils.random(2.0f * MathUtils.PI);
 		}
 		
 		this.numAnts += num;
@@ -73,7 +84,8 @@ public class AntWorld
 
 	public void SpawnAntsFromNest(int num)
 	{
-		SpawnAnts(num, nest.transform.position.cpy().add(nest.sprite.sprite.getWidth() * 0.5f, nest.sprite.sprite.getHeight() * 0.5f));
+		SpawnAnts(num, nest.transform.position.cpy().add(nest.sprite.sprite.getWidth() * 0.5f,
+						nest.sprite.sprite.getHeight() * 0.5f), false);
 	}
 	
 	private void DrawWorldOrigin()

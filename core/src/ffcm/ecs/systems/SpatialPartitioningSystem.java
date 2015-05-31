@@ -31,7 +31,14 @@ public class SpatialPartitioningSystem extends EntitySystem implements EntityLis
 
     public SpatialPartitioningSystem(int priority)
     {
+        this(priority, 1);
+    }
+
+    public SpatialPartitioningSystem(int priority, int quadTreeBucketSize)
+    {
         super(priority);
+
+        QuadTree.BucketSize = quadTreeBucketSize;
 
         quadTree = new QuadTree(null);
     }
@@ -79,7 +86,7 @@ public class SpatialPartitioningSystem extends EntitySystem implements EntityLis
     {
         timer += deltaTime;
 
-        if(timer < 0.5f)
+        if(timer < 1.0f / 3.0f)
             return;
 
         timer = 0;

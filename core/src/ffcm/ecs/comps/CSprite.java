@@ -20,7 +20,7 @@ public class CSprite extends Component implements ILoadableFromJSON
 
     public CSprite(CSprite sprite)
     {
-        this.sprite = sprite.sprite;
+        this.sprite = new Sprite(sprite.sprite);
         visible = sprite.visible;
     }
 

@@ -16,7 +16,7 @@ import ffcm.ecs.ECSManager;
 
 public class SimulationScreen implements Screen
 {
-    public AntWorld world;
+    public AntWorld antWorld;
 
 	private MenuBar menuBar;
 
@@ -29,7 +29,7 @@ public class SimulationScreen implements Screen
         spriteBatch = Resources.instance.spriteBatch;
         font = Resources.instance.font;
 
-        world = new AntWorld();
+        antWorld = new AntWorld();
 
         menuBar = new MenuBar();
 		menuBar.Init();
@@ -37,10 +37,10 @@ public class SimulationScreen implements Screen
         OrthographicCamera mainCamera = Resources.instance.mainCamera;
 
         mainCamera.zoom = 2.0f;
-		mainCamera.translate(world.terrain.mapSizePixels.x * 0.195f, world.terrain.mapSizePixels.y * 0.2f);
+		mainCamera.translate(antWorld.terrain.mapSizePixels.x * 0.195f, antWorld.terrain.mapSizePixels.y * 0.2f);
 		mainCamera.update();
 
-        Gdx.input.setInputProcessor(new InputMultiplexer(menuBar.stage, new AppInput(world)));
+        Gdx.input.setInputProcessor(new InputMultiplexer(menuBar.stage, new AppInput(antWorld)));
     }
 
     @Override
@@ -53,8 +53,8 @@ public class SimulationScreen implements Screen
 
     private void Update()
 	{
-		world.Update();
-		world.Draw();
+		antWorld.Update();
+		antWorld.Draw();
 
         ECSManager.instance.Update();
 	}
@@ -64,7 +64,7 @@ public class SimulationScreen implements Screen
 		spriteBatch.setProjectionMatrix(Resources.instance.guiCamera.combined);
 		spriteBatch.begin();
 		{
-			font.draw(spriteBatch, Gdx.graphics.getFramesPerSecond() + " | " + world.numAnts, 10.0f, 20.0f);
+			font.draw(spriteBatch, Gdx.graphics.getFramesPerSecond() + " | " + antWorld.numAnts, 10.0f, 20.0f);
 		}
 		spriteBatch.end();
 
@@ -98,7 +98,7 @@ public class SimulationScreen implements Screen
         if(menuBar != null)
             menuBar.Dispose();
 
-        if(world != null)
-            world.Dispose();
+        if(antWorld != null)
+            antWorld.Dispose();
     }
 }

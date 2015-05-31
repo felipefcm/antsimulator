@@ -45,7 +45,7 @@ public class MenuBar
 		shapeRenderer = Resources.instance.shapeRenderer;
 		guiCamera = Resources.instance.guiCamera;
 
-		world = ((SimulationScreen) AntSim.instance.getScreen()).world;
+		world = ((SimulationScreen) AntSim.instance.getScreen()).antWorld;
 
 		atlas = Resources.instance.assetManager.get("ui/uiSprites.atlas", TextureAtlas.class);
 		

@@ -2,7 +2,6 @@
 package ffcm.antsim.screen;
 
 import com.badlogic.ashley.core.Engine;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
@@ -13,7 +12,6 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import ffcm.antsim.AntSim;
 import ffcm.antsim.resource.Resources;
 import ffcm.ecs.ECSManager;
-import ffcm.ecs.resources.EntityTemplateManager;
 
 public class LoadingScreen implements Screen
 {
@@ -25,7 +23,6 @@ public class LoadingScreen implements Screen
     private SpriteBatch spriteBatch;
     private float timeLoading = 0;
 
-    private EntityTemplateManager entityTemplateManager;
     private Engine ecsEngine;
 
     private void PreLoad()
@@ -41,10 +38,7 @@ public class LoadingScreen implements Screen
 
     private void PostLoad()
     {
-        //init entity templates
-        entityTemplateManager.ProcessTemplateFile(Gdx.files.internal("data/ant.json"));
-        entityTemplateManager.ProcessTemplateFile(Gdx.files.internal("data/nest.json"));
-
+        Resources.instance.InitEntityTemplates();
         Resources.instance.InitSystems();
 
         AntSim.instance.setScreen(new SimulationScreen());
@@ -54,7 +48,6 @@ public class LoadingScreen implements Screen
     public void show()
     {
         assetManager = Resources.instance.assetManager;
-        entityTemplateManager = ECSManager.instance.entityTemplateManager;
         ecsEngine = ECSManager.instance.ecsEngine;
 
         assetManager.load("gfx/loading.png", Texture.class);

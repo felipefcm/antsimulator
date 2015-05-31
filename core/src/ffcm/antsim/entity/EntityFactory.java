@@ -27,4 +27,13 @@ public class EntityFactory
 
         return nest;
     }
+
+    public Food CreateFood()
+    {
+        Food food = new Food(ECSManager.instance.entityTemplateManager.GetTemplate(Food.class));
+
+        ECSManager.instance.ecsEngine.addEntity(food);
+
+        return food;
+    }
 }

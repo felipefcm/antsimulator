@@ -16,9 +16,9 @@ import ffcm.ecs.comps.CTransform;
 import ffcm.ecs.comps.CVelocity;
 import ffcm.ecs.comps.CWander;
 import ffcm.ecs.resources.EntityTemplate;
-import ffcm.ecs.systems.ai.WanderSteeringSystem;
+import ffcm.ecs.systems.ai.WanderSteeringSystem.IWanderSteeringCallback;
 
-public class Ant extends Entity implements WanderSteeringSystem.IWanderSteeringCallback
+public class Ant extends Entity implements IWanderSteeringCallback
 {
 	public CTransform transform;
 	public CVelocity velocity;
@@ -36,7 +36,7 @@ public class Ant extends Entity implements WanderSteeringSystem.IWanderSteeringC
 		add(wander = new CWander());
 		add(spatialInfo = new CSpatial(this));
 
-		world = ((SimulationScreen) AntSim.instance.getScreen()).world;
+		world = ((SimulationScreen) AntSim.instance.getScreen()).antWorld;
 	}
 
 	public Ant(final EntityTemplate template)
@@ -47,7 +47,7 @@ public class Ant extends Entity implements WanderSteeringSystem.IWanderSteeringC
 		add(wander = new CWander(template.GetComponent(CWander.class)));
 		add(spatialInfo = new CSpatial(this));
 
-		world = ((SimulationScreen) AntSim.instance.getScreen()).world;
+		world = ((SimulationScreen) AntSim.instance.getScreen()).antWorld;
 	}
 
 	@Override

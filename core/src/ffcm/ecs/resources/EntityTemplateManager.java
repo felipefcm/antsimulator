@@ -3,7 +3,9 @@ package ffcm.ecs.resources;
 
 import com.badlogic.ashley.core.Component;
 import com.badlogic.ashley.core.Entity;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.ObjectMap;
@@ -13,10 +15,17 @@ import ffcm.antsim.resource.Log;
 public class EntityTemplateManager
 {
     private ObjectMap<String, EntityTemplate> templateMap;
+    private Array<FileHandle> processedTemplates;
 
     public EntityTemplateManager()
     {
         templateMap = new ObjectMap<>();
+        processedTemplates = new Array<>();
+    }
+
+    public boolean ProcessTemplateFile(String internalFilePath)
+    {
+        return ProcessTemplateFile(Gdx.files.internal(internalFilePath));
     }
 
     public boolean ProcessTemplateFile(FileHandle file)
@@ -69,6 +78,7 @@ public class EntityTemplateManager
         }
 
         templateMap.put(className, template);
+        processedTemplates.add(file);
 
         return true;
     }
@@ -84,5 +94,16 @@ public class EntityTemplateManager
     public void Clear()
     {
         templateMap.clear();
+    }
+
+    public boolean ReloadTemplates()
+    {
+        Clear();
+
+        for(FileHandle f : processedTemplates)
+            if(!ProcessTemplateFile(f))
+                return false;
+
+        return true;
     }
 }

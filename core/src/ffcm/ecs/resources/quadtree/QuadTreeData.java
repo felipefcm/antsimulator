@@ -12,4 +12,9 @@ public class QuadTreeData<T>
 	{
 		point = new Vector2();
 	}
+
+	public QuadTreeData(Vector2 point)
+	{
+		this.point = new Vector2(point);
+	}
 }
