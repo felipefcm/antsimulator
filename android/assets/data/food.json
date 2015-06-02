@@ -1,10 +1,5 @@
 {	
 	"ffcm.antsim.entity.Food":
 	{
-		"ffcm.ecs.comps.CSprite":
-		{
-			"atlas": "gfx/mainSprites.atlas",
-			"name": "foodFresh"
-		}
 	}
 }

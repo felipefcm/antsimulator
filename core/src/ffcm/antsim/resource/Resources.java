@@ -19,6 +19,7 @@ import ffcm.ecs.ECSManager;
 import ffcm.ecs.resources.EntityTemplateManager;
 import ffcm.ecs.systems.MoveSystem;
 import ffcm.ecs.systems.SpatialPartitioningSystem;
+import ffcm.ecs.systems.SpriteAnimationSystem;
 import ffcm.ecs.systems.SpriteDrawSystem;
 import ffcm.ecs.systems.ai.WanderSteeringSystem;
 
@@ -44,6 +45,7 @@ public class Resources
 	public WanderSteeringSystem wanderSteeringSystem;
 	public SpatialPartitioningSystem spatialPartitioningSystem;
 	public FoodSpawnSystem foodSpawnSystem;
+	public SpriteAnimationSystem spriteAnimationSystem;
 
 	public Engine ecsEngine;
 	public EntityTemplateManager entityTemplateManager;
@@ -80,7 +82,8 @@ public class Resources
 
         wanderSteeringSystem = new WanderSteeringSystem(0);
 
-        foodSpawnSystem = new FoodSpawnSystem(1);
+        spriteAnimationSystem = new SpriteAnimationSystem(1);
+        foodSpawnSystem = new FoodSpawnSystem(2);
         moveSystem = new MoveSystem(5);
 
         spatialPartitioningSystem = new SpatialPartitioningSystem(10, 2);
@@ -92,6 +95,7 @@ public class Resources
         ecsEngine.addSystem(spatialPartitioningSystem);
         ecsEngine.addSystem(spriteDrawSystem);
         ecsEngine.addSystem(foodSpawnSystem);
+        ecsEngine.addSystem(spriteAnimationSystem);
 	}
 
 	public boolean InitEntityTemplates()
@@ -112,15 +116,16 @@ public class Resources
 
 	public void Dispose()
     {
-        spriteBatch.dispose();
-        shapeRenderer.dispose();
-        font.dispose();
-        assetManager.dispose();
-
         ecsEngine.removeSystem(wanderSteeringSystem);
         ecsEngine.removeSystem(moveSystem);
         ecsEngine.removeSystem(spatialPartitioningSystem);
         ecsEngine.removeSystem(spriteDrawSystem);
         ecsEngine.removeSystem(foodSpawnSystem);
+        ecsEngine.removeSystem(spriteAnimationSystem);
+
+        spriteBatch.dispose();
+        shapeRenderer.dispose();
+        font.dispose();
+        assetManager.dispose();
     }
 }

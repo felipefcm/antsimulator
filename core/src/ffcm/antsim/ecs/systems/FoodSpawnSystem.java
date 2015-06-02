@@ -10,6 +10,7 @@ import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.utils.Array;
 
 import ffcm.antsim.AntSim;
 import ffcm.antsim.AntWorld;
@@ -20,7 +21,7 @@ import ffcm.antsim.entity.Food;
 import ffcm.antsim.resource.Resources;
 import ffcm.antsim.screen.SimulationScreen;
 import ffcm.ecs.ECSManager;
-import ffcm.ecs.comps.CSprite;
+import ffcm.ecs.comps.CSpriteAnimation;
 import ffcm.ecs.comps.CTransform;
 import ffcm.ecs.comps.Mapper;
 
@@ -28,13 +29,12 @@ public class FoodSpawnSystem extends EntitySystem implements EntityListener
 {
     private ImmutableArray<Entity> entities;
 
-    private final int maxNumFood = 10;
-    private final float spawnInterval = 5.0f;
+    private static final int MAX_NUM_FOOD = 10;
+    private static final float SPAWN_INTERVAL = 5.0f;
 
     private float spawnTimer = 0;
 
-    //private TextureRegion freshFoodRegion;
-    private TextureRegion decayFoodRegion;
+    private Array<TextureRegion> decayAnimationRegions;
 
     private AntWorld antWorld;
 
@@ -46,7 +46,7 @@ public class FoodSpawnSystem extends EntitySystem implements EntityListener
     @Override
     public void addedToEngine(Engine engine)
     {
-        Family family = Family.all(CTransform.class, CSprite.class, CFoodDecay.class).get();
+        Family family = Family.all(CTransform.class, CSpriteAnimation.class, CFoodDecay.class).get();
 
         entities = engine.getEntitiesFor(family);
 
@@ -54,8 +54,9 @@ public class FoodSpawnSystem extends EntitySystem implements EntityListener
 
         TextureAtlas mainAtlas = Resources.instance.assetManager.get("gfx/mainSprites.atlas", TextureAtlas.class);
 
-        //freshFoodRegion = mainAtlas.findRegion("foodFresh");
-        decayFoodRegion = mainAtlas.findRegion("foodOld");
+        decayAnimationRegions = new Array<>(false, 2);
+        decayAnimationRegions.add(mainAtlas.findRegion("foodFresh"));
+        decayAnimationRegions.add(mainAtlas.findRegion("foodOld"));
     }
 
     @Override
@@ -68,14 +69,15 @@ public class FoodSpawnSystem extends EntitySystem implements EntityListener
     public void entityAdded(Entity entity)
     {
         CFoodDecay foodDecay = AntSimMapper.foodDecay.get(entity);
+        CSpriteAnimation decayAnimation = Mapper.spriteAnimation.get(entity);
 
         foodDecay.timeToDecay = MathUtils.random(8.0f, 15.0f);
+        decayAnimation.SetRegions(decayAnimationRegions);
     }
 
     @Override
     public void entityRemoved(Entity entity)
     {
-
     }
 
     @Override
@@ -83,15 +85,20 @@ public class FoodSpawnSystem extends EntitySystem implements EntityListener
     {
         spawnTimer += deltaTime;
 
-        if(entities.size() < maxNumFood && spawnTimer >= spawnInterval)
+        if(entities.size() < MAX_NUM_FOOD && spawnTimer >= SPAWN_INTERVAL)
         {
             Food food = EntityFactory.instance.CreateFood();
 
+            //FIXME find some better way to obtain world reference
             if(antWorld == null)
                 antWorld = ((SimulationScreen) AntSim.instance.getScreen()).antWorld;
 
-            float margin = 20.0f;
-            food.transform.position.set(MathUtils.random(margin, antWorld.terrain.mapSizeWorld.x - 2 * margin), MathUtils.random(margin, antWorld.terrain.mapSizeWorld.y - 2 * margin));
+            float margin = 30.0f;
+            food.transform.position.set
+            (
+                MathUtils.random(margin, antWorld.terrain.mapSizeWorld.x - 2 * margin),
+                MathUtils.random(margin, antWorld.terrain.mapSizeWorld.y - 2 * margin)
+            );
 
             spawnTimer = 0;
         }
@@ -99,20 +106,19 @@ public class FoodSpawnSystem extends EntitySystem implements EntityListener
         for(Entity entity : entities)
         {
             CFoodDecay foodDecay = AntSimMapper.foodDecay.get(entity);
+            CSpriteAnimation decayAnimation = Mapper.spriteAnimation.get(entity);
 
             foodDecay.decayTimer += deltaTime;
 
             if(foodDecay.decayTimer >= foodDecay.timeToDecay)
             {
                 ECSManager.instance.ecsEngine.removeEntity(entity);
-                return;
+                continue;
             }
 
-            if(!foodDecay.usingDecaySprite && foodDecay.decayTimer > foodDecay.timeToDecay * 0.7f)
+            if(foodDecay.decayTimer > foodDecay.timeToDecay * 0.8f)
             {
-                CSprite sprite = Mapper.sprite.get(entity);
-                sprite.sprite.setRegion(decayFoodRegion);
-                foodDecay.usingDecaySprite = true;
+                decayAnimation.frame = 1;
             }
         }
     }

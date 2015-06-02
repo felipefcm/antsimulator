@@ -51,7 +51,7 @@ public class SpriteAnimationSystem extends EntitySystem implements IRenderable
             while(spriteAnimation.time >= spriteAnimation.changeTime)
             {
                 spriteAnimation.time -= spriteAnimation.changeTime;
-                spriteAnimation.frame = ++spriteAnimation.frame % spriteAnimation.regions.size;
+                spriteAnimation.frame = ++spriteAnimation.frame % spriteAnimation.GetNumFrames();
             }
         }
     }
@@ -71,7 +71,7 @@ public class SpriteAnimationSystem extends EntitySystem implements IRenderable
 
                 renderState.spriteBatch.draw
                 (
-                    spriteAnimation.regions.get(spriteAnimation.frame),
+                    spriteAnimation.GetFrame(spriteAnimation.frame),
                     transform.position.x,
                     transform.position.y
                 );
