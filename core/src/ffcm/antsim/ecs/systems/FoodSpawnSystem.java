@@ -30,7 +30,7 @@ public class FoodSpawnSystem extends EntitySystem implements EntityListener
     private ImmutableArray<Entity> entities;
 
     private static final int MAX_NUM_FOOD = 10;
-    private static final float SPAWN_INTERVAL = 5.0f;
+    private static final float SPAWN_INTERVAL = 10.0f;
 
     private float spawnTimer = 0;
 
@@ -71,7 +71,7 @@ public class FoodSpawnSystem extends EntitySystem implements EntityListener
         CFoodDecay foodDecay = AntSimMapper.foodDecay.get(entity);
         CSpriteAnimation decayAnimation = Mapper.spriteAnimation.get(entity);
 
-        foodDecay.timeToDecay = MathUtils.random(8.0f, 15.0f);
+        foodDecay.timeToDecay = MathUtils.random(15.0f, 30.0f);
         decayAnimation.SetRegions(decayAnimationRegions);
     }
 

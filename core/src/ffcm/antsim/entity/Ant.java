@@ -3,12 +3,15 @@ package ffcm.antsim.entity;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.ai.fsm.DefaultStateMachine;
+import com.badlogic.gdx.ai.fsm.StateMachine;
 import com.badlogic.gdx.ai.steer.SteeringAcceleration;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Vector2;
 
 import ffcm.antsim.AntSim;
 import ffcm.antsim.AntWorld;
+import ffcm.antsim.ai.AntState;
 import ffcm.antsim.screen.SimulationScreen;
 import ffcm.ecs.comps.CSpatial;
 import ffcm.ecs.comps.CSprite;
@@ -20,13 +23,15 @@ import ffcm.ecs.systems.ai.WanderSteeringSystem.IWanderSteeringCallback;
 
 public class Ant extends Entity implements IWanderSteeringCallback
 {
+	private static AntWorld world;
+
 	public CTransform transform;
 	public CVelocity velocity;
 	public CSprite sprite;
 	public CWander wander;
 	public CSpatial spatialInfo;
 
-	private AntWorld world;
+	public StateMachine<Ant> stateMachine;
 
 	public Ant()
 	{
@@ -36,7 +41,10 @@ public class Ant extends Entity implements IWanderSteeringCallback
 		add(wander = new CWander());
 		add(spatialInfo = new CSpatial(this));
 
-		world = ((SimulationScreen) AntSim.instance.getScreen()).antWorld;
+		if(world == null)
+			world = ((SimulationScreen) AntSim.instance.getScreen()).antWorld;
+
+		stateMachine = new DefaultStateMachine<>(this, AntState.Wandering);
 	}
 
 	public Ant(final EntityTemplate template)
@@ -47,7 +55,10 @@ public class Ant extends Entity implements IWanderSteeringCallback
 		add(wander = new CWander(template.GetComponent(CWander.class)));
 		add(spatialInfo = new CSpatial(this));
 
-		world = ((SimulationScreen) AntSim.instance.getScreen()).antWorld;
+		if(world == null)
+			world = ((SimulationScreen) AntSim.instance.getScreen()).antWorld;
+
+		stateMachine = new DefaultStateMachine<>(this, AntState.Wandering);
 	}
 
 	@Override
