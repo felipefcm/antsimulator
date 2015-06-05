@@ -1,13 +1,26 @@
 package ffcm.antsim.jobs;
 
-import com.badlogic.gdx.utils.BinaryHeap;
+import com.badlogic.gdx.utils.SortedIntList;
+import com.badlogic.gdx.utils.SortedIntList.Node;
+
+import java.util.Iterator;
 
 public class TaskList
 {
-    private BinaryHeap<Task> jobs;
+    private SortedIntList<Task> tasks;
 
     public TaskList()
     {
-        jobs = new BinaryHeap<>();
+        tasks = new SortedIntList<>();
+    }
+
+    public void AddTask(Task task)
+    {
+        tasks.insert(task.priority, task);
+    }
+
+    public Iterator<Node<Task>> GetIterator()
+    {
+        return tasks.iterator();
     }
 }
