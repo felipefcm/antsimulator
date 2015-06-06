@@ -86,6 +86,9 @@ public class WanderSteeringSystem extends EntitySystem implements EntityListener
             CWander wander = Mapper.wander.get(e);
             //CTransform transform = Mapper.transform.get(e);
 
+            if(!wander.enabled)
+                continue;
+
             CVelocity velocity = Mapper.velocity.get(e);
             //CRigidBody rigidBody = Mapper.rigidBody.get(e);
 

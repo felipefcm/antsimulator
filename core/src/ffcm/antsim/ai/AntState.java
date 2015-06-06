@@ -13,7 +13,7 @@ public enum AntState implements State<Ant>
         @Override
         public void enter(Ant entity)
         {
-
+            entity.wander.enabled = true;
         }
 
         @Override
@@ -25,7 +25,7 @@ public enum AntState implements State<Ant>
         @Override
         public void exit(Ant entity)
         {
-
+            entity.wander.enabled = false;
         }
 
         @Override

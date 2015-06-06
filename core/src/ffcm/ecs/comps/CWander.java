@@ -14,6 +14,8 @@ public class CWander extends Component implements Steerable<Vector2>, ILoadableF
 {
     public Wander<Vector2> behaviour;
 
+    public boolean enabled = true;
+
     //acceleration limits are in modulus
     public float maxLinearSpeed = 20.0f;
     public float maxAngularSpeed = 20.0f;
