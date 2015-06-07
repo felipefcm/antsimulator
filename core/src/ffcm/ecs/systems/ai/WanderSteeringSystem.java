@@ -14,7 +14,7 @@ import com.badlogic.gdx.math.Vector2;
 import ffcm.ecs.comps.CRigidBody;
 import ffcm.ecs.comps.CTransform;
 import ffcm.ecs.comps.CVelocity;
-import ffcm.ecs.comps.CWander;
+import ffcm.ecs.comps.ai.CWander;
 import ffcm.ecs.comps.Mapper;
 
 public class WanderSteeringSystem extends EntitySystem implements EntityListener

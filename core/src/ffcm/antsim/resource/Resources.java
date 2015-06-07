@@ -21,6 +21,7 @@ import ffcm.ecs.systems.MoveSystem;
 import ffcm.ecs.systems.SpatialPartitioningSystem;
 import ffcm.ecs.systems.SpriteAnimationSystem;
 import ffcm.ecs.systems.SpriteDrawSystem;
+import ffcm.ecs.systems.ai.StateMachineSystem;
 import ffcm.ecs.systems.ai.WanderSteeringSystem;
 
 public class Resources
@@ -46,6 +47,7 @@ public class Resources
 	public SpatialPartitioningSystem spatialPartitioningSystem;
 	public FoodSpawnSystem foodSpawnSystem;
 	public SpriteAnimationSystem spriteAnimationSystem;
+	public StateMachineSystem stateMachineSystem;
 
 	public Engine ecsEngine;
 	public EntityTemplateManager entityTemplateManager;
@@ -80,15 +82,16 @@ public class Resources
 	{
         ecsEngine = ECSManager.instance.ecsEngine;
 
-        wanderSteeringSystem = new WanderSteeringSystem(0);
+        stateMachineSystem = new StateMachineSystem(0);
+        wanderSteeringSystem = new WanderSteeringSystem(1);
 
-        spriteAnimationSystem = new SpriteAnimationSystem(1);
-        foodSpawnSystem = new FoodSpawnSystem(2);
-        moveSystem = new MoveSystem(5);
+        spriteAnimationSystem = new SpriteAnimationSystem(5);
+        foodSpawnSystem = new FoodSpawnSystem(8);
+        moveSystem = new MoveSystem(10);
 
-        spatialPartitioningSystem = new SpatialPartitioningSystem(10, 2);
+        spatialPartitioningSystem = new SpatialPartitioningSystem(15, 2);
 
-        spriteDrawSystem = new SpriteDrawSystem(15);
+        spriteDrawSystem = new SpriteDrawSystem(20);
 
         ecsEngine.addSystem(wanderSteeringSystem);
         ecsEngine.addSystem(moveSystem);
@@ -96,6 +99,7 @@ public class Resources
         ecsEngine.addSystem(spriteDrawSystem);
         ecsEngine.addSystem(foodSpawnSystem);
         ecsEngine.addSystem(spriteAnimationSystem);
+        ecsEngine.addSystem(stateMachineSystem);
 	}
 
 	public boolean InitEntityTemplates()
@@ -122,6 +126,7 @@ public class Resources
         ecsEngine.removeSystem(spriteDrawSystem);
         ecsEngine.removeSystem(foodSpawnSystem);
         ecsEngine.removeSystem(spriteAnimationSystem);
+        ecsEngine.removeSystem(stateMachineSystem);
 
         spriteBatch.dispose();
         shapeRenderer.dispose();
