@@ -15,8 +15,10 @@ public class CStateMachine<T> extends Component
         machine = new DefaultStateMachine<>(owner, initialState);
     }
 
-    public CStateMachine(CStateMachine machine)
+    public CStateMachine(CStateMachine<T> machine)
     {
         this.machine = machine.machine;
     }
+
+
 }
