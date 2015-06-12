@@ -7,6 +7,14 @@
 			"down": "down",
 			"over": "over",
 			"imageUp": "addAnt"
+		},
+		
+		"getFoodButton":
+		{
+			"up": "up",
+			"down": "down",
+			"over": "over",
+			"imageUp": "getFood"
 		}
 	}
 }

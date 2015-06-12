@@ -29,7 +29,7 @@ public class MenuBar
 	private Skin skin;
 	
 	private ImageButton createAntButton;
-	private ImageButton createFoodButton;
+	private ImageButton getFoodButton;
 	
 	private TextureAtlas atlas;
 
@@ -60,17 +60,30 @@ public class MenuBar
 		stage.addActor(table);
 
 		createAntButton = new ImageButton(skin, "createAntButton");
+		getFoodButton = new ImageButton(skin, "getFoodButton");
 
-		table.add(createAntButton).size(AntSim.V_HEIGHT * 0.1f);//.row();
+		final float buttonScale = AntSim.V_HEIGHT * 0.1f;
+
+		table.add(createAntButton).size(buttonScale).spaceBottom(5.0f).row();
+		table.add(getFoodButton).size(buttonScale);//.row();
 
 		createAntButton.addListener(new ClickListener()
-        {
-            @Override
-            public void clicked(InputEvent event, float x, float y)
-            {
-                world.SpawnAntsFromNest(1);
-            }
-        });
+		{
+			@Override
+			public void clicked(InputEvent event, float x, float y)
+			{
+				world.SpawnAntsFromNest(1);
+			}
+		});
+
+		getFoodButton.addListener(new ClickListener()
+		{
+			@Override
+			public void clicked(InputEvent event, float x, float y)
+			{
+
+			}
+		});
 	}
 	
 	public void Draw()

@@ -7,7 +7,7 @@
 			"name": "ant1"
 		},
 
-		"ffcm.ecs.comps.CWander":
+		"ffcm.ecs.comps.ai.CWander":
 		{
 			"maxLinearSpeed": 20.0,
 			"maxLinearAcceleration": 5.0,

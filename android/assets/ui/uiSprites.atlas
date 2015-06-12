@@ -18,16 +18,23 @@ down
   orig: 128, 128
   offset: 0, 0
   index: -1
-over
+getFood
   rotate: false
   xy: 262, 2
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
-up
+over
   rotate: false
   xy: 392, 2
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: -1
+up
+  rotate: false
+  xy: 522, 2
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
