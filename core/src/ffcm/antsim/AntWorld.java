@@ -13,6 +13,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import ffcm.antsim.entity.Ant;
 import ffcm.antsim.entity.EntityFactory;
 import ffcm.antsim.entity.Nest;
+import ffcm.antsim.jobs.TaskList;
 import ffcm.antsim.resource.Resources;
 
 public class AntWorld
@@ -29,6 +30,8 @@ public class AntWorld
 	
 	public Terrain terrain;
 	public Nest nest;
+
+	public TaskList taskList;
 	
 	public AntWorld()
 	{		
@@ -39,6 +42,8 @@ public class AntWorld
 
 		nest = EntityFactory.instance.CreateNest();
 		nest.transform.position.set(terrain.nestPosition).scl(terrain.mapScale);
+
+		taskList = new TaskList();
 
 		Resources.instance.spatialPartitioningSystem.SetArea(new Rectangle(0, 0, terrain.mapSizeWorld.x, terrain.mapSizeWorld.y));
 	}

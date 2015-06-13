@@ -4,11 +4,14 @@ package ffcm.antsim.screen;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.ai.fsm.DefaultStateMachine;
+import com.badlogic.gdx.ai.fsm.StateMachine;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import ffcm.antsim.AntWorld;
+import ffcm.antsim.ai.SimulationState;
 import ffcm.antsim.gui.MenuBar;
 import ffcm.antsim.input.AppInput;
 import ffcm.antsim.resource.Resources;
@@ -16,6 +19,8 @@ import ffcm.ecs.ECSManager;
 
 public class SimulationScreen implements Screen
 {
+    public static SimulationScreen instance;
+
     public AntWorld antWorld;
 
 	private MenuBar menuBar;
@@ -23,9 +28,13 @@ public class SimulationScreen implements Screen
 	private SpriteBatch spriteBatch;
 	private BitmapFont font;
 
+	public StateMachine<SimulationScreen> stateMachine;
+
     @Override
     public void show()
     {
+        instance = this;
+
         spriteBatch = Resources.instance.spriteBatch;
         font = Resources.instance.font;
 
@@ -33,6 +42,9 @@ public class SimulationScreen implements Screen
 
         menuBar = new MenuBar();
 		menuBar.Init();
+
+		stateMachine = new DefaultStateMachine<>(this, SimulationState.IDLE);
+		stateMachine.setGlobalState(SimulationState.GLOBAL);
 
         OrthographicCamera mainCamera = Resources.instance.mainCamera;
 
@@ -53,6 +65,8 @@ public class SimulationScreen implements Screen
 
     private void Update()
 	{
+        stateMachine.update();
+
 		antWorld.Update();
 		antWorld.Draw();
 

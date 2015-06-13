@@ -19,6 +19,4 @@ public class CStateMachine<T> extends Component
     {
         this.machine = machine.machine;
     }
-
-
 }

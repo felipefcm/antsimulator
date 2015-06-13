@@ -12,7 +12,6 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Array;
 
-import ffcm.antsim.AntSim;
 import ffcm.antsim.AntWorld;
 import ffcm.antsim.ecs.comps.AntSimMapper;
 import ffcm.antsim.ecs.comps.CFoodDecay;
@@ -89,9 +88,7 @@ public class FoodSpawnSystem extends EntitySystem implements EntityListener
         {
             Food food = EntityFactory.instance.CreateFood();
 
-            //FIXME find some better way to obtain world reference
-            if(antWorld == null)
-                antWorld = ((SimulationScreen) AntSim.instance.getScreen()).antWorld;
+            antWorld = SimulationScreen.instance.antWorld;
 
             float margin = 30.0f;
             food.transform.position.set

@@ -7,7 +7,6 @@ import com.badlogic.gdx.ai.steer.SteeringAcceleration;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Vector2;
 
-import ffcm.antsim.AntSim;
 import ffcm.antsim.AntWorld;
 import ffcm.antsim.ai.AntState;
 import ffcm.antsim.screen.SimulationScreen;
@@ -40,8 +39,7 @@ public class Ant extends Entity implements IWanderSteeringCallback
 		add(spatialInfo = new CSpatial(this));
 		add(stateMachine = new CStateMachine<>(this, AntState.Wandering));
 
-		if(world == null)
-			world = ((SimulationScreen) AntSim.instance.getScreen()).antWorld;
+		world = SimulationScreen.instance.antWorld;
 	}
 
 	public Ant(final EntityTemplate template)
@@ -53,8 +51,7 @@ public class Ant extends Entity implements IWanderSteeringCallback
 		add(spatialInfo = new CSpatial(this));
 		add(stateMachine = new CStateMachine<>(this, AntState.Wandering));
 
-		if(world == null)
-			world = ((SimulationScreen) AntSim.instance.getScreen()).antWorld;
+		world = SimulationScreen.instance.antWorld;
 	}
 
 	@Override
