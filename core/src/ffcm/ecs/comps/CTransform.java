@@ -8,12 +8,14 @@ public class CTransform extends Component
 {
     public Vector2 position;
     public Vector2 scale;
-    public float rotation;
+    public float rotation; //radians
+    public Vector2 origin;
 
     public CTransform()
     {
         position = new Vector2(0, 0);
         scale = new Vector2(1.0f, 1.0f);
+        origin = new Vector2(0.5f, 0.5f);
         rotation = 0;
     }
 

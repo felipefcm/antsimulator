@@ -2,8 +2,8 @@
 package ffcm.ecs.comps;
 
 import com.badlogic.ashley.core.Component;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.JsonValue;
 
 import ffcm.ecs.ECSManager;
@@ -11,16 +11,21 @@ import ffcm.ecs.resources.ILoadableFromJSON;
 
 public class CSprite extends Component implements ILoadableFromJSON
 {
-    public Sprite sprite;
+    public TextureRegion textureRegion;
     public boolean visible = true;
 
     public CSprite()
     {
     }
 
+    public CSprite(TextureRegion region)
+    {
+        textureRegion = region;
+    }
+
     public CSprite(CSprite sprite)
     {
-        this.sprite = new Sprite(sprite.sprite);
+        textureRegion = sprite.textureRegion;
         visible = sprite.visible;
     }
 
@@ -32,6 +37,6 @@ public class CSprite extends Component implements ILoadableFromJSON
 
         TextureAtlas atlas = ECSManager.instance.ecsConfig.assetManager.get(atlasPath, TextureAtlas.class);
 
-        sprite = new Sprite(atlas.findRegion(spriteName));
+        textureRegion = atlas.findRegion(spriteName);
     }
 }

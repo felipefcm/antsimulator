@@ -6,7 +6,10 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.EntitySystem;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.utils.ImmutableArray;
+import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.physics.box2d.Body;
 
+import ffcm.ecs.comps.CRigidBody;
 import ffcm.ecs.comps.CSprite;
 import ffcm.ecs.comps.CTransform;
 import ffcm.ecs.comps.Mapper;
@@ -26,7 +29,7 @@ public class SpriteDrawSystem extends EntitySystem implements IRenderable
     @Override
     public void addedToEngine(Engine engine)
     {
-        entities = engine.getEntitiesFor(Family.all(CTransform.class, CSprite.class).get());
+        entities = engine.getEntitiesFor(Family.all(CSprite.class).one(CTransform.class, CRigidBody.class).get());
 
         RenderManager.instance.RegisterRenderable(RenderManager.RenderPass.Light, this);
     }
@@ -51,21 +54,46 @@ public class SpriteDrawSystem extends EntitySystem implements IRenderable
             for(Entity e : entities)
             {
                 CTransform transform = Mapper.transform.get(e);
+                CRigidBody rigidBody = Mapper.rigidBody.get(e);
                 CSprite sprite = Mapper.sprite.get(e);
 
-                if(sprite.sprite == null || !sprite.visible)
+                if(sprite.textureRegion == null || !sprite.visible)
                     continue;
 
-                //if entity has a rigidbody component then we must adjust position according to box2d
-                if(Mapper.rigidBody.has(e))
-                    sprite.sprite.setPosition(transform.position.x - sprite.sprite.getWidth() * 0.5f, transform.position.y - sprite.sprite.getHeight() * 0.5f);
-                else
-                    sprite.sprite.setPosition(transform.position.x, transform.position.y);
+                if(transform != null)
+                {
+                    renderState.spriteBatch.draw
+                    (
+                        sprite.textureRegion,
+                        transform.position.x,
+                        transform.position.y,
+                        transform.origin.x,
+                        transform.origin.y,
+                        sprite.textureRegion.getRegionWidth(),
+                        sprite.textureRegion.getRegionHeight(),
+                        transform.scale.x,
+                        transform.scale.y,
+                        transform.rotation * MathUtils.radDeg
+                    );
+                }
+                else //has rigid body
+                {
+                    Body body = rigidBody.body;
 
-                sprite.sprite.setRotation(transform.rotation);
-                sprite.sprite.setScale(transform.scale.x, transform.scale.y);
-
-                sprite.sprite.draw(renderState.spriteBatch);
+                    renderState.spriteBatch.draw
+                    (
+                        sprite.textureRegion,
+                        body.getPosition().x,
+                        body.getPosition().y,
+                        body.getLocalCenter().x,
+                        body.getLocalCenter().y,
+                        sprite.textureRegion.getRegionWidth(),
+                        sprite.textureRegion.getRegionHeight(),
+                        1.0f,
+                        1.0f,
+                        body.getAngle() * MathUtils.radDeg
+                    );
+                }
             }
         }
         renderState.spriteBatch.end();
