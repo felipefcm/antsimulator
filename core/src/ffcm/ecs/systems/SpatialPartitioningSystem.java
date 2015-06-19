@@ -23,7 +23,7 @@ public class SpatialPartitioningSystem extends EntitySystem implements EntityLis
 {
     private ImmutableArray<Entity> entities;
 
-    private QuadTree quadTree;
+    public QuadTree quadTree;
 
     private float timer = 0;
 

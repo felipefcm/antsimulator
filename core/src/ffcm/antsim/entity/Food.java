@@ -4,6 +4,7 @@ package ffcm.antsim.entity;
 import com.badlogic.ashley.core.Entity;
 
 import ffcm.antsim.ecs.comps.CFoodDecay;
+import ffcm.ecs.comps.CSpatial;
 import ffcm.ecs.comps.CSpriteAnimation;
 import ffcm.ecs.comps.CTransform;
 import ffcm.ecs.resources.EntityTemplate;
@@ -13,12 +14,14 @@ public class Food extends Entity
     public CTransform transform;
     public CSpriteAnimation decayAnimation;
     public CFoodDecay foodDecay;
+    public CSpatial spatial;
 
     public Food()
     {
         add(transform = new CTransform());
         add(decayAnimation = new CSpriteAnimation(0));
         add(foodDecay = new CFoodDecay());
+        add(spatial = new CSpatial(this));
     }
 
     public Food(final EntityTemplate template)
@@ -26,5 +29,6 @@ public class Food extends Entity
         add(transform = new CTransform());
         add(decayAnimation = new CSpriteAnimation(0));
         add(foodDecay = new CFoodDecay());
+        add(spatial = new CSpatial(this));
     }
 }
