@@ -1,3 +1,3 @@
 # antsimulator
 
-Simple ant colony simulator
+Simple ant colony simulator written a looooooooooong time ago.
